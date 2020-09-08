@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Making a session with a given key
+/*
 app.use(cookieParser());
 app.use(session({
     secret: process.env.COOKIE_SECRET,
@@ -17,7 +18,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-
+*/
 // Initialize the view
 app.use(express.static(__dirname + '/'));
 app.set('views', path.join(__dirname, 'views/'));
