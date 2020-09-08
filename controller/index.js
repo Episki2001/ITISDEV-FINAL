@@ -13,7 +13,7 @@ const supplierModel = require('../model/supplierdb');
 const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
-const discrepanciesModel = require('..model/discrepancies');
+const discrepanciesModel = require('../model/discrepancies');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, datFired) {
     this.userID = userID;
