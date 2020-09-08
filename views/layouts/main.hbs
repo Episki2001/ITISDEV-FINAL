@@ -15,7 +15,7 @@
         <header class="container">
             <div class="jumbotron p-2 mb-0 shadow">
                 <div class="row">
-                    <div class="col-2 d-flex justify-content-center">
+                    <div class="col-2">
                         <img src=".\lovelyHF.png" alt="" style="width: 128px;
                         height: 91.02px;">
                     </div>
@@ -58,8 +58,8 @@
                         <p class="list-group-item list-group-item-action bg-danger text-white">
                             Products
                         </p>
-                        <a href="#" class="list-group-item list-group-item-action">Manage Appliances</a>
-                        <a href="#" class="list-group-item list-group-item-action">Manage Furnitures</a>
+                        <a href="#" class="list-group-item list-group-item-action">Add Products</a>
+                        <a href="#" class="list-group-item list-group-item-action">Edit Product Details</a>
                         <a href="#" class="list-group-item list-group-item-action">Select Tresholds</a>
                     </div>
 
@@ -75,17 +75,8 @@
                             Records
                         </p>
                         <a href="#" class="list-group-item list-group-item-action">Record Purchases</a>
-                        <a href="#" class="list-group-item list-group-item-action">Add Delivery Details</a>
                         <a href="#" class="list-group-item list-group-item-action">Record Sales</a>
                         <a href="#" class="list-group-item list-group-item-action">Record Missing/Damaged Goods</a>
-                    </div>
-
-                    <div class="list-group mt-2 shadow">
-                        <p class="list-group-item list-group-item-action bg-danger text-white">
-                            For Approval
-                        </p>
-                        <a href="#" class="list-group-item list-group-item-action">Damage Goods Request</a>
-                        <a href="#" class="list-group-item list-group-item-action">Below Tresholds</a>
                     </div>
 
                     <div class="list-group mt-2 shadow">
@@ -106,107 +97,74 @@
 
                 </div>
                 <div class="col-9">
-                    <div class=" shadow">
-                        <div class="d-flex flex-column mt-2">
+                    <div class="shadow">
+						<div class="d-flex flex-column mt-2">
                             <div class="container">
-                                <div class="row mt-2">
-                                    <div class="col-12">
-                                        <form class="form-inline justify-content-end">
-                                            <input class="form-control mr-sm-2" type="search" placeholder="Search User" aria-label="Search">
-                                            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
-                                        </form>
+								<h1 class="display-4 text-center">New User</h1>
+							</div>
+							<div class="container">
+								<form>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">First Name</label>
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Name">
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput">Last Name</label>
+										<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+									</div>
+									<div class="form-group row">
+										<label for="example-date-input" class="col-2 col-form-label">Birthday</label>
+										<div class="col-10">
+											<input class="form-control" type="date" id="dateSold">
+											<script>
+												Date.prototype.toDateInputValue = (function() {
+													var local = new Date(this);
+													local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+													return local.toJSON().slice(0, 10);
+												});
+												document.getElementById('dateSold').value = new Date().toDateInputValue();
+											</script>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">Gender</label>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+											<label class="form-check-label" for="inlineRadio1">Male</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+											<label class="form-check-label" for="inlineRadio2">Female</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">Address</label>
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Address">
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">Phone Number</label>
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="09">
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">Password</label>
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<label for="formGroupExampleInput2">Confirm Password</label>
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Confirm Password">
+									</div>
+								</form>
+                            <div class="form-group ">
+                                <div class="row">
+                                    <div class="col-6 mb-5 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-outline-danger">Submit</button>
+                                    </div>
+                                    <div class="col-6 mb-5 d-flex justify-content-start">
+                                        <button type="submit" class="btn btn-outline-secondary">Cancel</button>
                                     </div>
                                 </div>
-                                <div class="mt-1">
-                                    Show
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                20
-                                            </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">50</a>
-                                            <a class="dropdown-item" href="#">100</a>
-                                            <a class="dropdown-item" href="#">150</a>
-                                        </div>
-                                    </div>
-                                    Entries
-                                </div>
-
-                            </div>
-                            <div class="mt-2">
-                                <table class="table table-hover">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">ProductID</th>
-                                            <th scope="col">UserID</th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Number</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col"></th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Jonathan</td>
-                                            <td>Joestar</td>
-                                            <td>@mdo</td>
-                                            <td>123456789</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-success" disabled>Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger" disabled>Reject</button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Joseph</td>
-                                            <td>Joestar</td>
-                                            <td>@fat</td>
-                                            <td>987654321</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-success">Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger">Reject</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Jotaro</td>
-                                            <td>Kujo</td>
-                                            <td>@twitter</td>
-                                            <td>963258741</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-success">Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger">Reject</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination pagination-sm justify-content-end m-2">
-                                        <li class="page-item"><a class="page-link text-dark" href="#">Previous</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-
+							</div>	
+						</div>
                     </div>
                 </div>
 
