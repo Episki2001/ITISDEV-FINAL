@@ -29,10 +29,12 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
     this.dateHired = dateHired;
     this.datFired = datFired;
 }
+
 function Manager(userID, isSysAd) {
     this.userID = userID;
     this.isSysAd = isSysAd;
 }
+
 function Product(productID, productName, productType, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
     this.productID = productID;
     this.productName = productName;
@@ -43,6 +45,7 @@ function Product(productID, productName, productType, currentStock, sellingPrice
     this.sellerID = sellerID;
     this.categoryCode = categoryCode;
 }
+
 function Threshold(thresholdID, thresholdType, number, productID, userID) {
     this.thresholdID = thresholdID;
     this.thresholdType = thresholdType;
@@ -50,6 +53,7 @@ function Threshold(thresholdID, thresholdType, number, productID, userID) {
     this.productID = productID;
     this.userID = userID;
 }
+
 function Supplier(supplierID, companyName, companyAddress, phoneNum, email) {
     this.supplierID = supplierID;
     this.companyName = companyName;
@@ -57,11 +61,13 @@ function Supplier(supplierID, companyName, companyAddress, phoneNum, email) {
     this.phoneNum = phoneNum;
     this.email = email;
 }
+
 function Ref_Category(categoryCode, categoryName, ProductType) {
     this.categoryCode = categoryCode;
     this.categoryNamee = categoryName;
     this.ProductType = ProductType;
 }
+
 function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID) {
     this.salesID = salesID;
     this.quantity = quantity;
@@ -71,6 +77,7 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
     this.productID = productID;
     this.userID = userID;
 }
+
 function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
     this.discountID = salesID;
     this.quantity = quantity;
@@ -81,6 +88,7 @@ function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold
     this.productID = productID;
     this.userID = userID;
 }
+
 function delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID) {
     this.deliveryID = deliveryID;
     this.number_Of_Units_Delivered = number_Of_Units_Delivered;
@@ -89,6 +97,7 @@ function delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, date
     this.productID = productID;
     this.userID = userID;
 }
+
 function discrepancies(discrepancyID, oldCount, newCount, date, userID, productID) {
     this.discrepancyID = discrepancyID;
     this.oldCount = oldCount;
@@ -97,6 +106,7 @@ function discrepancies(discrepancyID, oldCount, newCount, date, userID, productI
     this.userID = userID;
     this.productID = productID;
 }
+
 function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
     this.purchaseID = purchaseID;
     this.amountPaid = amountPaid;
@@ -104,3 +114,13 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
     this.totalCost = totalCost;
     this.managerID = managerID;
 }
+
+const indexFunctions = {
+    getStats: function(req, res) {
+        res.render('a_discrepancy', {
+            title: 'View Discrepancies'
+        });
+    }
+};
+
+module.exports = indexFunctions;
