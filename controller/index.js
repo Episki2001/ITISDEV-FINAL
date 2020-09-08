@@ -31,7 +31,7 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
 }
 function Manager(userID, isSysAd) {
     this.userID = userID;
-    this.isSysAd = false;
+    this.isSysAd = isSysAd;
 }
 function Product(productID, productName, productType, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
     this.productID = productID;
@@ -42,4 +42,42 @@ function Product(productID, productName, productType, currentStock, sellingPrice
     this.purchasePrice = purchasePrice;
     this.sellerID = sellerID;
     this.categoryCode = categoryCode;
+}
+function Threshold(thresholdID, thresholdType, number, productID, userID) {
+    this.thresholdID = thresholdID;
+    this.thresholdType = thresholdType;
+    this.number = number;
+    this.productID = productID;
+    this.userID = userID;
+}
+function Supplier(supplierID, companyName, companyAddress, phoneNum, email) {
+    this.supplierID = supplierID;
+    this.companyName = companyName;
+    this.companyAddress = companyAddress;
+    this.phoneNum = phoneNum;
+    this.email = email;
+}
+function Ref_Category(categoryCode, categoryName, ProductType) {
+    this.categoryCode = categoryCode;
+    this.categoryNamee = categoryName;
+    this.ProductType = ProductType;
+}
+function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID) {
+    this.salesID = salesID;
+    this.quantity = quantity;
+    this.sellingPrice = sellingPrice;
+    this.total = total;
+    this.dateSold = dateSold;
+    this.productID = productID;
+    this.userID = userID;
+}
+function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
+    this.discountID = salesID;
+    this.quantity = quantity;
+    this.sellingPrice = sellingPrice;
+    this.discount = discount;
+    this.total = total;
+    this.dateSold = dateSold;
+    this.productID = productID;
+    this.userID = userID;
 }
