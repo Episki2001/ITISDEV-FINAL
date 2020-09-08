@@ -38,16 +38,7 @@ app.use(bodyParser.json());
 
 // ROUTERS
 const indexRouter = require('./router/indexRouter');
-app.use('/', indexRouter);
-
-// handling 404 requests
-app.get('*', function(req, res) {
-    res.render('error', {
-        title: '404 Error',
-        status: '404',
-        errormsg: 'Page not found'
-    });
-});
+app.use('/', indexRouter)
 
 // log this in console when ran
 app.listen(PORT, () => {

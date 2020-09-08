@@ -1,12 +1,10 @@
 const fs = require('fs');
 const handlebars = require('handlebars');
-const nodemailer = require('nodemailer');
-const randtoken = require('rand-token');
 
 /* Accessing the models (db) of each class
  */
-const userModel = require('../model/userdb');
-const managerModel = require('../model/managerdb');
+const userModel = require('../model/users');
+const managerModel = require('../model/managers');
 const productModel = require('../model/productdb');
 const ref_categoryModel = require('../model/ref_categorydb');
 const thresholdModel = require('../model/thresholddb');
@@ -15,7 +13,7 @@ const supplierModel = require('../model/supplierdb');
 const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
-const discrepanciesModel = require('..model/discrepanciesdb');
+const discrepanciesModel = require('..model/discrepancies');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, datFired) {
     this.userID = userID;
@@ -116,7 +114,7 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
 }
 
 const indexFunctions = {
-    getStats: function(req, res) {
+    getDiscrepancy: function(req, res) {
         res.render('a_discrepancy', {
             title: 'View Discrepancies'
         });
