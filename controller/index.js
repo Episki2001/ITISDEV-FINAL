@@ -81,3 +81,26 @@ function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold
     this.productID = productID;
     this.userID = userID;
 }
+function delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID) {
+    this.deliveryID = deliveryID;
+    this.number_Of_Units_Delivered = number_Of_Units_Delivered;
+    this.number_Of_Damaged = number_Of_Damaged;
+    this.dateDelivered = dateDelivered;
+    this.productID = productID;
+    this.userID = userID;
+}
+function discrepancies(discrepancyID, oldCount, newCount, date, userID, productID) {
+    this.discrepancyID = discrepancyID;
+    this.oldCount = oldCount;
+    this.newCount = newCount;
+    this.date = date;
+    this.userID = userID;
+    this.productID = productID;
+}
+function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
+    this.purchaseID = purchaseID;
+    this.amountPaid = amountPaid;
+    this.datePurchased = datePurchased;
+    this.totalCost = totalCost;
+    this.managerID = managerID;
+}
