@@ -3,8 +3,8 @@ const handlebars = require('handlebars');
 
 /* Accessing the models (db) of each class
  */
-const userModel = require('../model/users');
-const managerModel = require('../model/managers');
+const userModel = require('../model/usersdb');
+const managerModel = require('../model/managersdb');
 const productModel = require('../model/productdb');
 const ref_categoryModel = require('../model/ref_categorydb');
 const thresholdModel = require('../model/thresholddb');
@@ -13,7 +13,8 @@ const supplierModel = require('../model/supplierdb');
 const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
-const discrepanciesModel = require('../model/discrepancies');
+const discrepanciesModel = require('../model/discrepanciesdb');
+const damagedGoodsModel = require('../model/damagedgoodsdb');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, datFired) {
     this.userID = userID;
@@ -111,6 +112,17 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
     this.datePurchased = datePurchased;
     this.totalCost = totalCost;
     this.managerID = managerID;
+}
+
+function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
+    this.dmgrecordID = dmgrecordID;
+    this.dateDamaged = dateDamaged;
+    this.numDamaged = numDamaged;
+    this.approved = approved;
+    this.comments = comments;
+    this.userID = userID;
+    this.managerID = managerID;
+    this.productID = productID;
 }
 
 const indexFunctions = {
