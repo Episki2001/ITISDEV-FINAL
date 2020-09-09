@@ -199,28 +199,27 @@ const indexFunctions = {
     },
 
     getAusers: function(req, res) {
-            res.render('a_users', {
-                title: 'View Users'
-            });
-        }
-        /*,
+        res.render('a_users', {
+            title: 'View Users'
+        });
+    },
 
-            postLogin: function(req, res) {
-                var { user, pass } = req.body;
-                try {
-                    var user = await userModel.findOne({ user: user });
-                    if (user) {
-                        bcrypt.compare(pass, user.pass, function(err, result) {
-                            if (result) {
-                                req.session.logUser = user;
-                                res.send({ status: 200 });
-                            } else res.send({ status: 401, msg: 'Incorrect password.' });
-                        });
-                    } else res.send({ status: 401, msg: 'No user found.' });
-                } catch (e) {
-                    res.send({ status: 500, msg: e });
-                }
-            }*/
+    postLogin: async function(req, res) {
+        var { user, pass } = req.body;
+        try {
+            var user = await userModel.findOne({ user: user });
+            if (user) {
+                bcrypt.compare(pass, user.password, function(err, result) {
+                    if (result) {
+                        req.session.logUser = user;
+                        res.send({ status: 200 });
+                    } else res.send({ status: 401, msg: 'Incorrect password.' });
+                });
+            } else res.send({ status: 401, msg: 'No user found.' });
+        } catch (e) {
+            res.send({ status: 500, msg: e });
+        }
+    }
 };
 
 module.exports = indexFunctions;

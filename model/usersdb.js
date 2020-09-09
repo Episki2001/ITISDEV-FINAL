@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('user'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
 
 const userSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
@@ -21,4 +21,6 @@ const userSchema = new mongoose.Schema({
     dateFired: { type: Date, required: false }
 });
 
-module.exports = mongoose.model('users', userSchema);
+const userModel = db.model('Users', userSchema);
+
+module.exports = userModel;
