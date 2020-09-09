@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
 const userSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
