@@ -1,12 +1,12 @@
 [
-    { "supplierID": 20000001, "companyName": "Hintz-Buckridge", "email": "HintzBuckridge@gmail.com", "companyAddres": "Lucena City", "phoneNum": "2069714" },
-    { "supplierID": 20000002, "companyName": "Shields Group", "email": "ShieldsGroup@gmail.com", "companyAddres": "Lucena City", "phoneNum": "8795200" },
-    { "supplierID": 20000003, "companyName": "Torp, Rodriguez and Rohan", "email": "TorpRodriguezandRohan@gmail.com", "companyAddres": "Lucena City", "phoneNum": "4805779" },
-    { "supplierID": 20000004, "companyName": "Flatley Inc", "email": "FlatleyInc@gmail.com", "companyAddres": "Manila City", "phoneNum": "3646228" },
-    { "supplierID": 20000005, "companyName": "Schuppe, Zboncak and Cremin", "email": "SchuppeZboncakandCremin@gmail.com", "companyAddres": "Manila City", "phoneNum": "1848299" },
-    { "supplierID": 20000006, "companyName": "Romaguera Group", "email": "RomagueraGroup@gmail.com", "companyAddres": "Manila City", "phoneNum": "6357761" },
-    { "supplierID": 20000007, "companyName": "Schmidt-West", "email": "SchmidtWest@gmail.com", "companyAddres": "Manila City", "phoneNum": "8674669" },
-    { "supplierID": 20000008, "companyName": "West-Welch", "email": "WestWelch@gmail.com", "companyAddres": "Quezon City", "phoneNum": "3626701" },
-    { "supplierID": 20000009, "companyName": "Feeney, Miller and Stracke", "email": "FeeneyMillerandStracke@gmail.com", "companyAddres": "Quezon City", "phoneNum": "2663566" },
-    { "supplierID": 20000010, "companyName": "Konopelski Group", "email": "KonopelskiGroup@gmail.com", "companyAddres": "Quezon City", "phoneNum": "577376" }
+    { "supplierID": 20000001, "companyName": "Hintz-Buckridge", "email": "HintzBuckridge@gmail.com", "companyAddress": "Lucena City", "phoneNum": "2069714" },
+    { "supplierID": 20000002, "companyName": "Shields Group", "email": "ShieldsGroup@gmail.com", "companyAddress": "Lucena City", "phoneNum": "8795200" },
+    { "supplierID": 20000003, "companyName": "Torp, Rodriguez and Rohan", "email": "TorpRodriguezandRohan@gmail.com", "companyAddress": "Lucena City", "phoneNum": "4805779" },
+    { "supplierID": 20000004, "companyName": "Flatley Inc", "email": "FlatleyInc@gmail.com", "companyAddress": "Manila City", "phoneNum": "3646228" },
+    { "supplierID": 20000005, "companyName": "Schuppe, Zboncak and Cremin", "email": "SchuppeZboncakandCremin@gmail.com", "companyAddress": "Manila City", "phoneNum": "1848299" },
+    { "supplierID": 20000006, "companyName": "Romaguera Group", "email": "RomagueraGroup@gmail.com", "companyAddress": "Manila City", "phoneNum": "6357761" },
+    { "supplierID": 20000007, "companyName": "Schmidt-West", "email": "SchmidtWest@gmail.com", "companyAddress": "Manila City", "phoneNum": "8674669" },
+    { "supplierID": 20000008, "companyName": "West-Welch", "email": "WestWelch@gmail.com", "companyAddress": "Quezon City", "phoneNum": "3626701" },
+    { "supplierID": 20000009, "companyName": "Feeney, Miller and Stracke", "email": "FeeneyMillerandStracke@gmail.com", "companyAddress": "Quezon City", "phoneNum": "2663566" },
+    { "supplierID": 20000010, "companyName": "Konopelski Group", "email": "KonopelskiGroup@gmail.com", "companyAddress": "Quezon City", "phoneNum": "577376" }
 ]
