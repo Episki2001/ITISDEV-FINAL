@@ -46,48 +46,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Bizzare Adventures Inc.</td>
-                                            <td>123456789</td>
-                                            <td>@mdo</td>
-                                            <td>Wolololo</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">View</button>
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Arknights Addicts Co.</td>
-                                            <td>987654321</td>
-                                            <td>@fat</td>
-                                            <td>69420 St.</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Dame Da Ne ltd.</td>
-                                            <td>963258741</td>
-                                            <td>@twitter</td>
-                                            <td>bakamitai</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {{#each discs}}
+                                            {{>discrepancies_row this}}
+                                        {{/each}}                                        
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">
