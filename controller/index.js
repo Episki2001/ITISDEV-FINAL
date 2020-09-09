@@ -132,27 +132,15 @@ const indexFunctions = {
         });
     },
 
-    getAdmin: function(req, res) {
-        res.render('a_', {
-            title: 'Admin'
-        });
-    },
-
-    getManager: function(req, res) {
-        res.render('u_', {
-            title: 'Manager'
-        });
-    },
-
-    getUser: function(req, res) {
-        res.render('a_', {
-            title: 'User'
-        });
-    },
-
-    getDiscrepancy: function(req, res) {
+    getADiscrepancy: function(req, res) {
         res.render('a_discrepancy', {
             title: 'View Discrepancies'
+        });
+    },
+
+    getADamagedGoods: function(req, res) {
+        res.render('a_miss_damagedgoods', {
+            title: 'View Missing/Damaged Goods'
         });
     }
 };
