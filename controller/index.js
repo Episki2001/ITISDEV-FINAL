@@ -77,7 +77,7 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
 }
 
 function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
-    this.discountID = salesID;
+    this.discountID = discountID;
     this.quantity = quantity;
     this.sellingPrice = sellingPrice;
     this.discount = discount;
@@ -137,8 +137,7 @@ const indexFunctions = {
             console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_discrepancy', {
                 title: 'View Discrepancy',
-                discs: [JSON.parse(JSON.stringify(matches))]
-
+                discs: JSON.parse(JSON.stringify(matches))
             });
         } catch (e) {
             console.log(e);
