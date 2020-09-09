@@ -1,9 +1,19 @@
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('manager'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
+
+// defines the schema for collection `managers`
 const managerSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     isSysAd: { type: Boolean, required: true }
 });
 
-module.exports = mongoose.model('managers', managerSchema);
+const managerModel = mongoose.model('Managers', managerSchema);
+
+module.exports = managerModel;

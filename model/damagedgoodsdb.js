@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
+
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('damagedgoods'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
 
 
 const damagedgoodsSchema = new mongoose.Schema({
@@ -11,8 +18,8 @@ const damagedgoodsSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     productID: { type: Number, required: true },
     managerID: { type: Number, required: false }
-
-
 });
 
-module.exports = mongoose.model('damagedgoods', damagedgoodsSchema);
+const damagedgoodsModel = mongoose.model('Damagedgoods', damagedgoodsSchema);
+
+module.exports = damagedgoodsModel;

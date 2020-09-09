@@ -9,7 +9,7 @@ mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHome
 
 var db = mongoose.connection;
 
-// defines the schema for collection `suppliers`
+// defines the schema for collection sales`
 var SalesSchema = new mongoose.Schema({
     salesID: { type: Number, required: true },
     quantity: { type: Number, required: true },
