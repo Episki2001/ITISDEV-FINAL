@@ -1,0 +1,122 @@
+[
+ {
+   "deliveryID": 60000201,
+   "number_Of_Units_Delivered": 10,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "01/03/2020",
+   "productID": 30000008,
+   "userID": 10000016
+ },
+ {
+   "deliveryID": 60000202,
+   "number_Of_Units_Delivered": 6,
+   "number_Of_Damaged": 1,
+   "dateDelivered": "16/04/2020",
+   "productID": 30000008,
+   "userID": 10000003
+ },
+ {
+   "deliveryID": 60000203,
+   "number_Of_Units_Delivered": 10,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "12/05/2020",
+   "productID": 30000008,
+   "userID": 10000001
+ },
+ {
+   "deliveryID": 60000204,
+   "number_Of_Units_Delivered": 8,
+   "number_Of_Damaged": 1,
+   "dateDelivered": "15/06/2020",
+   "productID": 30000008,
+   "userID": 10000023
+ },
+ {
+   "deliveryID": 60000205,
+   "number_Of_Units_Delivered": 9,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "27/07/2020",
+   "productID": 30000008,
+   "userID": 10000022
+ },
+ {
+   "deliveryID": 60000001,
+   "number_Of_Units_Delivered": 100,
+   "number_Of_Damaged": 20,
+   "dateDelivered": "01/03/2020",
+   "productID": 30000005,
+   "userID": 10000023
+ },
+ {
+   "deliveryID": 60000002,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 10,
+   "dateDelivered": "11/03/2020",
+   "productID": 30000005,
+   "userID": 10000005
+ },
+ {
+   "deliveryID": 60000003,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 6,
+   "dateDelivered": "25/03/2020",
+   "productID": 30000005,
+   "userID": 10000007
+ },
+ {
+   "deliveryID": 60000004,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "13/04/2020",
+   "productID": 30000005,
+   "userID": 10000002
+ },
+ {
+   "deliveryID": 60000005,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 3,
+   "dateDelivered": "05/05/2020",
+   "productID": 30000005,
+   "userID": 10000019
+ },
+ {
+   "deliveryID": 60000006,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 3,
+   "dateDelivered": "22/05/2020",
+   "productID": 30000005,
+   "userID": 10000018
+ },
+ {
+   "deliveryID": 60000007,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "11/06/2020",
+   "productID": 30000005,
+   "userID": 10000014
+ },
+ {
+   "deliveryID": 60000008,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 3,
+   "dateDelivered": "06/07/2020",
+   "productID": 30000005,
+   "userID": 10000021
+ },
+ {
+   "deliveryID": 60000009,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 0,
+   "dateDelivered": "03/08/2020",
+   "productID": 30000005,
+   "userID": 10000021
+ },
+ {
+   "deliveryID": 60000010,
+   "number_Of_Units_Delivered": 150,
+   "number_Of_Damaged": 2,
+   "dateDelivered": "24/08/2020",
+   "productID": 30000005,
+   "userID": 10000024
+ }
+]

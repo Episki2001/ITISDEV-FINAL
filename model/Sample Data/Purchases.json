@@ -1,0 +1,107 @@
+[
+ {
+   "purchaseID": 70000201,
+   "amountPaid": 4500,
+   "datePurchased": "01/03/2020",
+   "totalCost": 45000,
+   "managerID": 10000001
+ },
+ {
+   "purchaseID": 70000202,
+   "amountPaid": 4500,
+   "datePurchased": "16/04/2020",
+   "totalCost": 27000,
+   "managerID": 10000004
+ },
+ {
+   "purchaseID": 70000203,
+   "amountPaid": 4500,
+   "datePurchased": "12/05/2020",
+   "totalCost": 45000,
+   "managerID": 10000002
+ },
+ {
+   "purchaseID": 70000204,
+   "amountPaid": 4500,
+   "datePurchased": "15/06/2020",
+   "totalCost": 36000,
+   "managerID": 10000004
+ },
+ {
+   "purchaseID": 70000205,
+   "amountPaid": 4500,
+   "datePurchased": "27/07/2020",
+   "totalCost": 40500,
+   "managerID": 10000004
+ },
+ {
+   "purchaseID": 70000001,
+   "amountPaid": 100,
+   "datePurchased": "01/03/2020",
+   "totalCost": 10000,
+   "managerID": 10000001
+ },
+ {
+   "purchaseID": 70000002,
+   "amountPaid": 100,
+   "datePurchased": "11/03/2020",
+   "totalCost": 15000,
+   "managerID": 10000003
+ },
+ {
+   "purchaseID": 70000003,
+   "amountPaid": 100,
+   "datePurchased": "25/03/2020",
+   "totalCost": 15000,
+   "managerID": 10000003
+ },
+ {
+   "purchaseID": 70000004,
+   "amountPaid": 100,
+   "datePurchased": "13/04/2020",
+   "totalCost": 15000,
+   "managerID": 10000001
+ },
+ {
+   "purchaseID": 70000005,
+   "amountPaid": 100,
+   "datePurchased": "05/05/2020",
+   "totalCost": 15000,
+   "managerID": 10000003
+ },
+ {
+   "purchaseID": 70000006,
+   "amountPaid": 100,
+   "datePurchased": "22/05/2020",
+   "totalCost": 15000,
+   "managerID": 10000004
+ },
+ {
+   "purchaseID": 70000007,
+   "amountPaid": 100,
+   "datePurchased": "11/06/2020",
+   "totalCost": 15000,
+   "managerID": 10000001
+ },
+ {
+   "purchaseID": 70000008,
+   "amountPaid": 100,
+   "datePurchased": "06/07/2020",
+   "totalCost": 15000,
+   "managerID": 10000004
+ },
+ {
+   "purchaseID": 70000009,
+   "amountPaid": 100,
+   "datePurchased": "03/08/2020",
+   "totalCost": 15000,
+   "managerID": 10000003
+ },
+ {
+   "purchaseID": 70000010,
+   "amountPaid": 100,
+   "datePurchased": "24/08/2020",
+   "totalCost": 15000,
+   "managerID": 10000004
+ }
+]

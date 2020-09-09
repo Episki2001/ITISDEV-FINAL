@@ -1,0 +1,19 @@
+[
+    { "categoryCode": 101, "productType": "F", "categoryName": "Chairs" },
+    { "categoryCode": 102, "productType": "F", "categoryName": "Beds" },
+    { "categoryCode": 103, "productType": "F", "categoryName": "Sofas" },
+    { "categoryCode": 104, "productType": "F", "categoryName": "Cabinets" },
+    { "categoryCode": 105, "productType": "F", "categoryName": "Mirrors" },
+    { "categoryCode": 106, "productType": "F", "categoryName": "Drawers" },
+    { "categoryCode": 107, "productType": "F", "categoryName": "Closets" },
+    { "categoryCode": 108, "productType": "F", "categoryName": "Dining Tables" },
+    { "categoryCode": 109, "productType": "F", "categoryName": "Table" },
+    { "categoryCode": 110, "productType": "F", "categoryName": "Recliner" },
+    { "categoryCode": 111, "productType": "F", "categoryName": "TV stand" },
+    { "categoryCode": 201, "productType": "A", "categoryName": "Water heater" },
+    { "categoryCode": 202, "productType": "A", "categoryName": "TV" },
+    { "categoryCode": 203, "productType": "A", "categoryName": "Electric fan" },
+    { "categoryCode": 204, "productType": "A", "categoryName": "Ceiling fan" },
+    { "categoryCode": 205, "productType": "A", "categoryName": "Stoves" },
+    { "categoryCode": 206, "productType": "A", "categoryName": "Speakers" }
+]
