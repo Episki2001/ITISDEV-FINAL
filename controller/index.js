@@ -34,10 +34,9 @@ function Manager(userID, isSysAd) {
     this.isSysAd = isSysAd;
 }
 
-function Product(productID, productName, productType, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
+function Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
     this.productID = productID;
     this.productName = productName;
-    this.productType = productType;
     this.currentStock = currentStock;
     this.sellingPrice = sellingPrice;
     this.purchasePrice = purchasePrice;
