@@ -126,15 +126,33 @@ function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments,
 }
 
 const indexFunctions = {
-    getDiscrepancy: function(req, res) {
-        res.render('a_discrepancy', {
-            title: 'View Discrepancies'
-        });
-    },
-
     getLogin: function(req, res) {
         res.render('login', {
             title: 'Login'
+        });
+    },
+
+    getAdmin: function(req, res) {
+        res.render('a_', {
+            title: 'Admin'
+        });
+    },
+
+    getManager: function(req, res) {
+        res.render('u_', {
+            title: 'Manager'
+        });
+    },
+
+    getUser: function(req, res) {
+        res.render('a_', {
+            title: 'User'
+        });
+    },
+
+    getDiscrepancy: function(req, res) {
+        res.render('a_discrepancy', {
+            title: 'View Discrepancies'
         });
     }
 };
