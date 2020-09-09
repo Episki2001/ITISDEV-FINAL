@@ -132,10 +132,18 @@ const indexFunctions = {
         });
     },
 
-    getAdiscrepancy: function(req, res) {
-        res.render('a_discrepancy', {
-            title: 'View Discrepancy'
-        });
+    getAdiscrepancy: async function(req, res) {
+        try {
+            var matches = await discrepanciesModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_discrepancy', {
+                title: 'View Discrepancy',
+                discs: [JSON.parse(JSON.stringify(matches))]
+
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAeditProduct: function(req, res) {

@@ -4,7 +4,7 @@ const controller = require('../controller/index');
 
 
 router.get('/', controller.getLogin);
-router.get('/a/discrepancy/*', controller.getAdiscrepancy);
+router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/product/*', controller.getAeditProduct);
 router.get('/a/user/*', controller.getAeditProfile);
 router.get('/a/editSupplier', controller.getAeditSupplier);
