@@ -19,8 +19,8 @@ var ProductSchema = new mongoose.Schema({
     purchasePrice: { type: Number, required: true },
     supplierID: { type: String, required: true },
     categoryCode: { type: Number, required: true }
-});
+}, {collection: "Product"});
 
-const producrModel = mongoose.model('Product', ProductSchema);
+const producrModel = db.model('Product', ProductSchema);
 
 module.exports = producrModel;

@@ -18,8 +18,8 @@ const damagedgoodsSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     productID: { type: Number, required: true },
     managerID: { type: Number, required: false }
-});
+}, {collection: "Damagedgoods"});
 
-const damagedgoodsModel = mongoose.model('Damagedgoods', damagedgoodsSchema);
+const damagedgoodsModel = db.model('Damagedgoods', damagedgoodsSchema);
 
 module.exports = damagedgoodsModel;

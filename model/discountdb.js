@@ -19,8 +19,8 @@ var DiscountSchema = new mongoose.Schema({
     dateSold: { type: Number, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }
-});
+}, {collection: "Discount"});
 
-const discountModel =  mongoose.model('Discount', DiscountSchema);
+const discountModel =  db.model('Discount', DiscountSchema);
 
 module.exports = discountModel;

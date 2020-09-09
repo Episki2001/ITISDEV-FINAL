@@ -18,8 +18,8 @@ var SalesSchema = new mongoose.Schema({
     dateSold: { type: Number, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }
-});
+}, {collection: "Sales"});
 
-const salesModel = mongoose.model('Sales', SalesSchema);
+const salesModel = db.model('Sales', SalesSchema);
 
 module.exports = salesModel;

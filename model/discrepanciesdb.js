@@ -16,8 +16,8 @@ const discrepancySchema = new mongoose.Schema({
     date: { type: Date, required: true },
     userID: { type: Number, required: true },
     productID: { type: Number, required: true }
-});
+}, {collection: "Discrepancy"});
 
-const DiscrepancyModel = mongoose.model('Discrepancy', discrepancySchema);
+const DiscrepancyModel = db.model('Discrepancy', discrepancySchema);
 
 module.exports = DiscrepancyModel;

@@ -16,8 +16,8 @@ var SupplierSchema = new mongoose.Schema({
     companyAddress: { type: String, required: true },
     phoneNum: { type: String, required: true },
     email: { type: String, required: true }
-});
+}, {collection: "Supplier"});
 
-const supplierModel = mongoose.model('Supplier', SupplierSchema);
+const supplierModel = db.model('Supplier', SupplierSchema);
 
 module.exports = supplierModel;

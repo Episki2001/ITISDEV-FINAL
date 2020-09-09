@@ -14,8 +14,8 @@ var Ref_CategorySchema = new mongoose.Schema({
     CategoryCode: { type: Number, required: true },
     categoryName: { type: String, required: true },
     ProductType: { type: String, required: true }
-});
+}, {collection: "Ref_Category"});
 
-const ref_categoryModel = mongoose.model('Ref_Category', Ref_CategorySchema);
+const ref_categoryModel = db.model('Ref_Category', Ref_CategorySchema);
 
 module.exports = ref_categoryModel;

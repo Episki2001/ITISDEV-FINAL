@@ -16,8 +16,8 @@ var ThresholdSchema = new mongoose.Schema({
     number: { type: Number, required: true },
     productID: { type: Number, required: true },
     UserID: { type: Number, required: true }
-});
+}, {collection: "Threshold"});
 
-const thresholdModel = mongoose.model('Threshold', ThresholdSchema);
+const thresholdModel = db.model('Threshold', ThresholdSchema);
 
 module.exports = thresholdModel

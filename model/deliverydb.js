@@ -17,8 +17,8 @@ var DeliverySchema = new mongoose.Schema({
     dateDelivered: { type: Date, required: true },
     productID: { type: Number, required: true },
     userID: {  type: Number, required: true }
-});
+}, {collection: "Delivery"});
 
-const deliveryModel = mongoose.model('Delivery', DeliverySchema);
+const deliveryModel = db.model('Delivery', DeliverySchema);
 
 module.exports = deliveryModel;
