@@ -132,33 +132,75 @@ const indexFunctions = {
         });
     },
 
-    getADiscrepancy: function(req, res) {
+    getAdiscrepancy: function(req, res) {
         res.render('a_discrepancy', {
-            title: 'View Discrepancies'
+            title: 'View Discrepancy'
         });
     },
 
-    getAEditProduct: function(req, res) {
+    getAeditProduct: function(req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
 
-    getADiscrepancy: function(req, res) {
-        res.render('a_discrepancy', {
-            title: 'View Discrepancies'
+    getAeditProfile: function(req, res) {
+        res.render('a_editProfile', {
+            title: 'Edit Profile'
         });
     },
 
-    getAMDGoods: function(req, res) {
-        res.render('a_miss_damagedgoods', {
+    getAeditSupplier: function(req, res) {
+        res.render('a_editSupplier', {
+            title: 'Edit Supplier'
+        });
+    },
+
+    getAMDgoods: function(req, res) {
+        res.render('a_MDgoods', {
             title: 'View Missing/Damaged Goods'
         });
     },
 
-    getADiscrepancy: function(req, res) {
-        res.render('a_discrepancy', {
-            title: 'View Discrepancies'
+    getAnewProducts: function(req, res) {
+        res.render('a_newProducts', {
+            title: 'Add Products'
+        });
+    },
+
+    getAnewSupplier: function(req, res) {
+        res.render('a_newSupplier', {
+            title: 'Add Supplier'
+        });
+    },
+
+    getAnewUser: function(req, res) {
+        res.render('a_newUser', {
+            title: 'Add User'
+        });
+    },
+
+    getAproducts: function(req, res) {
+        res.render('a_products', {
+            title: 'View Products'
+        });
+    },
+
+    getApurchases: function(req, res) {
+        res.render('a_purchases', {
+            title: 'View Purchases'
+        });
+    },
+
+    getAsuppliers: function(req, res) {
+        res.render('a_suppliers', {
+            title: 'View Suppliers'
+        });
+    },
+
+    getAusers: function(req, res) {
+        res.render('a_users', {
+            title: 'View Users'
         });
     }
 };

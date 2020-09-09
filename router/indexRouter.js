@@ -4,13 +4,17 @@ const controller = require('../controller/index');
 
 
 router.get('/', controller.getLogin);
-router.get('/a/discrepancy', controller.getADiscrepancy);
-router.get('/a/mdgoods', controller.getAMDGoods);
-router.get('/a/newproducts', controller.getANewProducts);
-router.get('/a/products', controller.getAProducts);
-router.get('/a/purchases', controller.getAPurchases);
-router.get('/m/discrepancy', controller.getMDiscrepancy);
-router.get('/m/mdgoods', controller.getMMDGoods);
-router.get('/u', controller.getUser);
+router.get('/a/discrepancy', controller.getAdiscrepancy);
+router.get('/a/editProduct', controller.getAeditProduct);
+router.get('/a/editProfile', controller.getAeditProfile);
+router.get('/a/editSupplier', controller.getAeditSupplier);
+router.get('/a/MDgoods', controller.getAMDgoods);
+router.get('/a/newProducts', controller.getAnewProducts);
+router.get('/a/newSupplier', controller.getAnewSupplier);
+router.get('/a/newUser', controller.getAnewUser);
+router.get('/a/products', controller.getAproducts);
+router.get('/a/purchases', controller.getApurchases);
+router.get('/a/suppliers', controller.getAsuppliers);
+router.get('/a/users', controller.getAusers);
 
 module.exports = router;
