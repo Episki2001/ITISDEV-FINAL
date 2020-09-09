@@ -14,7 +14,7 @@ const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
-const damagedGoodsModel = require('../model/damagedgoodsdb');
+const damagedgoodsModel = require('../model/damagedgoodsdb');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
@@ -105,12 +105,13 @@ function discrepancies(discrepancyID, oldCount, newCount, date, userID, productI
     this.productID = productID;
 }
 
-function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
+function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, deliveryID) {
     this.purchaseID = purchaseID;
     this.amountPaid = amountPaid;
     this.datePurchased = datePurchased;
     this.totalCost = totalCost;
     this.managerID = managerID;
+    this.deliveryID = deliveryID;
 }
 
 function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
@@ -162,10 +163,17 @@ const indexFunctions = {
         });
     },
 
-    getAMDgoods: function(req, res) {
-        res.render('a_MDgoods', {
-            title: 'View Missing/Damaged Goods'
-        });
+    getAMDgoods: async function(req, res) {
+        try {
+            var matches = await damagedgoodsModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_MDgoods', {
+                title: 'View Missing and Damaged Goods',
+                MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAnewProducts: function(req, res) {
@@ -199,16 +207,30 @@ const indexFunctions = {
         }
     },
 
-    getApurchases: function(req, res) {
-        res.render('a_purchases', {
-            title: 'View Purchases'
-        });
+    getApurchases: async function(req, res) {
+        try {
+            var matches = await purchaseModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_purchase', {
+                title: 'View Purchase',
+                purchase: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
-    getAsuppliers: function(req, res) {
-        res.render('a_suppliers', {
-            title: 'View Suppliers'
-        });
+    getAsuppliers: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAusers: function(req, res) {

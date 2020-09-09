@@ -32,7 +32,7 @@ app.engine('hbs', exphbs.create({
     helpers: {
         getDate: function(date) {
             var d = new Date(date);
-            let formatted_date = d.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate()
+            let formatted_date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()
             return d.getFullYear() + '-' + (d.getMonth() + 1) + "-" + d.getDate()
         },
 
