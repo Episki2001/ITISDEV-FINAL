@@ -1,12 +1,5 @@
 var mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
 const userSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
