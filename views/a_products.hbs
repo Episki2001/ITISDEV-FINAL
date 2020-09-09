@@ -5,9 +5,12 @@
                         <div class="d-flex flex-column mt-2">
                             <div class="container">
                                 <div class="row mt-2">
-                                    <div class="col-12">
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger ">Add Suppliers +</button>
+                                    </div>
+                                    <div class="col-6">
                                         <form class="form-inline justify-content-end">
-                                            <input class="form-control mr-sm-2" type="search" placeholder="Search Discrepancies" aria-label="Search">
+                                            <input class="form-control mr-sm-2" type="search" placeholder="Search Products" aria-label="Search">
                                             <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
@@ -32,11 +35,11 @@
                                 <table class="table table-hover">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Product ID</th>
-                                            <th scope="col">User ID</th>
-                                            <th scope="col">Old Count</th>
-                                            <th scope="col">New Count</th>
-                                            <th scope="col">Date</th>
+                                            <th scope="col">ProductID</th>
+                                            <th scope="col">Product Name</th>
+                                            <th scope="col">Current Stock</th>
+                                            <th scope="col">Selling Price</th>
+                                            <th scope="col">Supplier Name</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -47,7 +50,12 @@
                                             <td>123456789</td>
                                             <td>@mdo</td>
                                             <td>Wolololo</td>
-                                            
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
+                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
+                                                </div>
+                                            </td>
 
                                         </tr>
                                         <tr>
@@ -56,7 +64,12 @@
                                             <td>987654321</td>
                                             <td>@fat</td>
                                             <td>69420 St.</td>
-                                           
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
+                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th scope="row">345678</th>
@@ -64,7 +77,12 @@
                                             <td>963258741</td>
                                             <td>@twitter</td>
                                             <td>bakamitai</td>
-                                            
+                                            <td>
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
+                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
