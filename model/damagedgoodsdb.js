@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
+
 
 const damagedgoodsSchema = new mongoose.Schema({
     dmgrecordID: { type: Number, required: true },

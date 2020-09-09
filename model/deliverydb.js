@@ -1,5 +1,6 @@
 // import module `mongoose`
 var mongoose = require('mongoose');
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
 // defines the schema for collection `suppliers`
 var DeliverySchema = new mongoose.Schema({
