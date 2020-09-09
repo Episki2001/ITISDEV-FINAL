@@ -3,5 +3,6 @@ const router = express();
 const controller = require('../controller/index');
 
 router.get('/', controller.getDiscrepancy);
+router.get('/login', controller.getLogin);
 
 module.exports = router;

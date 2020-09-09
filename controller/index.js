@@ -16,7 +16,7 @@ const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedGoodsModel = require('../model/damagedgoodsdb');
 
-function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, datFired) {
+function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
     this.password = password;
     this.lastName = lastName;
@@ -26,7 +26,7 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
     this.address = address;
     this.phonenumber = phonenumber;
     this.dateHired = dateHired;
-    this.datFired = datFired;
+    this.dateFired = dateFired;
 }
 
 function Manager(userID, isSysAd) {
@@ -129,6 +129,12 @@ const indexFunctions = {
     getDiscrepancy: function(req, res) {
         res.render('a_discrepancy', {
             title: 'View Discrepancies'
+        });
+    },
+
+    getLogin: function(req, res) {
+        res.render('login', {
+            title: 'Login'
         });
     }
 };

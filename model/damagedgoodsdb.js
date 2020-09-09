@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const damagedgoodsSchema = new mongoose.Schema({
     dmgrecordID: { type: Number, required: true },
     dateDamaged: { type: Date, required: true },
     numDamaged: { type: Number, required: true },
@@ -13,4 +13,4 @@ const userSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('users', userSchema);
+module.exports = mongoose.model('damagedgoods', damagedgoodsSchema);
