@@ -1,0 +1,152 @@
+[
+ {
+   "dmgrecordID": 80000201,
+   "dateDamaged": "05/04/2020",
+   "numDamaged": 1,
+   "approved": true,
+   "comments": "Broken units",
+   "userID": 10000022,
+   "productID": 30000008,
+   "managerID": 10000002
+ },
+ {
+   "dmgrecordID": 80000202,
+   "dateDamaged": "17/07/2020",
+   "numDamaged": 2,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000009,
+   "productID": 30000008,
+   "managerID": 10000002
+ },
+ {
+   "dmgrecordID": 80000001,
+   "dateDamaged": "09/03/2020",
+   "numDamaged": 2,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000018,
+   "productID": 30000005,
+   "managerID": 10000002
+ },
+ {
+   "dmgrecordID": 80000002,
+   "dateDamaged": "15/03/2020",
+   "numDamaged": 5,
+   "approved": true,
+   "comments": "Broken units",
+   "userID": 10000009,
+   "productID": 30000005,
+   "managerID": 10000003
+ },
+ {
+   "dmgrecordID": 80000003,
+   "dateDamaged": "28/03/2020",
+   "numDamaged": 7,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000002,
+   "productID": 30000005,
+   "managerID": 10000001
+ },
+ {
+   "dmgrecordID": 80000004,
+   "dateDamaged": "18/04/2020",
+   "numDamaged": 2,
+   "approved": true,
+   "comments": "Broken units",
+   "userID": 10000022,
+   "productID": 30000005,
+   "managerID": 10000004
+ },
+ {
+   "dmgrecordID": 80000005,
+   "dateDamaged": "22/04/2020",
+   "numDamaged": 7,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000002,
+   "productID": 30000005,
+   "managerID": 10000003
+ },
+ {
+   "dmgrecordID": 80000006,
+   "dateDamaged": "26/04/2020",
+   "numDamaged": 10,
+   "approved": true,
+   "comments": "Missing pieces",
+   "userID": 10000002,
+   "productID": 30000005,
+   "managerID": 10000003
+ },
+ {
+   "dmgrecordID": 80000007,
+   "dateDamaged": "03/05/2020",
+   "numDamaged": 2,
+   "approved": true,
+   "comments": "Broken units",
+   "userID": 10000007,
+   "productID": 30000005,
+   "managerID": 10000004
+ },
+ {
+   "dmgrecordID": 80000008,
+   "dateDamaged": "07/05/2020",
+   "numDamaged": 4,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000008,
+   "productID": 30000005,
+   "managerID": 10000004
+ },
+ {
+   "dmgrecordID": 80000009,
+   "dateDamaged": "11/05/2020",
+   "numDamaged": 2,
+   "approved": true,
+   "comments": "Broken units",
+   "userID": 10000024,
+   "productID": 30000005,
+   "managerID": 10000001
+ },
+ {
+   "dmgrecordID": 80000010,
+   "dateDamaged": "05/06/2020",
+   "numDamaged": 5,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000014,
+   "productID": 30000005,
+   "managerID": 10000004
+ },
+ {
+   "dmgrecordID": 80000011,
+   "dateDamaged": "27/06/2020",
+   "numDamaged": 3,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000020,
+   "productID": 30000005,
+   "managerID": 10000002
+ },
+ {
+   "dmgrecordID": 80000012,
+   "dateDamaged": "05/08/2020",
+   "numDamaged": 5,
+   "approved": true,
+   "comments": "Missing pieces",
+   "userID": 10000023,
+   "productID": 30000005,
+   "managerID": 10000004
+ },
+ {
+   "dmgrecordID": 80000013,
+   "dateDamaged": "29/08/2020",
+   "numDamaged": 3,
+   "approved": true,
+   "comments": "Accrued Water Damage",
+   "userID": 10000011,
+   "productID": 30000005,
+   "managerID": 10000001
+ }
+]
