@@ -21,7 +21,7 @@ var SupplierSchema = new mongoose.Schema({
         required: true
     },
     email: {
-        type: Number,
+        type: String,
         required: true
     }
 });
