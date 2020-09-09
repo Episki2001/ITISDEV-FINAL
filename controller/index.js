@@ -186,10 +186,17 @@ const indexFunctions = {
         });
     },
 
-    getAproducts: function(req, res) {
-        res.render('a_products', {
-            title: 'View Products'
-        });
+    getAproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getApurchases: function(req, res) {

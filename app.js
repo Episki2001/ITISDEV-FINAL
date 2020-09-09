@@ -32,10 +32,13 @@ app.engine('hbs', exphbs.create({
     helpers: {
         getDate: function(date) {
             var d = new Date(date);
-            let formatted_date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-            return formatted_date;
-        }
+            let formatted_date = d.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate()
+            return d.getFullYear() + '-' + (d.getMonth() + 1) + "-" + d.getDate()
+        },
 
+        getPrice: function(price) {
+            return price.toFixed(2);
+        }
     }
 }).engine);
 app.set('view engine', 'hbs');
