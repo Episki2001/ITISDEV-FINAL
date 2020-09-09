@@ -1,35 +1,23 @@
 // import module `mongoose`
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
-// defines the schema for collection `suppliers`
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('threshold'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
+
+// defines the schema for collection `thresholds`
 var ThresholdSchema = new mongoose.Schema({
-    thresholdID: {
-        type: Number,
-        required: true
-    },
-    thresholdType: {
-        type: String,
-        required: true
-    },
-    number: {
-        type: Number,
-        required: true
-    },
-    productID: {
-        type: Number,
-        required: true
-    },
-    UserID: {
-        type: Number,
-        required: true
-    }
+    thresholdID: { type: Number, required: true },
+    thresholdType: { type: String, required: true },
+    number: { type: Number, required: true },
+    productID: { type: Number, required: true },
+    UserID: { type: Number, required: true }
 });
 
-/*
-    exports a mongoose.model object based on `UserSchema` (defined above)
-    when another script exports from this file
-    This model executes CRUD operations
-    to collection `users` -> plural of the argument `User`
-*/
-module.exports = mongoose.model('Threshold', ThresholdSchema);
+const thresholdModel = mongoose.model('Threshold', ThresholdSchema);
+
+module.exports = thresholdModel
