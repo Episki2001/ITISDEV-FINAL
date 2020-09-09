@@ -18,6 +18,9 @@ const discrepancySchema = new mongoose.Schema({
     productID: { type: Number, required: true }
 });
 
+function findAll() {
+    return db.find({})
+}
 const DiscrepancyModel = mongoose.model('Discrepancy', discrepancySchema);
 
 module.exports = DiscrepancyModel;
