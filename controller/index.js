@@ -209,7 +209,7 @@ const indexFunctions = {
         try {
             var user = await userModel.findOne({ user: user });
             if (user) {
-                bcrypt.compare(pass, user.pass, function(err, result) {
+                bcrypt.compare(pass, user.password, function(err, result) {
                     if (result) {
                         req.session.logUser = user;
                         res.send({ status: 200 });
