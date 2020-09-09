@@ -176,9 +176,27 @@ const indexFunctions = {
         }
     },
 
+    getAnewDelivery: function(req, res) {
+        res.render('a_newDelivery', {
+            title: 'Add Delivery Details'
+        });
+    },
+
     getAnewProducts: function(req, res) {
         res.render('a_newProducts', {
-            title: 'Add Products'
+            title: 'Add Product'
+        });
+    },
+
+    getAnewPurchase: function(req, res) {
+        res.render('a_newPurchases', {
+            title: 'Add Purchase'
+        });
+    },
+
+    getAnewSale: function(req, res) {
+        res.render('a_newSales', {
+            title: 'Add Sale'
         });
     },
 
@@ -193,6 +211,20 @@ const indexFunctions = {
             title: 'Add User'
         });
     },
+
+    getAdeliveries: async function(req, res) {
+        try {
+            var matches = await deliveryModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_delivery', {
+                title: 'View Deliveries',
+                delivery: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
 
     getAproducts: async function(req, res) {
         try {
@@ -214,6 +246,19 @@ const indexFunctions = {
             res.render('a_purchase', {
                 title: 'View Purchase',
                 purchase: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAsales: async function(req, res) {
+        try {
+            var matches = await salesModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_sales', {
+                title: 'View Sales',
+                sales: JSON.parse(JSON.stringify(matches))
             });
         } catch (e) {
             console.log(e);

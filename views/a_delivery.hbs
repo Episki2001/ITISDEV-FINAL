@@ -6,11 +6,11 @@
                             <div class="container">
                                 <div class="row mt-2">
                                     <div class="col-6">
-                                        <a href="/a/newPurchase" type="button" class="btn btn-dark ">Add Purchase +</a>
+                                        <a href="/a/newDelivery" type="button" class="btn btn-dark ">Add Delivery +</a>
                                     </div>
                                     <div class="col-6">
                                         <form class="form-inline justify-content-end">
-                                            <input class="form-control mr-sm-2" type="search" placeholder="Search Sales" aria-label="Search">
+                                            <input class="form-control mr-sm-2" type="search" placeholder="Search Deliveries" aria-label="Search">
                                             <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
@@ -35,18 +35,18 @@
                                 <table class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Purchase ID</th>
-                                            <th scope="col">Amount Paid</th>
-                                            <th scope="col">Date Purchased</th>
-                                            <th scope="col">Total Cost</th>
-                                            <th scope="col">Manager ID</th>
                                             <th scope="col">Delivery ID</th>
+                                            <th scope="col">Num Delivered</th>
+                                            <th scope="col">Num Damaged</th>
+                                            <th scope="col">Date Delivered</th>
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">User ID</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each purchase}}
-                                            {{>purchase_row this}}
+                                        {{#each delivery}}
+                                            {{>delivery_row this}}
                                         {{/each}}                                        
                                     </tbody>
                                 </table>
