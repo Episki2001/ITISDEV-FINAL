@@ -12,12 +12,12 @@ var db = mongoose.connection;
 // defines the schema for collection `deliveries`
 var DeliverySchema = new mongoose.Schema({
     deliveryID: { type: Number, required: true },
-    number_Of_Units_Delivered: { type: Number,  required: true },
+    number_Of_Units_Delivered: { type: Number, required: true },
     number_Of_Damaged: { type: Number, required: true },
     dateDelivered: { type: Date, required: true },
     productID: { type: Number, required: true },
-    userID: {  type: Number, required: true }
-}, {collection: "Delivery"});
+    userID: { type: Number, required: true }
+}, { collection: "Delivery" });
 
 const deliveryModel = db.model('Delivery', DeliverySchema);
 
