@@ -17,7 +17,7 @@ var SupplierSchema = new mongoose.Schema({
         required: true
     },
     phoneNum: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {
