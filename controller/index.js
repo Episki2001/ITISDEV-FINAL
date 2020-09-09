@@ -138,9 +138,27 @@ const indexFunctions = {
         });
     },
 
-    getADamagedGoods: function(req, res) {
+    getAEditProduct: function(req, res) {
+        res.render('a_editProduct', {
+            title: 'Edit Product'
+        });
+    },
+
+    getADiscrepancy: function(req, res) {
+        res.render('a_discrepancy', {
+            title: 'View Discrepancies'
+        });
+    },
+
+    getAMDGoods: function(req, res) {
         res.render('a_miss_damagedgoods', {
             title: 'View Missing/Damaged Goods'
+        });
+    },
+
+    getADiscrepancy: function(req, res) {
+        res.render('a_discrepancy', {
+            title: 'View Discrepancies'
         });
     }
 };
