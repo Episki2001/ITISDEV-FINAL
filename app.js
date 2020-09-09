@@ -15,10 +15,10 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.COOKIE_SECRET,
-    name: "cookie",
-    resave: true,
-    saveUninitialized: true
+    'secret': 'ITISDEV',
+    'name': "cookie",
+    'resave': true,
+    'saveUninitialized': true
 }));
 
 // Initialize the view
