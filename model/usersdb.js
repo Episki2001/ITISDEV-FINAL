@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
     phonenumber: { type: String, required: true },
     dateHired: { type: Date, required: true },
     dateFired: { type: Date, required: false }
-}, {collection: "Users"});
+}, {collection: "users"});
 
-const userModel = db.model('Users', userSchema);
+const userModel = db.model('users', userSchema);
 
 module.exports = userModel;

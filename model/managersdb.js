@@ -12,8 +12,8 @@ var db = mongoose.connection;
 const managerSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     isSysAd: { type: Boolean, required: true }
-}, {collection: "Managers"});
+}, {collection: "managers"});
 
-const managerModel = db.model('Managers', managerSchema);
+const managerModel = db.model('managers', managerSchema);
 
 module.exports = managerModel;

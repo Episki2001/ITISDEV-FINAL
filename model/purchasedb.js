@@ -16,8 +16,8 @@ var PurchaseSchema = new mongoose.Schema({
     datePurchased: { type: Date, required: true },
     totalCost: { type: Number,  required: true },
     managerID: { type: Number, required: true }
-}, {collection: "Purchase"});
+}, {collection: "Purchases"});
 
-const purchaseModel = db.model('Purchase', PurchaseSchema);
+const purchaseModel = db.model('Purchases', PurchaseSchema);
 
 module.exports = purchaseModel;
