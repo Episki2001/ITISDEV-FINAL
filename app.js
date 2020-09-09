@@ -30,6 +30,11 @@ app.engine('hbs', exphbs.create({
     partialsDir: 'views/partials',
     layoutsDir: 'views/layouts',
     helpers: {
+        getDate: function(date) {
+            var d = new Date(date);
+            let formatted_date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+            return formatted_date;
+        }
 
     }
 }).engine);

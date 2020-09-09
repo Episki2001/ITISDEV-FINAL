@@ -44,83 +44,228 @@ let userData = [
 
 let managerData = [{
         "userID": 10000001,
-        "isSysAD": true
+        "isSysAd": true
     },
     {
         "userID": 10000001,
-        "isSysAD": true
+        "isSysAd": true
     },
     {
         "userID": 10000001,
-        "isSysAD": false
+        "isSysAd": false
     },
     {
         "userID": 10000001,
-        "isSysAD": false
+        "isSysAd": false
+    }
+]
+
+let supplierData = [
+    { "supplierID": 20000001, "companyName": "Hintz-Buckridge", "email": "HintzBuckridge@gmail.com", "companyAddres": "Lucena City", "phoneNum": "2069714" },
+    { "supplierID": 20000002, "companyName": "Shields Group", "email": "ShieldsGroup@gmail.com", "companyAddres": "Lucena City", "phoneNum": "8795200" },
+    { "supplierID": 20000003, "companyName": "Torp, Rodriguez and Rohan", "email": "TorpRodriguezandRohan@gmail.com", "companyAddres": "Lucena City", "phoneNum": "4805779" },
+    { "supplierID": 20000004, "companyName": "Flatley Inc", "email": "FlatleyInc@gmail.com", "companyAddres": "Manila City", "phoneNum": "3646228" },
+    { "supplierID": 20000005, "companyName": "Schuppe, Zboncak and Cremin", "email": "SchuppeZboncakandCremin@gmail.com", "companyAddres": "Manila City", "phoneNum": "1848299" },
+    { "supplierID": 20000006, "companyName": "Romaguera Group", "email": "RomagueraGroup@gmail.com", "companyAddres": "Manila City", "phoneNum": "6357761" },
+    { "supplierID": 20000007, "companyName": "Schmidt-West", "email": "SchmidtWest@gmail.com", "companyAddres": "Manila City", "phoneNum": "8674669" },
+    { "supplierID": 20000008, "companyName": "West-Welch", "email": "WestWelch@gmail.com", "companyAddres": "Quezon City", "phoneNum": "3626701" },
+    { "supplierID": 20000009, "companyName": "Feeney, Miller and Stracke", "email": "FeeneyMillerandStracke@gmail.com", "companyAddres": "Quezon City", "phoneNum": "2663566" },
+    { "supplierID": 20000010, "companyName": "Konopelski Group", "email": "KonopelskiGroup@gmail.com", "companyAddres": "Quezon City", "phoneNum": "577376" }
+]
+
+let damagedData = [{
+        "dmgrecordID": 80000201,
+        "dateDamaged": "05/04/2020",
+        "numDamaged": 1,
+        "approved": true,
+        "comments": "Broken units",
+        "userID": 10000022,
+        "productID": 30000008,
+        "managerID": 10000002
+    },
+    {
+        "dmgrecordID": 80000202,
+        "dateDamaged": "17/07/2020",
+        "numDamaged": 2,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000009,
+        "productID": 30000008,
+        "managerID": 10000002
+    },
+    {
+        "dmgrecordID": 80000001,
+        "dateDamaged": "09/03/2020",
+        "numDamaged": 2,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000018,
+        "productID": 30000005,
+        "managerID": 10000002
+    },
+    {
+        "dmgrecordID": 80000002,
+        "dateDamaged": "15/03/2020",
+        "numDamaged": 5,
+        "approved": true,
+        "comments": "Broken units",
+        "userID": 10000009,
+        "productID": 30000005,
+        "managerID": 10000003
+    },
+    {
+        "dmgrecordID": 80000003,
+        "dateDamaged": "28/03/2020",
+        "numDamaged": 7,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000002,
+        "productID": 30000005,
+        "managerID": 10000001
+    },
+    {
+        "dmgrecordID": 80000004,
+        "dateDamaged": "18/04/2020",
+        "numDamaged": 2,
+        "approved": true,
+        "comments": "Broken units",
+        "userID": 10000022,
+        "productID": 30000005,
+        "managerID": 10000004
+    },
+    {
+        "dmgrecordID": 80000005,
+        "dateDamaged": "22/04/2020",
+        "numDamaged": 7,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000002,
+        "productID": 30000005,
+        "managerID": 10000003
+    },
+    {
+        "dmgrecordID": 80000006,
+        "dateDamaged": "26/04/2020",
+        "numDamaged": 10,
+        "approved": true,
+        "comments": "Missing pieces",
+        "userID": 10000002,
+        "productID": 30000005,
+        "managerID": 10000003
+    },
+    {
+        "dmgrecordID": 80000007,
+        "dateDamaged": "03/05/2020",
+        "numDamaged": 2,
+        "approved": true,
+        "comments": "Broken units",
+        "userID": 10000007,
+        "productID": 30000005,
+        "managerID": 10000004
+    },
+    {
+        "dmgrecordID": 80000008,
+        "dateDamaged": "07/05/2020",
+        "numDamaged": 4,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000008,
+        "productID": 30000005,
+        "managerID": 10000004
+    },
+    {
+        "dmgrecordID": 80000009,
+        "dateDamaged": "11/05/2020",
+        "numDamaged": 2,
+        "approved": true,
+        "comments": "Broken units",
+        "userID": 10000024,
+        "productID": 30000005,
+        "managerID": 10000001
+    },
+    {
+        "dmgrecordID": 80000010,
+        "dateDamaged": "05/06/2020",
+        "numDamaged": 5,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000014,
+        "productID": 30000005,
+        "managerID": 10000004
+    },
+    {
+        "dmgrecordID": 80000011,
+        "dateDamaged": "27/06/2020",
+        "numDamaged": 3,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000020,
+        "productID": 30000005,
+        "managerID": 10000002
+    },
+    {
+        "dmgrecordID": 80000012,
+        "dateDamaged": "05/08/2020",
+        "numDamaged": 5,
+        "approved": true,
+        "comments": "Missing pieces",
+        "userID": 10000023,
+        "productID": 30000005,
+        "managerID": 10000004
+    },
+    {
+        "dmgrecordID": 80000013,
+        "dateDamaged": "29/08/2020",
+        "numDamaged": 3,
+        "approved": true,
+        "comments": "Accrued Water Damage",
+        "userID": 10000011,
+        "productID": 30000005,
+        "managerID": 10000001
     }
 ]
 
 let productData = [
-    { "productID": 30000005, "productName": "Plastic Chairs", "currentStock": 87, "sellingPrice": 300.00, "purchasePrice": 100.00, "supplierID": 20000001, "categorycode": 101 },
-    { "productID": 30000006, "productName": "Wooden Chairs", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000001, "categorycode": 101 },
-    { "productID": 30000007, "productName": "Water Beds", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000001, "categorycode": 102 },
-    { "productID": 30000008, "productName": "Bunk Beds", "currentStock": 50, "sellingPrice": 5500.00, "purchasePrice": 4500.00, "supplierID": 20000001, "categorycode": 102 },
-    { "productID": 30000009, "productName": "Living Room Sofas", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categorycode": 103 },
-    { "productID": 30000010, "productName": "Business Sofas", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categorycode": 103 },
-    { "productID": 30000011, "productName": "Plastic Cabinets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categorycode": 104 },
-    { "productID": 30000012, "productName": "Wooden Cabinets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categorycode": 104 },
-    { "productID": 30000013, "productName": "Full Body Mirrors", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categorycode": 105 },
-    { "productID": 30000014, "productName": "Desks with Mirror", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 2000003, "categorycode": 105 },
-    { "productID": 30000015, "productName": "Plastic Drawers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categorycode": 106 },
-    { "productID": 30000016, "productName": "Wooden Drawers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categorycode": 106 },
-    { "productID": 30000017, "productName": "Plastic Closets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categorycode": 107 },
-    { "productID": 30000018, "productName": "Wooden Closets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categorycode": 107 },
-    { "productID": 30000019, "productName": "Family-sized Dining Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categorycode": 108 },
-    { "productID": 30000020, "productName": "Solo Dining Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categorycode": 108 },
-    { "productID": 30000021, "productName": "Living Room Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 109 },
-    { "productID": 30000022, "productName": "Bedroom Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 109 },
-    { "productID": 30000023, "productName": "Soft Recliner", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 110 },
-    { "productID": 30000024, "productName": "Hard Recliner", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 110 },
-    { "productID": 30000001, "productName": "Large TV Stand", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 111 },
-    { "productID": 30000002, "productName": "Meduim TV Stand", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categorycode": 111 },
-    { "productID": 30000003, "productName": "Large Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categorycode": 201 },
-    { "productID": 30000004, "productName": "Meduim Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categorycode": 201 },
-    { "productID": 30000025, "productName": "Small Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categorycode": 201 },
-    { "productID": 30000026, "productName": "Large TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categorycode": 202 },
-    { "productID": 30000027, "productName": "Meduim TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categorycode": 202 },
-    { "productID": 30000028, "productName": "Smart TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categorycode": 202 },
-    { "productID": 30000029, "productName": "Large Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categorycode": 203 },
-    { "productID": 30000030, "productName": "Meduim Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categorycode": 203 },
-    { "productID": 30000031, "productName": "Handheld Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categorycode": 203 },
-    { "productID": 30000032, "productName": "Large ceiling Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categorycode": 204 },
-    { "productID": 30000033, "productName": "Meduim ceiling Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categorycode": 204 },
-    { "productID": 30000034, "productName": "Wall Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categorycode": 204 },
-    { "productID": 30000035, "productName": "Small Electric Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 2000010, "categorycode": 205 },
-    { "productID": 30000036, "productName": "Meduim Electric Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categorycode": 205 },
-    { "productID": 30000037, "productName": "Induction Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categorycode": 205 },
-    { "productID": 30000038, "productName": "Large Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categorycode": 206 },
-    { "productID": 30000039, "productName": "Meduim Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categorycode": 206 },
-    { "productID": 30000040, "productName": "Small Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categorycode": 206 }
-]
-
-let ref_categorydata = [
-    { "categoryCode": 101, "productType": "F", "categoryName": "Chairs" },
-    { "categoryCode": 102, "productType": "F", "categoryName": "Beds" },
-    { "categoryCode": 103, "productType": "F", "categoryName": "Sofas" },
-    { "categoryCode": 104, "productType": "F", "categoryName": "Cabinets" },
-    { "categoryCode": 105, "productType": "F", "categoryName": "Mirrors" },
-    { "categoryCode": 106, "productType": "F", "categoryName": "Drawers" },
-    { "categoryCode": 107, "productType": "F", "categoryName": "Closets" },
-    { "categoryCode": 108, "productType": "F", "categoryName": "Dining Tables" },
-    { "categoryCode": 109, "productType": "F", "categoryName": "Table" },
-    { "categoryCode": 110, "productType": "F", "categoryName": "Recliner" },
-    { "categoryCode": 111, "productType": "F", "categoryName": "TV stand" },
-    { "categoryCode": 201, "productType": "A", "categoryName": "Water heater" },
-    { "categoryCode": 202, "productType": "A", "categoryName": "TV" },
-    { "categoryCode": 203, "productType": "A", "categoryName": "Electric fan" },
-    { "categoryCode": 204, "productType": "A", "categoryName": "Ceiling fan" },
-    { "categoryCode": 205, "productType": "A", "categoryName": "Stoves" },
-    { "categoryCode": 206, "productType": "A", "categoryName": "Speakers" }
+    { "productID": 30000005, "productName": "Plastic Chairs", "currentStock": 87, "sellingPrice": 300.00, "purchasePrice": 100.00, "supplierID": 20000001, "categoryCode": 101 },
+    { "productID": 30000006, "productName": "Wooden Chairs", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000001, "categoryCode": 101 },
+    { "productID": 30000007, "productName": "Water Beds", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000001, "categoryCode": 102 },
+    { "productID": 30000008, "productName": "Bunk Beds", "currentStock": 50, "sellingPrice": 5500.00, "purchasePrice": 4500.00, "supplierID": 20000001, "categoryCode": 102 },
+    { "productID": 30000009, "productName": "Living Room Sofas", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categoryCode": 103 },
+    { "productID": 30000010, "productName": "Business Sofas", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categoryCode": 103 },
+    { "productID": 30000011, "productName": "Plastic Cabinets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categoryCode": 104 },
+    { "productID": 30000012, "productName": "Wooden Cabinets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000002, "categoryCode": 104 },
+    { "productID": 30000013, "productName": "Full Body Mirrors", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categoryCode": 105 },
+    { "productID": 30000014, "productName": "Desks with Mirror", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 2000003, "categoryCode": 105 },
+    { "productID": 30000015, "productName": "Plastic Drawers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categoryCode": 106 },
+    { "productID": 30000016, "productName": "Wooden Drawers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000003, "categoryCode": 106 },
+    { "productID": 30000017, "productName": "Plastic Closets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categoryCode": 107 },
+    { "productID": 30000018, "productName": "Wooden Closets", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categoryCode": 107 },
+    { "productID": 30000019, "productName": "Family-sized Dining Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categoryCode": 108 },
+    { "productID": 30000020, "productName": "Solo Dining Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000004, "categoryCode": 108 },
+    { "productID": 30000021, "productName": "Living Room Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 109 },
+    { "productID": 30000022, "productName": "Bedroom Table", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 109 },
+    { "productID": 30000023, "productName": "Soft Recliner", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 110 },
+    { "productID": 30000024, "productName": "Hard Recliner", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 110 },
+    { "productID": 30000001, "productName": "Large TV Stand", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 111 },
+    { "productID": 30000002, "productName": "Meduim TV Stand", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000005, "categoryCode": 111 },
+    { "productID": 30000003, "productName": "Large Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categoryCode": 201 },
+    { "productID": 30000004, "productName": "Meduim Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categoryCode": 201 },
+    { "productID": 30000025, "productName": "Small Water Heater", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000006, "categoryCode": 201 },
+    { "productID": 30000026, "productName": "Large TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categoryCode": 202 },
+    { "productID": 30000027, "productName": "Meduim TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categoryCode": 202 },
+    { "productID": 30000028, "productName": "Smart TV", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000007, "categoryCode": 202 },
+    { "productID": 30000029, "productName": "Large Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categoryCode": 203 },
+    { "productID": 30000030, "productName": "Meduim Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categoryCode": 203 },
+    { "productID": 30000031, "productName": "Handheld Electric Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000008, "categoryCode": 203 },
+    { "productID": 30000032, "productName": "Large ceiling Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categoryCode": 204 },
+    { "productID": 30000033, "productName": "Meduim ceiling Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categoryCode": 204 },
+    { "productID": 30000034, "productName": "Wall Fan", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000009, "categoryCode": 204 },
+    { "productID": 30000035, "productName": "Small Electric Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 2000010, "categoryCode": 205 },
+    { "productID": 30000036, "productName": "Meduim Electric Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categoryCode": 205 },
+    { "productID": 30000037, "productName": "Induction Stove", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categoryCode": 205 },
+    { "productID": 30000038, "productName": "Large Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categoryCode": 206 },
+    { "productID": 30000039, "productName": "Meduim Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categoryCode": 206 },
+    { "productID": 30000040, "productName": "Small Speakers", "currentStock": 50, "sellingPrice": 500.00, "purchasePrice": 350.00, "supplierID": 20000010, "categoryCode": 206 }
 ]
 
 let salesData = [{
@@ -1655,19 +1800,6 @@ let salesData = [{
     }
 ]
 
-let supplierData = [
-    { "supplierID": 20000001, "companyName": "Hintz-Buckridge", "email": "HintzBuckridge@gmail.com", "address": "Lucena City", "phoneNumber": "2069714" },
-    { "supplierID": 20000002, "companyName": "Shields Group", "email": "ShieldsGroup@gmail.com", "address": "Lucena City", "phoneNumber": "8795200" },
-    { "supplierID": 20000003, "companyName": "Torp, Rodriguez and Rohan", "email": "TorpRodriguezandRohan@gmail.com", "address": "Lucena City", "phoneNumber": "4805779" },
-    { "supplierID": 20000004, "companyName": "Flatley Inc", "email": "FlatleyInc@gmail.com", "address": "Manila City", "phoneNumber": "3646228" },
-    { "supplierID": 20000005, "companyName": "Schuppe, Zboncak and Cremin", "email": "SchuppeZboncakandCremin@gmail.com", "address": "Manila City", "phoneNumber": "1848299" },
-    { "supplierID": 20000006, "companyName": "Romaguera Group", "email": "RomagueraGroup@gmail.com", "address": "Manila City", "phoneNumber": "6357761" },
-    { "supplierID": 20000007, "companyName": "Schmidt-West", "email": "SchmidtWest@gmail.com", "address": "Manila City", "phoneNumber": "8674669" },
-    { "supplierID": 20000008, "companyName": "West-Welch", "email": "WestWelch@gmail.com", "address": "Quezon City", "phoneNumber": "3626701" },
-    { "supplierID": 20000009, "companyName": "Feeney, Miller and Stracke", "email": "FeeneyMillerandStracke@gmail.com", "address": "Quezon City", "phoneNumber": "2663566" },
-    { "supplierID": 20000010, "companyName": "Konopelski Group", "email": "KonopelskiGroup@gmail.com", "address": "Quezon City", "phoneNumber": "577376" }
-]
-
 let deliveryData = [{
         "deliveryID": 60000201,
         "number_Of_Units_Delivered": 10,
@@ -1897,6 +2029,26 @@ let purchaseData = [{
     }
 ]
 
+let ref_categorydata = [
+    { "categoryCode": 101, "productType": "F", "categoryName": "Chairs" },
+    { "categoryCode": 102, "productType": "F", "categoryName": "Beds" },
+    { "categoryCode": 103, "productType": "F", "categoryName": "Sofas" },
+    { "categoryCode": 104, "productType": "F", "categoryName": "Cabinets" },
+    { "categoryCode": 105, "productType": "F", "categoryName": "Mirrors" },
+    { "categoryCode": 106, "productType": "F", "categoryName": "Drawers" },
+    { "categoryCode": 107, "productType": "F", "categoryName": "Closets" },
+    { "categoryCode": 108, "productType": "F", "categoryName": "Dining Tables" },
+    { "categoryCode": 109, "productType": "F", "categoryName": "Table" },
+    { "categoryCode": 110, "productType": "F", "categoryName": "Recliner" },
+    { "categoryCode": 111, "productType": "F", "categoryName": "TV stand" },
+    { "categoryCode": 201, "productType": "A", "categoryName": "Water heater" },
+    { "categoryCode": 202, "productType": "A", "categoryName": "TV" },
+    { "categoryCode": 203, "productType": "A", "categoryName": "Electric fan" },
+    { "categoryCode": 204, "productType": "A", "categoryName": "Ceiling fan" },
+    { "categoryCode": 205, "productType": "A", "categoryName": "Stoves" },
+    { "categoryCode": 206, "productType": "A", "categoryName": "Speakers" }
+]
+
 let discrepancyData = [{
         "discrepancyID": 90000201,
         "oldCount": 8,
@@ -2019,158 +2171,7 @@ let discrepancyData = [{
     }
 ]
 
-let damagedData = [{
-        "dmgrecordID": 80000201,
-        "dateDamaged": "05/04/2020",
-        "numDamaged": 1,
-        "approved": true,
-        "comments": "Broken units",
-        "userID": 10000022,
-        "productID": 30000008,
-        "managerID": 10000002
-    },
-    {
-        "dmgrecordID": 80000202,
-        "dateDamaged": "17/07/2020",
-        "numDamaged": 2,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000009,
-        "productID": 30000008,
-        "managerID": 10000002
-    },
-    {
-        "dmgrecordID": 80000001,
-        "dateDamaged": "09/03/2020",
-        "numDamaged": 2,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000018,
-        "productID": 30000005,
-        "managerID": 10000002
-    },
-    {
-        "dmgrecordID": 80000002,
-        "dateDamaged": "15/03/2020",
-        "numDamaged": 5,
-        "approved": true,
-        "comments": "Broken units",
-        "userID": 10000009,
-        "productID": 30000005,
-        "managerID": 10000003
-    },
-    {
-        "dmgrecordID": 80000003,
-        "dateDamaged": "28/03/2020",
-        "numDamaged": 7,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000002,
-        "productID": 30000005,
-        "managerID": 10000001
-    },
-    {
-        "dmgrecordID": 80000004,
-        "dateDamaged": "18/04/2020",
-        "numDamaged": 2,
-        "approved": true,
-        "comments": "Broken units",
-        "userID": 10000022,
-        "productID": 30000005,
-        "managerID": 10000004
-    },
-    {
-        "dmgrecordID": 80000005,
-        "dateDamaged": "22/04/2020",
-        "numDamaged": 7,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000002,
-        "productID": 30000005,
-        "managerID": 10000003
-    },
-    {
-        "dmgrecordID": 80000006,
-        "dateDamaged": "26/04/2020",
-        "numDamaged": 10,
-        "approved": true,
-        "comments": "Missing pieces",
-        "userID": 10000002,
-        "productID": 30000005,
-        "managerID": 10000003
-    },
-    {
-        "dmgrecordID": 80000007,
-        "dateDamaged": "03/05/2020",
-        "numDamaged": 2,
-        "approved": true,
-        "comments": "Broken units",
-        "userID": 10000007,
-        "productID": 30000005,
-        "managerID": 10000004
-    },
-    {
-        "dmgrecordID": 80000008,
-        "dateDamaged": "07/05/2020",
-        "numDamaged": 4,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000008,
-        "productID": 30000005,
-        "managerID": 10000004
-    },
-    {
-        "dmgrecordID": 80000009,
-        "dateDamaged": "11/05/2020",
-        "numDamaged": 2,
-        "approved": true,
-        "comments": "Broken units",
-        "userID": 10000024,
-        "productID": 30000005,
-        "managerID": 10000001
-    },
-    {
-        "dmgrecordID": 80000010,
-        "dateDamaged": "05/06/2020",
-        "numDamaged": 5,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000014,
-        "productID": 30000005,
-        "managerID": 10000004
-    },
-    {
-        "dmgrecordID": 80000011,
-        "dateDamaged": "27/06/2020",
-        "numDamaged": 3,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000020,
-        "productID": 30000005,
-        "managerID": 10000002
-    },
-    {
-        "dmgrecordID": 80000012,
-        "dateDamaged": "05/08/2020",
-        "numDamaged": 5,
-        "approved": true,
-        "comments": "Missing pieces",
-        "userID": 10000023,
-        "productID": 30000005,
-        "managerID": 10000004
-    },
-    {
-        "dmgrecordID": 80000013,
-        "dateDamaged": "29/08/2020",
-        "numDamaged": 3,
-        "approved": true,
-        "comments": "Accrued Water Damage",
-        "userID": 10000011,
-        "productID": 30000005,
-        "managerID": 10000001
-    }
-]
-async function populate(userData, managerData, supplierData, damagedData, productData, salesData, deliveryData, purchaseData, ref_categorydata, discrepacncyData) {
+async function populate(userData, managerData, supplierData, damagedData, productData, salesData, deliveryData, purchaseData, ref_categorydata, discrepancyData) {
     // Connect to Database
     const url = 'mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority'
     const options = {
@@ -2194,7 +2195,30 @@ async function populate(userData, managerData, supplierData, damagedData, produc
 
         userData.forEach((user) => {
             user.password = bcrypt.hashSync(user.password, 10)
+            user.birthdate = new Date(user.birthdate)
+            user.dateHired = new Date(user.dateHired)
         })
+
+        damagedData.forEach((damaged) => {
+            damaged.dateDamaged = new Date(damaged.dateDamaged)
+        })
+
+        discrepancyData.forEach((discrepancy) => {
+            discrepancy.date = new Date(discrepancy.date)
+        })
+
+        salesData.forEach((sales) => {
+            sales.dateSold = new Date(sales.dateSold)
+        })
+
+        purchaseData.forEach((purchase) => {
+            purchase.datePurchased = new Date(purchase.datePurchased)
+        })
+
+        deliveryData.forEach((delivery) => {
+            delivery.dateDelivered = new Date(delivery.dateDelivered)
+        })
+
 
         await userModel.insertMany(userData)
         await managerModel.insertMany(managerData)
