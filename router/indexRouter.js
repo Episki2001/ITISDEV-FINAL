@@ -23,6 +23,6 @@ router.get('/a/suppliers', controller.getAsuppliers);
 router.get('/a/users', controller.getAusers);
 
 
-router.post('/', controller.postLogin);
+// router.post('/', controller.postLogin);
 
 module.exports = router;
