@@ -287,6 +287,7 @@ const indexFunctions = {
 
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
+        var result;
 
         try {
             var match = await userModel.findOne({ userID: user })
@@ -296,12 +297,13 @@ const indexFunctions = {
                     req.session.logUser = match;
                     res.send({ status: 200 });
                     console.log('found u');
-                } else console.log('password problem');
-            } else console.log('usernotfound');
+                } else res.send({ status: 401, msg: 'Incorrect password.' });
+            } else res.send({ status: 401, msg: 'No user found.' });
 
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
+        console.log('postLogin done');
     }
 };
 
