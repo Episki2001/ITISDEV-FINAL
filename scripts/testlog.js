@@ -15,10 +15,12 @@ async function populate(username, password) {
 
     try {
         var user = await userModel.findOne({ userID: username })
-        console.log(JSON.parse(JSON.stringify(user)));
-        console.log(password)
-        console.log(user.password)
-        console.log(user.password == password)
+        if (user) {
+            console.log(JSON.parse(JSON.stringify(user)));
+            console.log(password)
+            console.log(user.password)
+            console.log(user.password == password)
+        } else { console.log('user not found') }
         console.log('Database populated \\o/')
     } catch (err) {
         throw err
@@ -29,4 +31,4 @@ async function populate(username, password) {
         })
     }
 }
-populate(10000001, "HzNnuoba0")
+populate(100000001, "HzNnuoba0")

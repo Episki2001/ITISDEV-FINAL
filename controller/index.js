@@ -285,8 +285,8 @@ const indexFunctions = {
     },
 
     postLogin: async function(req, res) {
-        console.log(request.body.id)
-        console.log(request.body.userID)
+        console.log(req.body.userID)
+        console.log(req.body.password)
     }
 };
 
