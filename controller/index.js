@@ -15,6 +15,7 @@ const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
+const { find, findOne } = require('../model/usersdb');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
@@ -286,8 +287,21 @@ const indexFunctions = {
 
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
-        console.log(user)
-        console.log(pass)
+
+        try {
+            var match = await userModel.findOne({ userID: user })
+
+            if (match) {
+                if (match.password == pass) {
+                    req.session.logUser = match;
+                    res.send({ status: 200 });
+                    console.log('found u')
+                } else res.send({ status: 401, msg: 'Incorrect password.' });
+            } else res.send({ status: 401, msg: 'No user found.' });
+
+        } catch (e) {
+            res.send({ status: 500, msg: e });
+        }
     }
 };
 

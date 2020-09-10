@@ -16,7 +16,7 @@ $(document).ready(function() {
             switch (result.status) {
                 case 200:
                     {
-                        window.location.href = '/';
+                        window.location.href = '/a/suppliers';
                         break;
                     }
                 case 401:
