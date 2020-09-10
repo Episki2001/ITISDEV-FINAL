@@ -1,122 +1,121 @@
-[
- {
-   "discrepancyID": 90000201,
-   "oldCount": 8,
-   "newCount": 6,
-   "date": "20/03/2020",
-   "userID": 10000021,
-   "productID": 30000008
- },
- {
-   "discrepancyID": 90000202,
-   "oldCount": 5,
-   "newCount": 4,
-   "date": "05/06/2020",
-   "userID": 10000008,
-   "productID": 30000008
- },
- {
-   "discrepancyID": 90000203,
-   "oldCount": 6,
-   "newCount": 2,
-   "date": "28/08/2020",
-   "userID": 10000007,
-   "productID": 30000008
- },
- {
-   "discrepancyID": 90000001,
-   "oldCount": 38,
-   "newCount": 35,
-   "date": "06/03/2020",
-   "userID": 10000007,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000002,
-   "oldCount": 63,
-   "newCount": 58,
-   "date": "20/03/2020",
-   "userID": 10000009,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000003,
-   "oldCount": 129,
-   "newCount": 125,
-   "date": "27/03/2020",
-   "userID": 10000005,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000004,
-   "oldCount": 55,
-   "newCount": 54,
-   "date": "03/04/2020",
-   "userID": 10000013,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000004,
-   "oldCount": 132,
-   "newCount": 127,
-   "date": "17/04/2020",
-   "userID": 10000019,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000004,
-   "oldCount": 17,
-   "newCount": 15,
-   "date": "01/05/2020",
-   "userID": 10000012,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000005,
-   "oldCount": 107,
-   "newCount": 110,
-   "date": "29/05/2020",
-   "userID": 10000005,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000006,
-   "oldCount": 106,
-   "newCount": 102,
-   "date": "19/06/2020",
-   "userID": 10000015,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000007,
-   "oldCount": 19,
-   "newCount": 15,
-   "date": "03/07/2020",
-   "userID": 10000009,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000008,
-   "oldCount": 60,
-   "newCount": 55,
-   "date": "24/07/2020",
-   "userID": 10000016,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000008,
-   "oldCount": 116,
-   "newCount": 115,
-   "date": "07/08/2020",
-   "userID": 10000002,
-   "productID": 30000005
- },
- {
-   "discrepancyID": 90000009,
-   "oldCount": 26,
-   "newCount": 24,
-   "date": "21/08/2020",
-   "userID": 10000020,
-   "productID": 30000005
- }
+[{
+        "discrepancyID": 90000201,
+        "oldCount": 8,
+        "newCount": 6,
+        "date": "03/20/2020",
+        "userID": 10000021,
+        "productID": 30000008
+    },
+    {
+        "discrepancyID": 90000202,
+        "oldCount": 5,
+        "newCount": 4,
+        "date": "06/05/2020",
+        "userID": 10000008,
+        "productID": 30000008
+    },
+    {
+        "discrepancyID": 90000203,
+        "oldCount": 6,
+        "newCount": 2,
+        "date": "08/28/2020",
+        "userID": 10000007,
+        "productID": 30000008
+    },
+    {
+        "discrepancyID": 90000001,
+        "oldCount": 38,
+        "newCount": 35,
+        "date": "03/06/2020",
+        "userID": 10000007,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000002,
+        "oldCount": 63,
+        "newCount": 58,
+        "date": "03/20/2020",
+        "userID": 10000009,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000003,
+        "oldCount": 129,
+        "newCount": 125,
+        "date": "03/27/2020",
+        "userID": 10000005,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000004,
+        "oldCount": 55,
+        "newCount": 54,
+        "date": "04/03/2020",
+        "userID": 10000013,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000004,
+        "oldCount": 132,
+        "newCount": 127,
+        "date": "04/17/2020",
+        "userID": 10000019,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000004,
+        "oldCount": 17,
+        "newCount": 15,
+        "date": "05/01/2020",
+        "userID": 10000012,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000005,
+        "oldCount": 107,
+        "newCount": 110,
+        "date": "05/29/2020",
+        "userID": 10000005,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000006,
+        "oldCount": 106,
+        "newCount": 102,
+        "date": "06/19/2020",
+        "userID": 10000015,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000007,
+        "oldCount": 19,
+        "newCount": 15,
+        "date": "07/03/2020",
+        "userID": 10000009,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000008,
+        "oldCount": 60,
+        "newCount": 55,
+        "date": "07/24/2020",
+        "userID": 10000016,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000008,
+        "oldCount": 116,
+        "newCount": 115,
+        "date": "08/07/2020",
+        "userID": 10000002,
+        "productID": 30000005
+    },
+    {
+        "discrepancyID": 90000009,
+        "oldCount": 26,
+        "newCount": 24,
+        "date": "08/21/2020",
+        "userID": 10000020,
+        "productID": 30000005
+    }
 ]
