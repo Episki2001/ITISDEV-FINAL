@@ -285,16 +285,24 @@ const indexFunctions = {
     },
 
     postLogin: async function(req, res) {
-        var { user, pass } = req.body;
+        var { userID, password } = req.body;
+        userID = 10000001
+        console.log(userID)
+        console.log(password)
         try {
-            var user = await userModel.findOne({ user: user });
+            var user = await userModel.findOne({ user: userID });
+            console.log(user)
             if (user) {
-                bcrypt.compare(pass, user.password, function(err, result) {
-                    if (result) {
-                        req.session.logUser = user;
-                        res.send({ status: 200 });
-                    } else res.send({ status: 401, msg: 'Incorrect password.' });
-                });
+                // bcrypt.compare(pass, user.password, function(err, result) {
+                //     if (result) {
+                //         req.session.logUser = user;
+                //         res.send({ status: 200 });
+                //     } else res.send({ status: 401, msg: 'Incorrect password.' });
+                // });
+                if (password == user.password) {
+                    req.session.logUser = user;
+                    res.send({ status: 200 });
+                } else res.send({ status: 401, msg: 'Incorrect password' })
             } else res.send({ status: 401, msg: 'No user found.' });
         } catch (e) {
             res.send({ status: 500, msg: e });
