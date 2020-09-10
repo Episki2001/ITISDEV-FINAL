@@ -8,7 +8,7 @@
         "address": "Lucena City",
         "phoneNumber": 9176588231,
         "dateHired": "07/27/2000",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000002,
@@ -20,7 +20,7 @@
         "address": "Lucena City",
         "phoneNumber": 9179166663,
         "dateHired": "10/17/2000",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000003,
@@ -32,7 +32,7 @@
         "address": "Lucban City",
         "phoneNumber": 9179751234,
         "dateHired": "09/14/2016",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000004,
@@ -44,7 +44,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9174613405,
         "dateHired": "04/15/2020",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000005,
@@ -56,7 +56,7 @@
         "address": "Lucban City",
         "phoneNumber": 9176588236,
         "dateHired": "07/27/2015",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000006,
@@ -68,7 +68,7 @@
         "address": "Tayabas City",
         "phoneNumber": 9179166666,
         "dateHired": "10/17/2017",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000007,
@@ -80,7 +80,7 @@
         "address": "Lucban City",
         "phoneNumber": 9179751231,
         "dateHired": "09/19/2016",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000008,
@@ -92,7 +92,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9174613409,
         "dateHired": "04/15/2020",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000009,
@@ -104,7 +104,7 @@
         "address": "Lucban City",
         "phoneNumber": 9172746921,
         "dateHired": "07/25/2018",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000010,
@@ -116,7 +116,7 @@
         "address": "Lucban City",
         "phoneNumber": 9179296788,
         "dateHired": "01/04/2018",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000011,
@@ -128,7 +128,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9171947151,
         "dateHired": "02/03/2016",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000012,
@@ -140,7 +140,7 @@
         "address": "Lucban City",
         "phoneNumber": 9176945841,
         "dateHired": "05/23/2018",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000013,
@@ -152,7 +152,7 @@
         "address": "Lucena City",
         "phoneNumber": 9173187003,
         "dateHired": "09/01/2015",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000014,
@@ -164,7 +164,7 @@
         "address": "Lucena City",
         "phoneNumber": 9174630076,
         "dateHired": "10/17/2019",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000015,
@@ -176,7 +176,7 @@
         "address": "Tayabas City",
         "phoneNumber": 9179740162,
         "dateHired": "09/20/2019",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000016,
@@ -188,7 +188,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9174905050,
         "dateHired": "10/08/2019",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000017,
@@ -200,7 +200,7 @@
         "address": "Lucban City",
         "phoneNumber": 9177498945,
         "dateHired": "12/11/2016",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000018,
@@ -212,7 +212,7 @@
         "address": "Lucena City",
         "phoneNumber": 9176235686,
         "dateHired": "01/14/2020",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000019,
@@ -224,7 +224,7 @@
         "address": "Tayabas City",
         "phoneNumber": 9171849934,
         "dateHired": "05/20/2019",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000020,
@@ -236,7 +236,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9176092169,
         "dateHired": "12/03/2015",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000021,
@@ -248,7 +248,7 @@
         "address": "Tagbilao City",
         "phoneNumber": 9177956864,
         "dateHired": "03/10/2015",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000022,
@@ -260,7 +260,7 @@
         "address": "Lucban City",
         "phoneNumber": 9170949968,
         "dateHired": "09/15/2019",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000023,
@@ -272,7 +272,7 @@
         "address": "Tayabas City",
         "phoneNumber": 9179709497,
         "dateHired": "11/06/2015",
-        "dateFired": ""
+        "dateFired": null
     },
     {
         "userID": 10000024,
@@ -284,6 +284,6 @@
         "address": "Tagbilao City",
         "phoneNumber": 9174484593,
         "dateHired": "09/23/2016",
-        "dateFired": ""
+        "dateFired": null
     }
 ]
