@@ -284,9 +284,10 @@ const indexFunctions = {
         });
     },
 
-    // postLogin: async function(req, res) {
-    //    
-    // }
+    postLogin: async function(req, res) {
+        console.log(req.body)
+        res.send("recieved your request!")
+    }
 };
 
 module.exports = indexFunctions;
