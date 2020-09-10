@@ -294,8 +294,9 @@ const indexFunctions = {
             if (match) {
                 if (match.password == pass) {
                     req.session.logUser = match;
-                    res.send({ status: 200 });
                     console.log('found u')
+                    res.send({ status: 200 });
+                    console.log('found u after send')
                 } else res.send({ status: 401, msg: 'Incorrect password.' });
             } else res.send({ status: 401, msg: 'No user found.' });
 
