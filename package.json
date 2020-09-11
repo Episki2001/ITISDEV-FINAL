@@ -7,7 +7,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "populate": "node ./scripts/populate.js",
         "puser": "node ./scripts/populateusers.js",
-        "testlog": "node ./scripts/testlog.js"
+        "testlog": "node ./scripts/testlog.js",
+        "testjoin": "node ./scripts/testjoin.js"
     },
     "repository": {
         "type": "git",
