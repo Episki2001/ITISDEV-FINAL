@@ -294,15 +294,40 @@ const indexFunctions = {
 
     getAmanagers: async function(req, res) {
         try {
-            var matches = await managerModel.find({});
-            var user = await userModel.findOne({ userID: matches.userID });
-            console.log(JSON.parse(JSON.stringify(user)));
+            var match = await managerModel.aggregate([{
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'string'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$string'
+                }
+            }, {
+                '$project': {
+                    'userID': 1,
+                    'isSysAd': 1,
+                    'firstName': '$string.firstName',
+                    'lastName': '$string.lastName',
+                    'phoneNumber': '$string.phoneNumber'
+                }
+
+            }])
+            console.log(JSON.parse(JSON.stringify(match)));
+            console.log('Database populated \\o/')
             res.render('a_managers', {
-                title: 'View managers',
-                managers: JSON.parse(JSON.stringify(user))
+                title: 'View Managers',
+                managers: JSON.parse(JSON.stringify(match))
             });
-        } catch (e) {
-            console.log(e);
+        } catch (err) {
+            throw err
+        } finally {
+            mongoose.connection.close(() => {
+                console.log('Disconnected from MongoDB, bye o/')
+                process.exit(0)
+            })
         }
     },
 

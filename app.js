@@ -39,6 +39,12 @@ app.engine('hbs', exphbs.create({
         getPrice: function(price) {
             return price.toFixed(2);
         }
+        ,
+        convertbool: function(bVal){
+            if(bVal)
+                return 'Yes';
+            else return 'No';
+        }
     }
 }).engine);
 app.set('view engine', 'hbs');
