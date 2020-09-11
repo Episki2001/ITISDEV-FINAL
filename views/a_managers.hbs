@@ -40,12 +40,13 @@
                                             <th scope="col">Lastname</th>
                                             <th scope="col">Password</th>
                                             <th scope="col">PhoneNumber</th>
+                                            <th scope="col">IsSysAd</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each users}}
-                                        {{>user_row this}}
+                                        {{#each managers}}
+                                        {{>manager_row this}}
                                         {{/each}}
                                     </tbody>
                                 </table>

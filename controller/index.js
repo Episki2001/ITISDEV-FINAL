@@ -279,10 +279,31 @@ const indexFunctions = {
         }
     },
 
-    getAusers: function(req, res) {
-        res.render('a_users', {
-            title: 'View Users'
-        });
+    getAusers: async function(req, res) {
+        try {
+            var matches = await userModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_users', {
+                title: 'View users',
+                users: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAmanagers: async function(req, res) {
+        try {
+            var matches = await managerModel.find({});
+            var user = await userModel.findOne({ userID: matches.userID });
+            console.log(JSON.parse(JSON.stringify(user)));
+            res.render('a_managers', {
+                title: 'View managers',
+                managers: JSON.parse(JSON.stringify(user))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     postLogin: async function(req, res) {
