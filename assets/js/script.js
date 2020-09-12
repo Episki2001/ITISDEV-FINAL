@@ -61,12 +61,13 @@ $(document).ready(function() {
         var address = $('#phoneNum').val();
         var password = $('#password').val();
         var confirm = $('#confirm').val();
-        var valid
+        var hireDate = new Date();
 
         console.log(fName);
         console.log(lName);
         console.log(birthdate);
         console.log(gender);
+        console.log(hireDate);
 
     });
 });
