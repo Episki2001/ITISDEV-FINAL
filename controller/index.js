@@ -278,10 +278,56 @@ const indexFunctions = {
         }
     },
 
-    getAusers: function(req, res) {
-        res.render('a_users', {
-            title: 'View Users'
-        });
+    getAusers: async function(req, res) {
+        try {
+            var matches = await userModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_users', {
+                title: 'View users',
+                users: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAmanagers: async function(req, res) {
+        try {
+            var match = await managerModel.aggregate([{
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'string'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$string'
+                }
+            }, {
+                '$project': {
+                    'userID': 1,
+                    'isSysAd': 1,
+                    'firstName': '$string.firstName',
+                    'lastName': '$string.lastName',
+                    'phoneNumber': '$string.phoneNumber'
+                }
+
+            }])
+            console.log(JSON.parse(JSON.stringify(match)));
+            console.log('Database populated \\o/')
+            res.render('a_managers', {
+                title: 'View Managers',
+                managers: JSON.parse(JSON.stringify(match))
+            });
+        } catch (err) {
+            throw err
+        } finally {
+            mongoose.connection.close(() => {
+                console.log('Disconnected from MongoDB, bye o/')
+                process.exit(0)
+            })
+        }
     },
 
     postLogin: async function(req, res) {
