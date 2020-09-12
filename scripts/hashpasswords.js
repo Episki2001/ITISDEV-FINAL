@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+const saltRounds = 10
 const userModel = require('../model/usersdb');
 // Data for population
 
-async function populate(userData) {
+async function populate() {
     // Connect to Database
     const url = 'mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority'
     const options = {
@@ -15,14 +15,14 @@ async function populate(userData) {
 
     try {
         let db = mongoose.connect(url, options)
-        await userModel.deleteMany({})
 
-        // userData.forEach((user) => {
-        //     // user.password = bcrypt.hashSync(user.password, 10)
-        //     user.phoneNumber = user.phoneNumber.toString()
-        // })
-
-        await userModel.insertMany(userData)
+        for (var i = 10000001; i < 10000025; i++) {
+            var userData = await userModel.findOne({ userID: i })
+            console.log(JSON.stringify(userData));
+            userData.password = bcrypt.hashSync(userData.password, saltRounds)
+            console.log(userData.password)
+            await userModel.findOneAndUpdate({ userID: i }, { password: userData.password })
+        }
 
         console.log('Database populated \\o/')
     } catch (err) {
@@ -35,4 +35,4 @@ async function populate(userData) {
     }
 }
 
-populate(userData)
+populate()
