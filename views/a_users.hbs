@@ -6,12 +6,12 @@
                             <div class="container">
                                 <div class="row mt-2">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-dark ">Add User +</button>
+                                        <a href="/a/newUser" type="button" class="btn btn-dark ">Add User +</a>
                                     </div>
                                     <div class="col-6">
                                         <form class="form-inline justify-content-end">
                                             <input class="form-control mr-sm-2" type="search" placeholder="Search User" aria-label="Search">
-                                            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                                            <button class="btn btn-outline-dark my-2 my-sm-0" type="button">Search</button>
                                         </form>
                                     </div>
                                 </div>
@@ -40,73 +40,13 @@
                                             <th scope="col">Lastname</th>
                                             <th scope="col">Password</th>
                                             <th scope="col">PhoneNumber</th>
-                                            <th scope="col">IsSysAd</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Jonathan</td>
-                                            <td>Joestar</td>
-                                            <td>@mdo</td>
-                                            <td>123456789</td>
-                                            <td>Y</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModal">Delete</button>
-                                                </div>
-												<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-												  <div class="modal-dialog" role="document">
-													<div class="modal-content">
-													  <div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-														  <span aria-hidden="true">&times;</span>
-														</button>
-													  </div>
-													  <div class="modal-body">
-														Are you sure you want to Delete this?
-													  </div>
-													  <div class="modal-footer">
-														<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-														<button type="button" class="btn btn-dark">Yes</button>
-													  </div>
-													</div>
-												  </div>
-												</div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Joseph</td>
-                                            <td>Joestar</td>
-                                            <td>@fat</td>
-                                            <td>987654321</td>
-                                            <td>N</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                    <button type="button" class="btn btn-outline-dark">Delete</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Jotaro</td>
-                                            <td>Kujo</td>
-                                            <td>@twitter</td>
-                                            <td>963258741</td>
-                                            <td>Y</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Edit</button>
-                                                    <button type="button" class="btn btn-outline-dark">Delete  </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {{#each users}}
+                                        {{>user_row this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">

@@ -6,19 +6,21 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Making a session with a given key
-/*
+
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.COOKIE_SECRET,
-    name: "cookie",
-    resave: true,
-    saveUninitialized: true
+    'secret': 'ITISDEV',
+    'name': "cookie",
+    'resave': true,
+    'saveUninitialized': true
 }));
-*/
+
 // Initialize the view
 app.use(express.static(__dirname + '/'));
 app.set('views', path.join(__dirname, 'views/'));
@@ -28,7 +30,21 @@ app.engine('hbs', exphbs.create({
     partialsDir: 'views/partials',
     layoutsDir: 'views/layouts',
     helpers: {
+        getDate: function(date) {
+            var d = new Date(date);
+            let formatted_date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()
+            return d.getFullYear() + '-' + (d.getMonth() + 1) + "-" + d.getDate()
+        },
 
+        getPrice: function(price) {
+            return price.toFixed(2);
+        }
+        ,
+        convertbool: function(bVal){
+            if(bVal)
+                return 'Yes';
+            else return 'No';
+        }
     }
 }).engine);
 app.set('view engine', 'hbs');

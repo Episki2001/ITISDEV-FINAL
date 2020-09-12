@@ -1,35 +1,23 @@
 // import module `mongoose`
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
+
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('supplier'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
 
 // defines the schema for collection `suppliers`
 var SupplierSchema = new mongoose.Schema({
-    supplierID: {
-        type: Number,
-        required: true
-    },
-    companyName: {
-        type: String,
-        required: true
-    },
-    companyAddress: {
-        type: String,
-        required: true
-    },
-    phoneNum: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    }
-});
+    supplierID: {  type: Number, required: true },
+    companyName: { type: String, required: true },
+    companyAddress: { type: String, required: true },
+    phoneNum: { type: String, required: true },
+    email: { type: String, required: true }
+}, {collection: "Supplier"});
 
-/*
-    exports a mongoose.model object based on `UserSchema` (defined above)
-    when another script exports from this file
-    This model executes CRUD operations
-    to collection `users` -> plural of the argument `User`
-*/
-module.exports = mongoose.model('Supplier', SupplierSchema);
+const supplierModel = db.model('Supplier', SupplierSchema);
+
+module.exports = supplierModel;

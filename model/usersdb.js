@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
+
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('user'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
 
 const userSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
@@ -12,6 +19,8 @@ const userSchema = new mongoose.Schema({
     phonenumber: { type: String, required: true },
     dateHired: { type: Date, required: true },
     dateFired: { type: Date, required: false }
-});
+}, {collection: "users"});
 
-module.exports = mongoose.model('users', userSchema);
+const userModel = db.model('users', userSchema);
+
+module.exports = userModel;

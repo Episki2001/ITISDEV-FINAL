@@ -1,27 +1,21 @@
 // import module `mongoose`
 var mongoose = require('mongoose');
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/LovelyHomes'
 
-// defines the schema for collection `suppliers`
+mongoose.connect('mongodb+srv://admin:admin@itisdev.uy0ui.mongodb.net/LovelyHomes?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => { console.log('ref_category'); },
+        err => {
+            console.log('theres problems');
+        });
+
+var db = mongoose.connection;
+
+// defines the schema for collection `ref_category`
 var Ref_CategorySchema = new mongoose.Schema({
-    CategoryCode: {
-        type: Number,
-        required: true
-    },
-    categoryName: {
-        type: String,
-        required: true
-    },
-    ProductType: {
-        type: String,
-        required: true
-    }
-});
+    CategoryCode: { type: Number, required: true },
+    categoryName: { type: String, required: true },
+    ProductType: { type: String, required: true }
+}, {collection: "ref_category"});
 
-/*
-    exports a mongoose.model object based on `UserSchema` (defined above)
-    when another script exports from this file
-    This model executes CRUD operations
-    to collection `users` -> plural of the argument `User`
-*/
-module.exports = mongoose.model('Ref_Category', Ref_CategorySchema);
+const ref_categoryModel = db.model('ref_category', Ref_CategorySchema);
+
+module.exports = ref_categoryModel;

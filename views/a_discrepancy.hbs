@@ -29,43 +29,21 @@
 
                             </div>
                             <div class="mt-2">
-                                <table class="table table-hover">
+                                <table class="table table-bordered">
                                     <thead class="thead-dark">
                                         <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">ID</th>
                                             <th scope="col">Product ID</th>
                                             <th scope="col">User ID</th>
                                             <th scope="col">Old Count</th>
                                             <th scope="col">New Count</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Bizzare Adventures Inc.</td>
-                                            <td>123456789</td>
-                                            <td>@mdo</td>
-                                            <td>Wolololo</td>
-                                            
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Arknights Addicts Co.</td>
-                                            <td>987654321</td>
-                                            <td>@fat</td>
-                                            <td>69420 St.</td>
-                                           
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Dame Da Ne ltd.</td>
-                                            <td>963258741</td>
-                                            <td>@twitter</td>
-                                            <td>bakamitai</td>
-                                            
-                                        </tr>
+                                        {{#each discs}}
+                                            {{>discrepancies_row this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">

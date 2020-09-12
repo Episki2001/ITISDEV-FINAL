@@ -14,7 +14,10 @@ const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
-const damagedGoodsModel = require('../model/damagedgoodsdb');
+const damagedgoodsModel = require('../model/damagedgoodsdb');
+
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
@@ -34,10 +37,9 @@ function Manager(userID, isSysAd) {
     this.isSysAd = isSysAd;
 }
 
-function Product(productID, productName, productType, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
+function Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
     this.productID = productID;
     this.productName = productName;
-    this.productType = productType;
     this.currentStock = currentStock;
     this.sellingPrice = sellingPrice;
     this.purchasePrice = purchasePrice;
@@ -78,7 +80,7 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
 }
 
 function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
-    this.discountID = salesID;
+    this.discountID = discountID;
     this.quantity = quantity;
     this.sellingPrice = sellingPrice;
     this.discount = discount;
@@ -106,12 +108,13 @@ function discrepancies(discrepancyID, oldCount, newCount, date, userID, productI
     this.productID = productID;
 }
 
-function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID) {
+function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, deliveryID) {
     this.purchaseID = purchaseID;
     this.amountPaid = amountPaid;
     this.datePurchased = datePurchased;
     this.totalCost = totalCost;
     this.managerID = managerID;
+    this.deliveryID = deliveryID;
 }
 
 function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
@@ -132,10 +135,17 @@ const indexFunctions = {
         });
     },
 
-    getAdiscrepancy: function(req, res) {
-        res.render('a_discrepancy', {
-            title: 'View Discrepancy'
-        });
+    getAdiscrepancy: async function(req, res) {
+        try {
+            var matches = await discrepanciesModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_discrepancy', {
+                title: 'View Discrepancy',
+                discs: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAeditProduct: function(req, res) {
@@ -156,15 +166,40 @@ const indexFunctions = {
         });
     },
 
-    getAMDgoods: function(req, res) {
-        res.render('a_MDgoods', {
-            title: 'View Missing/Damaged Goods'
+    getAMDgoods: async function(req, res) {
+        try {
+            var matches = await damagedgoodsModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_MDgoods', {
+                title: 'View Missing and Damaged Goods',
+                MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAnewDelivery: function(req, res) {
+        res.render('a_newDelivery', {
+            title: 'Add Delivery Details'
         });
     },
 
     getAnewProducts: function(req, res) {
         res.render('a_newProducts', {
-            title: 'Add Products'
+            title: 'Add Product'
+        });
+    },
+
+    getAnewPurchase: function(req, res) {
+        res.render('a_newPurchases', {
+            title: 'Add Purchase'
+        });
+    },
+
+    getAnewSale: function(req, res) {
+        res.render('a_newSales', {
+            title: 'Add Sale'
         });
     },
 
@@ -180,47 +215,152 @@ const indexFunctions = {
         });
     },
 
-    getAproducts: function(req, res) {
-        res.render('a_products', {
-            title: 'View Products'
-        });
-    },
-
-    getApurchases: function(req, res) {
-        res.render('a_purchases', {
-            title: 'View Purchases'
-        });
-    },
-
-    getAsuppliers: function(req, res) {
-        res.render('a_suppliers', {
-            title: 'View Suppliers'
-        });
-    },
-
-    getAusers: function(req, res) {
-            res.render('a_users', {
-                title: 'View Users'
+    getAdeliveries: async function(req, res) {
+        try {
+            var matches = await deliveryModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_delivery', {
+                title: 'View Deliveries',
+                delivery: JSON.parse(JSON.stringify(matches))
             });
+        } catch (e) {
+            console.log(e);
         }
-        /*,
+    },
 
-            postLogin: function(req, res) {
-                var { user, pass } = req.body;
-                try {
-                    var user = await userModel.findOne({ user: user });
-                    if (user) {
-                        bcrypt.compare(pass, user.pass, function(err, result) {
-                            if (result) {
-                                req.session.logUser = user;
-                                res.send({ status: 200 });
-                            } else res.send({ status: 401, msg: 'Incorrect password.' });
-                        });
-                    } else res.send({ status: 401, msg: 'No user found.' });
-                } catch (e) {
-                    res.send({ status: 500, msg: e });
+
+    getAproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getApurchases: async function(req, res) {
+        try {
+            var matches = await purchaseModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_purchase', {
+                title: 'View Purchase',
+                purchase: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAsales: async function(req, res) {
+        try {
+            var matches = await salesModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_sales', {
+                title: 'View Sales',
+                sales: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAsuppliers: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAusers: async function(req, res) {
+        try {
+            var matches = await userModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_users', {
+                title: 'View users',
+                users: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAmanagers: async function(req, res) {
+        try {
+            var match = await managerModel.aggregate([{
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'string'
                 }
-            }*/
+            }, {
+                '$unwind': {
+                    'path': '$string'
+                }
+            }, {
+                '$project': {
+                    'userID': 1,
+                    'isSysAd': 1,
+                    'firstName': '$string.firstName',
+                    'lastName': '$string.lastName',
+                    'phoneNumber': '$string.phoneNumber'
+                }
+
+            }])
+            console.log(JSON.parse(JSON.stringify(match)));
+            console.log('Database populated \\o/')
+            res.render('a_managers', {
+                title: 'View Managers',
+                managers: JSON.parse(JSON.stringify(match))
+            });
+        } catch (err) {
+            throw err
+        } finally {
+            mongoose.connection.close(() => {
+                console.log('Disconnected from MongoDB, bye o/')
+                process.exit(0)
+            })
+        }
+    },
+
+    postLogin: async function(req, res) {
+        var { user, pass } = req.body;
+
+        // try {
+        //     var match = await userModel.findOne({ userID: user });      -->  somehow messing up res.send
+        //     if (true) {
+        //         if (true) {
+        //             res.send({ status: 200 });
+        //         } else res.send({ status: 401, msg: 'Incorrect password.' });
+        //     } else res.send({ status: 401, msg: 'No user found.' });
+        // } catch (e) {
+        //     res.send({ status: 500, msg: e });
+        // }
+        try {
+            var match = await userModel.findOne({ userID: user });
+            if (match) {
+                bcrypt.compare(pass, match.password, function(err, result) {
+                    if (result) {
+                        req.session.logUser = match;
+                        console.log('sending 200');
+                        res.send({ status: 200 });
+                    } else res.send({ status: 401, msg: 'Incorrect password.' });
+                });
+            } else res.send({ status: 401, msg: 'No user found.' });
+        } catch (e) {
+            res.send({ status: 500, msg: e });
+        }
+    }
 };
 
 module.exports = indexFunctions;
