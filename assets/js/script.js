@@ -57,20 +57,22 @@ $(document).ready(function() {
     });
 
     $('#submitNewSale').click(function() {
-        var quantity = $('newSale_qty').val();
-        var sellingPrice = $('newSale_sellingPrice').val();
-        var total = $('newSale_total').val();
-        var dateSold = $('newSale_dateSold').val();
-        var productID = $('newSale_prodID').val();
+        // var quantity = $('newSale_qty').val();
+        // var sellingPrice = $('newSale_sellingPrice').val();
+        // var total = $('newSale_total').val();
+        // var dateSold = $('newSale_dateSold').val();
+        // var productID = $('newSale_prodID').val();
 
-        $.post('/submitNewSale', function() {});
         //validate productID
         /**check if productID exsist*/
         //validate quantity
         /**check if quantity is less than or equal to stock */
         //validate dateDold
         /**check if date is valid*/
+        // { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID },
+        $.post('/newSale_submit', function(result) {
 
-
+        });
     });
+
 });

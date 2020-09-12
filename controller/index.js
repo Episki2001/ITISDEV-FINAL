@@ -352,19 +352,27 @@ const indexFunctions = {
     },
 
     getProductDetails: async function(req, res) {
-        console.log('getProductDetails' + ' says: its me');
-        console.log('THIS IS req.body ' + req.body);
+        console.log('getProductDetails');
+        //console.log('THIS IS req.body ' + req.body);
         var { prodID } = req.body;
-        console.log('this is prodID ' + prodID);
+        //console.log('this is prodID ' + prodID);
         var match = await productModel.findOne({ productID: prodID });
-        console.log(match);
+        //console.log(match);
         res.send(match);
     },
 
 
     postNewSale: async function(req, res) {
-        console.log('postNewSale' + ' says: its me');
-        //salesModel.newSale(req, res);
+        console.log('postNewSale');
+        // var { quantity, sellingPrice, total, dateSold, productID } = req.body;
+        // userID = req.session.logUser.userID;
+        //get salesID
+        // var lastSale = await salesModel.find().sort({ productID: -1 }).limit(1);
+
+        // console.log(lastSale);
+
+        //var newSale = salesModel(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
+        // salesModel.newSale(newSale);
     }
 
 };

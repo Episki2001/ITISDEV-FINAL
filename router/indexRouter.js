@@ -23,11 +23,12 @@ router.get('/a/suppliers', controller.getAsuppliers);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 
-// ACTIONS
-router.post('/:checkProdID', controller.getProductDetails);
-
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSales', controller.postNewSale);
-router.post('/submitNewSale', controller.postNewSale);
+router.post('/newSale_submit', controller.postNewSale);
+// ACTIONS
+router.post('/:checkProdID', controller.getProductDetails);
+
+
 module.exports = router;
