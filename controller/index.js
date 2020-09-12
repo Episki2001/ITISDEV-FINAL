@@ -335,17 +335,6 @@ const indexFunctions = {
 
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
-
-        // try {
-        //     var match = await userModel.findOne({ userID: user });      -->  somehow messing up res.send
-        //     if (true) {
-        //         if (true) {
-        //             res.send({ status: 200 });
-        //         } else res.send({ status: 401, msg: 'Incorrect password.' });
-        //     } else res.send({ status: 401, msg: 'No user found.' });
-        // } catch (e) {
-        //     res.send({ status: 500, msg: e });
-        // }
         try {
             var match = await userModel.findOne({ userID: user });
             if (match) {
