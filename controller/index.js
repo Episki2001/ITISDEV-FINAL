@@ -15,7 +15,6 @@ const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
-const { find, findOne } = require('../model/usersdb');
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
@@ -269,7 +268,7 @@ const indexFunctions = {
     getAsuppliers: async function(req, res) {
         try {
             var matches = await supplierModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_suppliers', {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
@@ -334,20 +333,31 @@ const indexFunctions = {
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
 
+        // try {
+        //     var match = await userModel.findOne({ userID: user });      -->  somehow messing up res.send
+        //     if (true) {
+        //         if (true) {
+        //             res.send({ status: 200 });
+        //         } else res.send({ status: 401, msg: 'Incorrect password.' });
+        //     } else res.send({ status: 401, msg: 'No user found.' });
+        // } catch (e) {
+        //     res.send({ status: 500, msg: e });
+        // }
+
         try {
             var match = await userModel.findOne({ userID: user });
             if (match) {
-                if (match.password == pass) {
-                    req.session.logUser = match;
-                    res.send({ status: 200 });
-                } else res.send({ status: 401, msg: 'Incorrect password.' });
-
+                bcrypt.compare(pass, match.pass, function(err, result) {
+                    if (result) {
+                        req.session.logUser = match;
+                        res.send({ status: 200 });
+                    } else res.send({ status: 401, msg: 'Incorrect password.' });
+                });
             } else res.send({ status: 401, msg: 'No user found.' });
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
     }
-
 };
 
 module.exports = indexFunctions;
