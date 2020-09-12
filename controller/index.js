@@ -349,7 +349,7 @@ const indexFunctions = {
             if (match) {
                 bcrypt.compare(pass, match.pass, function(err, result) {
                     if (result) {
-                        req.session.logUser = user;
+                        req.session.logUser = match;
                         res.send({ status: 200 });
                     } else res.send({ status: 401, msg: 'Incorrect password.' });
                 });
