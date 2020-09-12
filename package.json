@@ -29,7 +29,8 @@
         "express-handlebars": "^5.1.0",
         "express-session": "^1.17.1",
         "express-validator": "^6.6.1",
-        "mongoose": "^5.10.3"
+        "mongoose": "^5.10.3",
+        "validator": "^13.1.1"
     },
     "devDependencies": {
         "nodemon": "^2.0.4"

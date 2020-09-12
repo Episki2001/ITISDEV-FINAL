@@ -8,11 +8,12 @@ $(document).ready(function() {
         var user = $('#id').val();
         var pass = $('#pword').val();
 
+        // checking if fields are not empty
         if (validator.isEmpty(user)) {
-            alert('lol');
+            alert('No user id provided');
         }
         if (validator.isEmpty(pass)) {
-            alert('Please fill in all fields');
+            alert('No password provided');
         }
 
         if (!validator.isEmpty(user) && !validator.isEmpty(pass)) {
