@@ -18,7 +18,32 @@ var SalesSchema = new mongoose.Schema({
     dateSold: { type: Number, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }
-}, {collection: "sales"});
+}, { collection: "sales" });
+
+
+
+SalesSchema.methods.newSale = async function(req, res) {
+    let { saleID, quantity, sellingPrice, total, dateSold, productID } = req.body;
+    var userID = req.session.logUser.userID;
+
+    await this.create({
+        saleID: saleID,
+        quantity: quantity,
+        sellingPrice: sellingPrice,
+        total: total,
+        dateSold: dateSold,
+        productID: productID,
+        userID: userID
+    }, function(err) {
+        if (err) {
+            console.log(err);
+            throw (err);
+        }
+    });
+
+    alert('Sale recorded');
+    res.redirect('/a/sales');
+};
 
 const salesModel = db.model('sales', SalesSchema);
 
