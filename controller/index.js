@@ -349,7 +349,12 @@ const indexFunctions = {
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
+    },
+
+    postNewSale: async function(req, res) {
+        salesModel.newSale(req, res);
     }
+
 };
 
 module.exports = indexFunctions;
