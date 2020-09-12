@@ -22,14 +22,13 @@ router.get('/a/sales', controller.getAsales);
 router.get('/a/suppliers', controller.getAsuppliers);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
-
+// ACTIONS
+router.post('/newSale/:checkProdID', controller.getProductDetails);
 // POSTS
 router.post('/', controller.postLogin);
-router.post('/newSales', controller.postNewSale);
 router.post('/newSale_submit', controller.postNewSale);
 router.post('/newUser', controller.postNewUser);
-// ACTIONS
-router.post('/:checkProdID', controller.getProductDetails);
+
 
 
 

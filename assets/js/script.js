@@ -46,7 +46,7 @@ $(document).ready(function() {
     $('#newSale_checkID').click(function() {
         var prodID = $('#newSale_prodID').val();
         console.log(prodID);
-        $.post('/:checkProdID', { prodID: prodID }, function(result) {
+        $.post('/newSale/checkProdID', { prodID: prodID }, function(req, res) {
             var sellingPrice = result.sellingPrice;
             console.log(sellingPrice);
             $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);

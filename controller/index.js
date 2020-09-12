@@ -353,18 +353,27 @@ const indexFunctions = {
     },
 
     getProductDetails: async function(req, res) {
-        console.log('getProductDetails');
-        //console.log('THIS IS req.body ' + req.body);
-        var { prodID } = req.body;
-        //console.log('this is prodID ' + prodID);
-        var match = await productModel.findOne({ productID: prodID });
-        //console.log(match);
-        res.send(match);
+        console.log(req.params);
+        console.log(req.params.checkProdID);
+        // if (req.params.checkProdID == 'checkProdID') {
+        //     console.log('getProductDetails');
+        //     //console.log('THIS IS req.body ' + req.body);
+        //     var { prodID } = req.body;
+        //     //console.log('this is prodID ' + prodID);
+        //     var match = await productModel.findOne({ productID: prodID });
+        //     //console.log(match);
+        //     res.send(match);
+        // }
+        res.send({ status: 200 });
     },
 
 
     postNewSale: async function(req, res) {
+        //if (req.params.newSale_submit == 'newSale_submit') {
         console.log('postNewSale');
+        res.send({ status: 200 });
+        // }
+
         // var { quantity, sellingPrice, total, dateSold, productID } = req.body;
         // userID = req.session.logUser.userID;
         //get salesID
