@@ -52,4 +52,21 @@ $(document).ready(function() {
 
 
     });
+
+    $('#submitNewUser').click(function() {
+        var fName = $('#fName').val();
+        var lName = $('#lName').val();
+        var birthdate = $('#birthdate').val();
+        var gender = $('#gender').val();
+        var address = $('#phoneNum').val();
+        var password = $('#password').val();
+        var confirm = $('#confirm').val();
+        var valid
+
+        console.log(fName);
+        console.log(lName);
+        console.log(birthdate);
+        console.log(gender);
+
+    });
 });

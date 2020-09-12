@@ -9,59 +9,55 @@
 							<div class="container">
 								<form>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">First Name</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Name">
+										<label for="fName">First Name</label>
+										<input type="text" class="form-control" id="fName" placeholder="First Name">
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput">Last Name</label>
-										<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Name">
+										<label for="lName">Last Name</label>
+										<input type="text" class="form-control" id="lName" placeholder="Last Name">
 									</div>
 									<div class="form-group row">
-										<label for="example-date-input" class="col-2 col-form-label">Birthday</label>
+										<label for="birthdate" class="col-2 col-form-label">Birthday</label>
 										<div class="col-10">
-											<input class="form-control" type="date" id="dateSold">
+											<input class="form-control" type="date" id="birthdate">
 											<script>
 												Date.prototype.toDateInputValue = (function() {
 													var local = new Date(this);
 													local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
 													return local.toJSON().slice(0, 10);
 												});
-												document.getElementById('dateSold').value = new Date().toDateInputValue();
+												document.getElementById('birthdate').value = new Date().toDateInputValue();
 											</script>
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Gender</label>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-											<label class="form-check-label" for="inlineRadio1">Male</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-											<label class="form-check-label" for="inlineRadio2">Female</label>
-										</div>
+										<label for="gender">Gender</label>
+										<select class="form-control" id="gender">
+											<option>Male</option>
+											<option>Female</option>
+										</select>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Address</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Address">
+										<label for="address">Address</label>
+										<input type="text" class="form-control" id="address" placeholder="Address">
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Phone Number</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="09">
+										<label for="phoneNum">Phone Number</label>
+										<input type="text" class="form-control" id="phoneNum" placeholder="Phone Number">
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Password</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Password">
+										<label for="password">Password</label>
+										<input type="password" class="form-control" id="password" placeholder="Password">
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Confirm Password</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Confirm Password">
+										<label for="confirm">Confirm Password</label>
+										<input type="password" class="form-control" id="confirm" placeholder="Confirm Password">
 									</div>
 								</form>
                             <div class="form-group ">
                                 <div class="row">
                                     <div class="col-6 mb-5 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-dark">Submit</button>
+                                        <button type="button" class="btn btn-outline-dark" id ='submitNewUser'>Submit</button>
                                     </div>
                                     <div class="col-6 mb-5 d-flex justify-content-start">
                                         <a href="/a/users" class="btn btn-outline-secondary">Cancel</a>

@@ -17,6 +17,7 @@ const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
 
 const bcrypt = require('bcrypt');
+const e = require('express');
 const saltRounds = 10;
 
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
@@ -353,8 +354,20 @@ const indexFunctions = {
 
     postNewSale: async function(req, res) {
         salesModel.newSale(req, res);
-    }
+    },
 
+    postNewUser: async function(req, res) {
+        var { fName, lName, birthdate, gender, address, phoneNum, password, confirmPass } = req.body;
+
+        console.log(fName);
+        console.log(lName);
+        console.log(birthdate);
+        console.log(gender);
+        console.log(address);
+        console.log(phoneNum);
+        console.log(password);
+        console.log(confirmPass);
+    }
 };
 
 module.exports = indexFunctions;

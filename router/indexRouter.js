@@ -26,5 +26,6 @@ router.get('/a/managers', controller.getAmanagers);
 
 router.post('/', controller.postLogin);
 router.post('/newSales', controller.postNewSale);
+router.post('/newUser', controller.postNewUser);
 
 module.exports = router;
