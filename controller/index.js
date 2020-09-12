@@ -351,8 +351,20 @@ const indexFunctions = {
         }
     },
 
+    getProductDetails: async function(req, res) {
+        console.log('getProductDetails' + ' says: its me');
+        console.log('THIS IS req.body ' + req.body);
+        var { prodID } = req.body;
+        console.log('this is prodID ' + prodID);
+        var match = await productModel.findOne({ productID: prodID });
+        console.log(match);
+        res.send(match);
+    },
+
+
     postNewSale: async function(req, res) {
-        salesModel.newSale(req, res);
+        console.log('postNewSale' + ' says: its me');
+        //salesModel.newSale(req, res);
     }
 
 };

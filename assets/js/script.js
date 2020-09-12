@@ -1,3 +1,11 @@
+function calculatePrice(val) {
+    var sellingPrice = $('#newSale_sellingPrice').val();
+    var totalPrice = val * sellingPrice;
+    /*display the result*/
+    console.log(totalPrice);
+    $('#newSale_total').val(totalPrice.toFixed(2));
+}
+
 $(document).ready(function() {
 
     /* LOGIN METHODS */
@@ -35,6 +43,18 @@ $(document).ready(function() {
         }
     });
 
+    $('#newSale_checkID').click(function() {
+        var prodID = $('#newSale_prodID').val();
+        console.log(prodID);
+        $.post('/:checkProdID', { prodID: prodID }, function(result) {
+            var sellingPrice = result.sellingPrice;
+            console.log(sellingPrice);
+            $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
+            $('#newSale_qty').attr("max", result.currentStock);
+            $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
+        });
+
+    });
 
     $('#submitNewSale').click(function() {
         var quantity = $('newSale_qty').val();
@@ -43,6 +63,7 @@ $(document).ready(function() {
         var dateSold = $('newSale_dateSold').val();
         var productID = $('newSale_prodID').val();
 
+        $.post('/submitNewSale', function() {});
         //validate productID
         /**check if productID exsist*/
         //validate quantity
