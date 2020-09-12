@@ -16,6 +16,9 @@ const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
     this.userID = userID;
     this.password = password;
@@ -343,13 +346,13 @@ const indexFunctions = {
         // } catch (e) {
         //     res.send({ status: 500, msg: e });
         // }
-
         try {
             var match = await userModel.findOne({ userID: user });
             if (match) {
-                bcrypt.compare(pass, match.pass, function(err, result) {
+                bcrypt.compare(pass, match.password, function(err, result) {
                     if (result) {
                         req.session.logUser = match;
+                        console.log('sending 200');
                         res.send({ status: 200 });
                     } else res.send({ status: 401, msg: 'Incorrect password.' });
                 });
