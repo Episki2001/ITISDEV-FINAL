@@ -1,5 +1,5 @@
 [{
-        "dmgrecordID": 80000201,
+        "dmgrecordID": 80000014,
         "dateDamaged": "04/05/2020",
         "numDamaged": 1,
         "approved": true,
@@ -9,7 +9,7 @@
         "managerID": 10000002
     },
     {
-        "dmgrecordID": 80000202,
+        "dmgrecordID": 80000015,
         "dateDamaged": "07/17/2020",
         "numDamaged": 2,
         "approved": true,

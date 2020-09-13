@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     gender: { type: String, required: true },
     birthdate: { type: Date, required: true },
     address: { type: String, required: true },
-    phonenumber: { type: String, required: true },
+    phoneNumber: { type: String, required: true },
     dateHired: { type: Date, required: true },
     dateFired: { type: Date, required: false }
 }, { collection: "users" });
