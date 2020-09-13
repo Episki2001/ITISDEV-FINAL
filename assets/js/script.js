@@ -27,9 +27,22 @@ $(document).ready(function() {
         if (!validator.isEmpty(user) && !validator.isEmpty(pass)) {
             $.post('/', { user: user, pass: pass }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
+                            //admin
+                            window.location.href = '/a/users';
+                            break;
+                        }
+                    case 202:
+                        {
+                            //manager
                             window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 203:
+                        {
+                            //user
+                            window.location.href = '/a/products';
                             break;
                         }
                     case 401:

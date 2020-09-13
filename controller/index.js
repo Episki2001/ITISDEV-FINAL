@@ -163,7 +163,7 @@ async function getMinMaxUserID(sortby, offset) {
 }
 
 async function findUser(userID) {
-    await userModel.aggregate([{
+    var user = await userModel.aggregate([{
         '$match': {
             'userID': userID
         }
@@ -194,7 +194,7 @@ async function findUser(userID) {
             'isSysAd': '$manager.isSysAd'
         }
     }]);
-
+    return user[0];
 }
 const indexFunctions = {
     getLogin: function(req, res) {
@@ -404,14 +404,32 @@ const indexFunctions = {
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
         try {
-            var match = await findUser(user);
-            console.log(match);
+            var match = await findUser(parseInt(user));
             if (match) {
                 bcrypt.compare(pass, match.password, function(err, result) {
                     if (result) {
-                        req.session.logUser = match;
-                        console.log('sending 200');
-                        res.send({ status: 200 });
+                        if (match.managerID && match.isSysAd) {
+                            //send 201 admin
+                            req.session.logUser = match;
+                            req.session.type = 'admin';
+                            console.log('sending 201' + '. session data: ');
+                            console.log(req.session);
+                            res.send({ status: 201 });
+                        } else if (match.managerID && match.isSysAd == false) {
+                            //send 202 manager
+                            req.session.logUser = match;
+                            req.session.type = 'manager';
+                            console.log('sending 202' + '. session data: ');
+                            console.log(req.session);
+                            res.send({ status: 202 });
+                        } else {
+                            //send 203 user
+                            req.session.logUser = match;
+                            req.session.type = 'user';
+                            console.log('sending 203' + '. session data: ');
+                            console.log(req.session);
+                            res.send({ status: 203 });
+                        }
                     } else res.send({ status: 401, msg: 'Incorrect password.' });
                 });
             } else res.send({ status: 401, msg: 'No user found.' });
