@@ -129,6 +129,23 @@ function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments,
     this.productID = productID;
 }
 
+async function getMinMaxSalesID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await salesModel.aggregate([{
+        '$sort': {
+            'salesID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'salesID': 1
+        }
+    }]);
+    return highestID[0].salesID + offset;
+}
+
 const indexFunctions = {
     getLogin: function(req, res) {
         res.render('login', {
@@ -367,10 +384,14 @@ const indexFunctions = {
             /**IF SESSION IS VALID */
             //get variables
             var { quantity, sellingPrice, total, dateSold, productID } = req.body;
+            var salesID = await getMinMaxSalesID(-1, 1);
             //var userID = req.session.logUser.userID;
+            var userID = 101;
             //create new sale
+            var newSale = new Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
+            // console.log(newSale);
             //add new sale to database
-            // salesModel.newSale(newSale);
+            recordNewSale();
             //send status
             res.send({ status: 200 });
         } else {
