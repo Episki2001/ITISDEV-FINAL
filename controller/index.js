@@ -444,6 +444,12 @@ const indexFunctions = {
         res.send(match);
     },
 
+    postLogout: function(req, res) {
+        console.log(req.session);
+        req.session.destroy();
+        console.log(req.session);
+        res.redirect("/");
+    },
 
     postNewSale: async function(req, res) {
         console.log('postNewSale');
