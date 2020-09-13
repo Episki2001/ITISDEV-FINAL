@@ -20,17 +20,16 @@ const bcrypt = require('bcrypt');
 const e = require('express');
 const saltRounds = 10;
 
-function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber, dateHired, dateFired) {
+function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber) {
     this.userID = userID;
     this.password = password;
     this.lastName = lastName;
     this.firstName = firstName;
     this.gender = gender;
-    this.birthdate = birthdate;
+    this.birthdate = new Date(birthdate);
     this.address = address;
     this.phonenumber = phonenumber;
-    this.dateHired = dateHired;
-    this.dateFired = dateFired;
+    this.dateHired = new Date();
 }
 
 function Manager(userID, isSysAd) {
@@ -146,6 +145,22 @@ async function getMinMaxSalesID(sortby, offset) {
     return highestID[0].salesID + offset;
 }
 
+async function getMinMaxUserID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds userad by offset
+    var highestID = await userModel.aggregate([{
+        '$sort': {
+            'userID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'userID': 1
+        }
+    }]);
+    return highestID[0].userID + offset;
+}
 const indexFunctions = {
     getLogin: function(req, res) {
         res.render('login', {
@@ -414,16 +429,15 @@ const indexFunctions = {
     },
 
     postNewUser: async function(req, res) {
-        var { fName, lName, birthdate, gender, address, phoneNum, password, confirmPass } = req.body;
+        var { fName, lName, birthdate, gender, address, phoneNum, password } = req.body;
 
-        console.log(fName);
-        console.log(lName);
-        console.log(birthdate);
-        console.log(gender);
-        console.log(address);
-        console.log(phoneNum);
-        console.log(password);
-        console.log(confirmPass);
+        try {
+            var userID = await getMinMaxUserID(-1, 1);
+            var newUser = new User(userID, password, lName, fName, gender, birthdate, address, phoneNum)
+            res.send({ status: 200, userID });
+        } catch (e) {
+            res.send({ status: 500, msg: e });
+        }
     }
 };
 

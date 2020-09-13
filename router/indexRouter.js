@@ -27,7 +27,7 @@ router.post('/newSale/:checkProdID', controller.getProductDetails);
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', controller.postNewSale);
-router.post('/newUser', controller.postNewUser);
+router.post('/a/newUser', controller.postNewUser);
 
 
 

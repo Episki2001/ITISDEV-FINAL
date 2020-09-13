@@ -1,7 +1,3 @@
-// const { validationResult } = require("express-validator");
-// const { pluralize } = require("mongoose");
-// const { default: validator } = require("validator");
-
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -100,19 +96,48 @@ $(document).ready(function() {
         var address = $('#address').val();
         var password = $('#password').val();
         var confirm = $('#confirm').val();
-        var hireDate = new Date();
-
+        var phoneNum = $('#phoneNum').val()
         if ('Male' == $('#gender').val()) {
             gender = 'M';
         } else gender = 'F';
-        console.log('firstName : ' + fName);
-        console.log('lastName : ' + lName);
-        console.log('birthdate : ' + birthdate);
-        console.log('gender : ' + gender);
-        console.log('hiredate : ' + hireDate);
-        console.log('address : ' + address);
-        console.log('password : ' + password);
-        console.log('confirm : ' + confirm);
+
+        var valid = true;
+
+        if (validator.isEmpty(fName) || validator.isEmpty(lName) || validator.isEmpty(address) || validator.isEmpty(password) || validator.isEmpty(confirm) || validator.isEmpty(phoneNum)) {
+            valid = false;
+            alert('Please Input all fields');
+        }
+
+        if (valid && confirm != password) {
+            valid = false;
+            alert('Passwords do not match');
+        }
+
+        if (valid) {
+            console.log('firstName : ' + fName);
+            console.log('lastName : ' + lName);
+            console.log('birthdate : ' + birthdate);
+            console.log('gender : ' + gender);
+            console.log('address : ' + address);
+            console.log('password : ' + password);
+            console.log('confirm : ' + confirm);
+            $.post('/a/newUser', { fName: fName, lName: lName, birthdate: birthdate, gender: gender, address: address, phoneNum: phoneNum, password: password }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert('User successfully added with userID: ' + result.id)
+                            window.location.href = '/a/users';
+                            break;
+                        }
+                    case 401:
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
 
     });
 });
