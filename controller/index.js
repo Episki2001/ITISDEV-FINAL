@@ -161,6 +161,41 @@ async function getMinMaxUserID(sortby, offset) {
     }]);
     return highestID[0].userID + offset;
 }
+
+async function findUser(userID) {
+    await userModel.aggregate([{
+        '$match': {
+            'userID': userID
+        }
+    }, {
+        '$lookup': {
+            'from': 'managers',
+            'localField': 'userID',
+            'foreignField': 'userID',
+            'as': 'manager'
+        }
+    }, {
+        '$unwind': {
+            'path': '$manager',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$project': {
+            'userID': 1,
+            'password': 1,
+            'lastName': 1,
+            'firstName': 1,
+            'gender': 1,
+            'birthdate': 1,
+            'address': 1,
+            'phonenumber': 1,
+            'dateHired': 1,
+            'managerID': '$manager.userID',
+            'isSysAd': '$manager.isSysAd'
+        }
+    }]);
+
+}
 const indexFunctions = {
     getLogin: function(req, res) {
         res.render('login', {
@@ -369,7 +404,8 @@ const indexFunctions = {
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
         try {
-            var match = await userModel.findOne({ userID: user });
+            var match = await findUser(user);
+            console.log(match);
             if (match) {
                 bcrypt.compare(pass, match.password, function(err, result) {
                     if (result) {
