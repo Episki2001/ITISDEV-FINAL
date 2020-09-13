@@ -1,3 +1,7 @@
+// const { validationResult } = require("express-validator");
+// const { pluralize } = require("mongoose");
+// const { default: validator } = require("validator");
+
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -46,22 +50,35 @@ $(document).ready(function() {
     $('#newSale_checkID').click(function() {
         var prodID = $('#newSale_prodID').val();
         console.log(prodID);
-        $.post('/newSale/checkProdID', { prodID: prodID }, function(req, res) {
-            var sellingPrice = result.sellingPrice;
-            console.log(sellingPrice);
-            $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
-            $('#newSale_qty').attr("max", result.currentStock);
-            $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
-        });
 
+        if (validator.isEmpty(prodID)) {
+            $('#newSale_qty').attr("placeholder", "Quantity Sold");
+            $('#newSale_qty').removeAttr("max");
+            $('#newSale_sellingPrice').val(0.00);
+            alert('Please input product ID');
+        }
+
+        if (!validator.isEmpty(prodID)) {
+            $.post('/newSale/' + prodID, function(result) {
+                if (result.sellingPrice) {
+                    console.log('result:' + result);
+                    var sellingPrice = result.sellingPrice;
+                    console.log(sellingPrice);
+                    $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
+                    $('#newSale_qty').attr("max", result.currentStock);
+                    $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
+                } else
+                    alert('Product not found');
+            });
+        }
     });
 
     $('#submitNewSale').click(function() {
-        // var quantity = $('newSale_qty').val();
-        // var sellingPrice = $('newSale_sellingPrice').val();
-        // var total = $('newSale_total').val();
-        // var dateSold = $('newSale_dateSold').val();
-        // var productID = $('newSale_prodID').val();
+        var quantity = $('#newSale_qty').val();
+        var sellingPrice = $('#newSale_sellingPrice').val();
+        var total = $('#newSale_total').val();
+        var dateSold = $('#newSale_dateSold').val();
+        var productID = $('#newSale_prodID').val();
 
         //validate productID
         /**check if productID exsist*/
@@ -69,8 +86,8 @@ $(document).ready(function() {
         /**check if quantity is less than or equal to stock */
         //validate dateDold
         /**check if date is valid*/
-        // { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID },
-        $.post('/newSale_submit', function(result) {
+        // 
+        $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
 
         });
     });

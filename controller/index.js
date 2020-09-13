@@ -353,36 +353,41 @@ const indexFunctions = {
     },
 
     getProductDetails: async function(req, res) {
-        console.log(req.params);
-        console.log(req.params.checkProdID);
-        // if (req.params.checkProdID == 'checkProdID') {
-        //     console.log('getProductDetails');
-        //     //console.log('THIS IS req.body ' + req.body);
-        //     var { prodID } = req.body;
-        //     //console.log('this is prodID ' + prodID);
-        //     var match = await productModel.findOne({ productID: prodID });
-        //     //console.log(match);
-        //     res.send(match);
-        // }
-        res.send({ status: 200 });
+        var prodID = req.params.checkProdID;
+        var match = await productModel.findOne({ productID: prodID });
+        res.send(match);
     },
 
 
     postNewSale: async function(req, res) {
-        //if (req.params.newSale_submit == 'newSale_submit') {
         console.log('postNewSale');
-        res.send({ status: 200 });
-        // }
+        //validate session
 
-        // var { quantity, sellingPrice, total, dateSold, productID } = req.body;
-        // userID = req.session.logUser.userID;
+        if ( /**session valid */ true) {
+            /**IF SESSION IS VALID */
+            //get variables
+            var { quantity, sellingPrice, total, dateSold, productID } = req.body;
+            //var userID = req.session.logUser.userID;
+            //create new sale
+            //add new sale to database
+            // salesModel.newSale(newSale);
+            //send status
+            res.send({ status: 200 });
+        } else {
+            /**IF SESSION IS NOT VALID */
+            //alert user of invalid session
+            //send back to login
+        }
+
         //get salesID
-        // var lastSale = await salesModel.find().sort({ productID: -1 }).limit(1);
+        //var lastSale = await salesModel.find().sort({ productID: -1 }).limit(1);
 
         // console.log(lastSale);
 
         //var newSale = salesModel(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
-        // salesModel.newSale(newSale);
+
+
+
     },
 
     postNewUser: async function(req, res) {
