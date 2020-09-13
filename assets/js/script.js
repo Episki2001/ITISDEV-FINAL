@@ -125,7 +125,7 @@ $(document).ready(function() {
                 switch (result.status) {
                     case 200:
                         {
-                            alert('User successfully added with userID: ' + result.id)
+                            alert('User successfully added with userID: ' + result.userID)
                             window.location.href = '/a/users';
                             break;
                         }

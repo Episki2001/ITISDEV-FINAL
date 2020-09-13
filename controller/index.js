@@ -433,8 +433,13 @@ const indexFunctions = {
 
         try {
             var userID = await getMinMaxUserID(-1, 1);
-            var newUser = new User(userID, password, lName, fName, gender, birthdate, address, phoneNum)
-            res.send({ status: 200, userID });
+            bcrypt.hashSync(password, saltRounds);
+            var user = new User(userID, password, lName, fName, gender, birthdate, address, phoneNum);
+            var newUser = new userModel(user);
+            var result = await newUser.recordNewUser();
+            if (result)
+                res.send({ status: 200, userID });
+            else res.send({ status: 401, msg: 'Connot connect to database' });
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
