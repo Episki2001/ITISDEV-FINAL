@@ -96,17 +96,23 @@ $(document).ready(function() {
         var fName = $('#fName').val();
         var lName = $('#lName').val();
         var birthdate = $('#birthdate').val();
-        var gender = $('#gender').val();
-        var address = $('#phoneNum').val();
+        var gender;
+        var address = $('#address').val();
         var password = $('#password').val();
         var confirm = $('#confirm').val();
         var hireDate = new Date();
 
-        console.log(fName);
-        console.log(lName);
-        console.log(birthdate);
-        console.log(gender);
-        console.log(hireDate);
+        if ('Male' == $('#gender').val()) {
+            gender = 'M';
+        } else gender = 'F';
+        console.log('firstName : ' + fName);
+        console.log('lastName : ' + lName);
+        console.log('birthdate : ' + birthdate);
+        console.log('gender : ' + gender);
+        console.log('hiredate : ' + hireDate);
+        console.log('address : ' + address);
+        console.log('password : ' + password);
+        console.log('confirm : ' + confirm);
 
     });
 });
