@@ -352,8 +352,37 @@ const indexFunctions = {
         }
     },
 
+    getProductDetails: async function(req, res) {
+        console.log(req.params);
+        console.log(req.params.checkProdID);
+        // if (req.params.checkProdID == 'checkProdID') {
+        //     console.log('getProductDetails');
+        //     //console.log('THIS IS req.body ' + req.body);
+        //     var { prodID } = req.body;
+        //     //console.log('this is prodID ' + prodID);
+        //     var match = await productModel.findOne({ productID: prodID });
+        //     //console.log(match);
+        //     res.send(match);
+        // }
+        res.send({ status: 200 });
+    },
+
+
     postNewSale: async function(req, res) {
-        salesModel.newSale(req, res);
+        //if (req.params.newSale_submit == 'newSale_submit') {
+        console.log('postNewSale');
+        res.send({ status: 200 });
+        // }
+
+        // var { quantity, sellingPrice, total, dateSold, productID } = req.body;
+        // userID = req.session.logUser.userID;
+        //get salesID
+        // var lastSale = await salesModel.find().sort({ productID: -1 }).limit(1);
+
+        // console.log(lastSale);
+
+        //var newSale = salesModel(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
+        // salesModel.newSale(newSale);
     },
 
     postNewUser: async function(req, res) {
