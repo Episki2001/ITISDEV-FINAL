@@ -18,7 +18,7 @@ async function populate() {
         var hireDate = new Date;
         var birthdate = new Date("2019-05-14");
         var password = "lol";
-        var confirm = "lol2";
+        var confirm = "lol";
         var firstName = "Andre";
         var lastname = "Garcia";
         var gender = "M";
@@ -37,12 +37,23 @@ async function populate() {
             }
         }]);
         var userID = highestID[0].userID + 1;
-        password = bcrypt.hashSync(userData.password, saltRounds)
-        var create = await userModel.create({ userID: userID, password })
+        if (confirm == password) {
+            password = bcrypt.hashSync(password, 10)
+            var create = await userModel.create({
+                userID: userID,
+                password: password,
+                lastName: lastname,
+                firstName: firstName,
+                gender: gender,
+                phonenumber: phonenumber,
+                address: address,
+                dateFired: dateFired,
+                dateHired: hireDate,
+                birthdate: birthdate
+            });
+        } else console.log('passwords do not match');
 
-        console.log(userID)
-        console.log(birthdate);
-        console.log(hireDate);
+        console.log(create);
         console.log('Database populated \\o/')
     } catch (err) {
         throw err
