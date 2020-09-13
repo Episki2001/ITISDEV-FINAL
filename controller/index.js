@@ -75,7 +75,7 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
     this.quantity = quantity;
     this.sellingPrice = sellingPrice;
     this.total = total;
-    this.dateSold = dateSold;
+    this.dateSold = new Date(dateSold);
     this.productID = productID;
     this.userID = userID;
 }
@@ -388,10 +388,12 @@ const indexFunctions = {
             //var userID = req.session.logUser.userID;
             var userID = 101;
             //create new sale
-            var newSale = new Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
-            // console.log(newSale);
+            var sale = new Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
+            var newSale = new salesModel(sale);
             //add new sale to database
-            recordNewSale();
+
+            newSale.recordNewSale();
+            //decrease products stock
             //send status
             res.send({ status: 200 });
         } else {
