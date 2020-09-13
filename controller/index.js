@@ -20,7 +20,7 @@ const bcrypt = require('bcrypt');
 const e = require('express');
 const saltRounds = 10;
 
-function User(userID, password, lastName, firstName, gender, birthdate, address, phonenumber) {
+function User(userID, password, lastName, firstName, gender, birthdate, address, phoneNumber) {
     this.userID = userID;
     this.password = password;
     this.lastName = lastName;
@@ -28,7 +28,7 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
     this.gender = gender;
     this.birthdate = new Date(birthdate);
     this.address = address;
-    this.phoneNumber = phonenumber;
+    this.phoneNumber = phoneNumber;
     this.dateHired = new Date();
 }
 
