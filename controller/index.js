@@ -28,7 +28,7 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
     this.gender = gender;
     this.birthdate = new Date(birthdate);
     this.address = address;
-    this.phonenumber = phonenumber;
+    this.phoneNumber = phonenumber;
     this.dateHired = new Date();
 }
 
