@@ -7,7 +7,7 @@ const indexMiddleware = require('../middlewares/indexMiddleware');
 router.get('/', controller.getLogin);
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/product/editProduct', controller.getAeditProduct);
-router.get('/a/user/editProfiie', controller.getAeditProfile);
+router.get('/a/user/editProfile/*', controller.getAeditProfile);
 router.get('/a/editSupplier', controller.getAeditSupplier);
 router.get('/a/MDgoods', controller.getAMDgoods);
 router.get('/a/newDelivery', controller.getAnewDelivery);
