@@ -284,18 +284,16 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7) ) {
+        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7)) {
             valid = false;
             alert('Please Input atleast one field');
         }
 
-        if(valid) {
-            console.log('companyName : ' + cName);
-            console.log('companyAddress : ' + cAddress);
+        if (valid) {
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
             console.log(supplierID);
-            $.post('/editSuppliers', {supplierID: supplierID, email: email, phoneNum: phoneNum}, function(result) {
+            $.post('/editSuppliers', { supplierID: supplierID, email: email, phoneNum: phoneNum }, function(result) {
                 switch (result.status) {
                     case 200:
                         {

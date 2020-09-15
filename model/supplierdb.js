@@ -11,12 +11,12 @@ var db = mongoose.connection;
 
 // defines the schema for collection `suppliers`
 var SupplierSchema = new mongoose.Schema({
-    supplierID: {  type: Number, required: true },
+    supplierID: { type: Number, required: true },
     companyName: { type: String, required: true },
     companyAddress: { type: String, required: true },
     phoneNum: { type: String, required: true },
     email: { type: String, required: true }
-}, {collection: "Supplier"});
+}, { collection: "Supplier" });
 
 SupplierSchema.methods.recordNewSupplier = async function() {
     var result = supplierModel.create(this);
@@ -25,7 +25,7 @@ SupplierSchema.methods.recordNewSupplier = async function() {
 };
 
 SupplierSchema.methods.recordEditSupplier = async function() {
-    var result = supplierModel.findOneAndUpdate({supplierID:supplierID},{email:email,phoneNum:phoneNum});
+    var result = supplierModel.findOneAndUpdate({ supplierID: this.supplierID }, { email: this.email, phoneNum: this.phoneNum });
     console.log(JSON.stringify(result));
     return result;
 };
