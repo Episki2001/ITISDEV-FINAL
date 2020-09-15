@@ -162,6 +162,43 @@ $(document).ready(function() {
 
     });
 
+    $('#submitNewSupplier').click(function() {
+        var cName = $('#cName').val();
+        var cAddress = $('#cAddress').val();
+        var email = $('#email').val();
+        var phoneNum = $('#phoneNum').val();
+
+        var valid = true;
+
+        if(validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 11) {
+            valid = false;
+            alert('Please Input all fields');
+        }
+
+        if(valid) {
+            console.log('companyName : ' + cName);
+            console.log('companyAddress : ' + cAddress);
+            console.log('email : ' + email);
+            console.log('phoneNum : ' + phoneNum);
+            $.post('/newSupplier', { companyName:cName,companyAddress: cAddress, email:email, phoneNum:phoneNum }, function(result) {
+                switch(result.status) {
+                    case 200:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID)
+                            window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 401:
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
+    });
+
     //submit New Product
     /**
         Fields received (how to verify):

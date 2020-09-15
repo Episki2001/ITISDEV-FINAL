@@ -22,6 +22,7 @@ router.get('/a/products/:productID', controller.getAoneProduct);
 router.get('/a/purchases', controller.getApurchases);
 router.get('/a/sales', controller.getAsales);
 router.get('/a/suppliers', controller.getAsuppliers);
+router.get('/a/suppliers/:supplierID', controller.getAoneSupplier);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 // ACTIONS
@@ -30,7 +31,8 @@ router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
-router.post('/logout', controller.postLogout)
+router.post('/newSupplier', controller.postNewSupplier);
+router.post('/logout', controller.postLogout);
 router.post('/newProduct', controller.postNewProduct);
 
 
