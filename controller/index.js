@@ -657,6 +657,7 @@ const indexFunctions = {
                 console.log(email);
                 console.log(phoneNum);
                 var supplier = new Supplier(supplierID, "", "", phoneNum, email);
+                // console.log('testing = ' + JSON.stringify(testing));
                 var editSupplier = new supplierModel(supplier);
                 var result = await editSupplier.recordEditSupplier();
                 console.log(result)
@@ -666,7 +667,7 @@ const indexFunctions = {
             } catch (e) {
                 res.send({ status: 500, msg: e });
             }
-        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
     }
 }
