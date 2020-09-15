@@ -93,15 +93,16 @@ $(document).ready(function() {
                 case 200:
                     {
                         alert(result.msg);
+                        break;
                     }
                 case 401:
                     {
-                        alert('case 401' + result.msg);
+                        alert('case 401: ' + result.msg);
                         break;
                     }
                 case 500:
                     {
-                        alert('case 500' + result.msg);
+                        alert('case 500: ' + result.msg);
                         break;
                     }
             }

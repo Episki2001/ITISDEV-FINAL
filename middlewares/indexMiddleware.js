@@ -16,21 +16,26 @@ const indexMiddleware = {
         // NEW SALE: check productID, quantity, and dateSold
         let { productID, quantity, dateSold } = req.body;
         let product = await productModel.findOne({ productID: productID });
+
         /**
          * if   product == null
          * if   quantity > product.currentStock
          * if   dateSold > currentDate
          * then return next()
          * else res.send msg validation failed
+         *   || 
          */
+        // console.log(product == null);
+        // console.log(parseInt(quantity) % 1 != 0 || parseInt(quantity) > parseInt(product.currentStock));
+        // console.log(Date() < Date(dateSold));
         try {
             if (product == null) {
                 /**check if productID is in db */
                 res.send({ status: 401, msg: 'no product with matching productID found' });
-            } else if ((quantity % 1) != 0 && quantity > product.currentStock) {
+            } else if (parseInt(quantity) % 1 != 0 || parseInt(quantity) > parseInt(product.currentStock)) {
                 /**check if quantity is less than or equal to stock */
                 res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product or not a whole number' });
-            } else if (Date() >= Date(dateSold)) {
+            } else if (Date() < Date(dateSold)) {
                 /**check if date is valid*/
                 res.send({ status: 401, msg: 'date sold cannot be after today' });
             } else
