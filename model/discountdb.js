@@ -13,9 +13,9 @@ var db = mongoose.connection;
 var DiscountSchema = new mongoose.Schema({
     discountID: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    sellingPrice: { type: Number, required: true },
-    discount: { type: Number, required: true },
-    total: { type: Number, required: true },
+    sellingPrice: mongoose.Types.Decimal128,
+    discount: mongoose.Types.Decimal128,
+    total: mongoose.Types.Decimal128,
     dateSold: { type: Date, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }

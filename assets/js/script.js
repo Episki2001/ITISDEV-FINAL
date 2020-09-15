@@ -217,7 +217,33 @@ $(document).ready(function() {
 
         // console.log(valid);
 
-        if (valid)
-            alert('Success');
+        if (valid) {
+            // $.post('/a/newProducts', function(result) {
+            //     if (result.sellingPrice) {
+            //         console.log('result:' + result);
+            //         var sellingPrice = result.sellingPrice;
+            //         console.log(sellingPrice);
+            //         $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
+            //         $('#newSale_qty').attr("max", result.currentStock);
+            //         $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
+            //     } else
+            //         alert('Product not found');
+            // });
+            $.post('newProducts', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice, type: type }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            console.log('I have returned');
+                        }
+                        break;
+                    case 401:
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
     });
 });
