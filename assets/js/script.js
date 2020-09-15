@@ -183,7 +183,6 @@ $(document).ready(function() {
         var sellingPrice = parseFloat($('#sellingPrice').val());
         var purchasePrice = parseFloat($('#purchasePrice').val());
         var valid = true;
-        var type;
         // console.log('Product Name : ' + productName);
         // console.log('Category Code : ' + categoryCode);
         // console.log('SupplierID : ' + supplierID);
@@ -200,14 +199,9 @@ $(document).ready(function() {
             alert('Supplier not Selected');
         }
         // console.log(valid);
-        if (categoryCode >= 100 && categoryCode <= 199) {
-            type = 'F';
-        } else if (categoryCode >= 200 && categoryCode <= 299) {
-            type = 'A';
-        } else {
-            valid = false;
+
+        if (categoryCode < 100 && categoryCode > 299)
             alert('Category not selected');
-        }
 
         // console.log(valid + ' ' + type);
 

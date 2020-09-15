@@ -535,7 +535,7 @@ const indexFunctions = {
 
         try {
             var userID = await getMinMaxUserID(-1, 1);
-            bcrypt.hashSync(password, saltRounds);
+            password = bcrypt.hashSync(password, saltRounds);
             var user = new User(userID, password, lName, fName, gender, birthdate, address, phoneNum);
             var newUser = new userModel(user);
             var result = await newUser.recordNewUser();
@@ -554,9 +554,9 @@ const indexFunctions = {
         if (req.session.type == 'admin' || req.session.type == 'manager') {
             try {
                 var { productName, categoryCode, supplierID, sellingPrice, purchasePrice } = req.body;
-                supplierID = parseInt(supplierID);
-                sellingPrice = parseFloat(sellingPrice);
-                purchasePrice = parseFloat(purchasePrice);
+                // supplierID = parseInt(supplierID);
+                // sellingPrice = parseFloat(sellingPrice);
+                // purchasePrice = parseFloat(purchasePrice);
                 //get productID of the new Product
                 var productID = await getMinMaxproductID(-1, 1);
                 console.log(productID);
