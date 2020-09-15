@@ -520,6 +520,20 @@ const indexFunctions = {
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
+    },
+
+    postNewProduct: async function(req, res) {
+        var { productName, categoryCode, supplierID, sellingPrice, purchasePrice, type } = req.body;
+        supplierID = parseInt(supplierID);
+        sellingPrice = parseFloat(sellingPrice);
+        purchasePrice = parseFloat(purchasePrice);
+        console.log('Product Name : ' + productName);
+        console.log('Category Code : ' + categoryCode);
+        console.log('SupplierID : ' + supplierID + " " + typeof supplierID);
+        console.log('sellingPrice : ' + sellingPrice + " " + typeof supplierID);
+        console.log('purchasePrice : ' + purchasePrice + " " + typeof supplierID);
+        console.log('Type : ' + type)
+        res.send({ status: 200 });
     }
 };
 

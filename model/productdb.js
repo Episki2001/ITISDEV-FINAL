@@ -18,8 +18,8 @@ var ProductSchema = new mongoose.Schema({
     purchasePrice: { type: Number, required: true },
     supplierID: { type: String, required: true },
     categoryCode: { type: Number, required: true }
-}, {collection: "products"});
+}, { collection: "products" });
 
-const producrModel = db.model('products', ProductSchema);
+const productModel = db.model('products', ProductSchema);
 
-module.exports = producrModel;
+module.exports = productModel;
