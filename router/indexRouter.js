@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express();
 const controller = require('../controller/index');
+const indexMiddleware = require('../middlewares/indexMiddleware');
 
 // GETS
 router.get('/', controller.getLogin);
@@ -26,7 +27,7 @@ router.get('/a/managers', controller.getAmanagers);
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 // POSTS
 router.post('/', controller.postLogin);
-router.post('/newSale_submit', controller.postNewSale);
+router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
 router.post('/logout', controller.postLogout)
 

@@ -1,122 +1,121 @@
-[
- {
-   "purchaseID": 70000201,
-   "amountPaid": 4500,
-   "datePurchased": "03/01/2020",
-   "totalCost": 45000,
-   "managerID": 10000001,
-   "deliveryID": 60000201
- },
- {
-   "purchaseID": 70000202,
-   "amountPaid": 4500,
-   "datePurchased": "04/16/2020",
-   "totalCost": 27000,
-   "managerID": 10000004,
-   "deliveryID": 60000202
- },
- {
-   "purchaseID": 70000203,
-   "amountPaid": 4500,
-   "datePurchased": "05/12/2020",
-   "totalCost": 45000,
-   "managerID": 10000002,
-   "deliveryID": 60000203
- },
- {
-   "purchaseID": 70000204,
-   "amountPaid": 4500,
-   "datePurchased": "06/15/2020",
-   "totalCost": 36000,
-   "managerID": 10000004,
-   "deliveryID": 60000204
- },
- {
-   "purchaseID": 70000205,
-   "amountPaid": 4500,
-   "datePurchased": "07/27/2020",
-   "totalCost": 40500,
-   "managerID": 10000004,
-   "deliveryID": 60000205
- },
- {
-   "purchaseID": 70000001,
-   "amountPaid": 100,
-   "datePurchased": "03/01/2020",
-   "totalCost": 10000,
-   "managerID": 10000001,
-   "deliveryID": 60000001
- },
- {
-   "purchaseID": 70000002,
-   "amountPaid": 100,
-   "datePurchased": "03/11/2020",
-   "totalCost": 15000,
-   "managerID": 10000003,
-   "deliveryID": 60000002
- },
- {
-   "purchaseID": 70000003,
-   "amountPaid": 100,
-   "datePurchased": "03/25/2020",
-   "totalCost": 15000,
-   "managerID": 10000003,
-   "deliveryID": 60000003
- },
- {
-   "purchaseID": 70000004,
-   "amountPaid": 100,
-   "datePurchased": "04/13/2020",
-   "totalCost": 15000,
-   "managerID": 10000001,
-   "deliveryID": 60000004
- },
- {
-   "purchaseID": 70000005,
-   "amountPaid": 100,
-   "datePurchased": "05/05/2020",
-   "totalCost": 15000,
-   "managerID": 10000003,
-   "deliveryID": 60000005
- },
- {
-   "purchaseID": 70000006,
-   "amountPaid": 100,
-   "datePurchased": "05/22/2020",
-   "totalCost": 15000,
-   "managerID": 10000004,
-   "deliveryID": 60000006
- },
- {
-   "purchaseID": 70000007,
-   "amountPaid": 100,
-   "datePurchased": "06/11/2020",
-   "totalCost": 15000,
-   "managerID": 10000001,
-   "deliveryID": 60000007
- },
- {
-   "purchaseID": 70000008,
-   "amountPaid": 100,
-   "datePurchased": "07/06/2020",
-   "totalCost": 15000,
-   "managerID": 10000004,
-   "deliveryID": 60000008
- },
- {
-   "purchaseID": 70000009,
-   "amountPaid": 100,
-   "datePurchased": "08/03/2020",
-   "totalCost": 15000,
-   "managerID": 10000003,
-   "deliveryID": 60000009
- },
- {
-   "purchaseID": 70000010,
-   "amountPaid": 100,
-   "datePurchased": "08/24/2020",
-   "totalCost": 15000,
-   "managerID": 10000004,
-   "deliveryID": 60000010
- }
+[{
+        "purchaseID": 70000201,
+        "amountPaid": "4500",
+        "datePurchased": "03/01/2020",
+        "totalCost": "45000",
+        "managerID": 10000001,
+        "deliveryID": 60000201
+    },
+    {
+        "purchaseID": 70000202,
+        "amountPaid": "4500",
+        "datePurchased": "04/16/2020",
+        "totalCost": "27000",
+        "managerID": 10000004,
+        "deliveryID": 60000202
+    },
+    {
+        "purchaseID": 70000203,
+        "amountPaid": "4500",
+        "datePurchased": "05/12/2020",
+        "totalCost": "45000",
+        "managerID": 10000002,
+        "deliveryID": 60000203
+    },
+    {
+        "purchaseID": 70000204,
+        "amountPaid": "4500",
+        "datePurchased": "06/15/2020",
+        "totalCost": "36000",
+        "managerID": 10000004,
+        "deliveryID": 60000204
+    },
+    {
+        "purchaseID": 70000205,
+        "amountPaid": "4500",
+        "datePurchased": "07/27/2020",
+        "totalCost": "40500",
+        "managerID": 10000004,
+        "deliveryID": 60000205
+    },
+    {
+        "purchaseID": 70000001,
+        "amountPaid": "100",
+        "datePurchased": "03/01/2020",
+        "totalCost": "10000",
+        "managerID": 10000001,
+        "deliveryID": 60000001
+    },
+    {
+        "purchaseID": 70000002,
+        "amountPaid": "100",
+        "datePurchased": "03/11/2020",
+        "totalCost": "15000",
+        "managerID": 10000003,
+        "deliveryID": 60000002
+    },
+    {
+        "purchaseID": 70000003,
+        "amountPaid": "100",
+        "datePurchased": "03/25/2020",
+        "totalCost": "15000",
+        "managerID": 10000003,
+        "deliveryID": 60000003
+    },
+    {
+        "purchaseID": 70000004,
+        "amountPaid": "100",
+        "datePurchased": "04/13/2020",
+        "totalCost": "15000",
+        "managerID": 10000001,
+        "deliveryID": 60000004
+    },
+    {
+        "purchaseID": 70000005,
+        "amountPaid": "100",
+        "datePurchased": "05/05/2020",
+        "totalCost": "15000",
+        "managerID": 10000003,
+        "deliveryID": 60000005
+    },
+    {
+        "purchaseID": 70000006,
+        "amountPaid": "100",
+        "datePurchased": "05/22/2020",
+        "totalCost": "15000",
+        "managerID": 10000004,
+        "deliveryID": 60000006
+    },
+    {
+        "purchaseID": 70000007,
+        "amountPaid": "100",
+        "datePurchased": "06/11/2020",
+        "totalCost": "15000",
+        "managerID": 10000001,
+        "deliveryID": 60000007
+    },
+    {
+        "purchaseID": 70000008,
+        "amountPaid": "100",
+        "datePurchased": "07/06/2020",
+        "totalCost": "15000",
+        "managerID": 10000004,
+        "deliveryID": 60000008
+    },
+    {
+        "purchaseID": 70000009,
+        "amountPaid": "100",
+        "datePurchased": "08/03/2020",
+        "totalCost": "15000",
+        "managerID": 10000003,
+        "deliveryID": 60000009
+    },
+    {
+        "purchaseID": 70000010,
+        "amountPaid": "100",
+        "datePurchased": "08/24/2020",
+        "totalCost": "15000",
+        "managerID": 10000004,
+        "deliveryID": 60000010
+    }
 ]

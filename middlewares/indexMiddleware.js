@@ -11,11 +11,6 @@ const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
 
-async function currentDate() {
-    var today = new Date();
-    return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-}
-
 const indexMiddleware = {
     validateNewSale: async function(req, res, next) {
         // NEW SALE: check productID, quantity, and dateSold
@@ -32,10 +27,10 @@ const indexMiddleware = {
             if (product == null) {
                 /**check if productID is in db */
                 res.send({ status: 401, msg: 'no product with matching productID found' });
-            } else if (quantity > product.currentStock) {
+            } else if ((quantity % 1) != 0 && quantity > product.currentStock) {
                 /**check if quantity is less than or equal to stock */
-                res.send({ status: 401, msg: 'quantity is more than current stock of product' });
-            } else if (dateSold > currentDate()) {
+                res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product or not a whole number' });
+            } else if (Date() >= Date(dateSold)) {
                 /**check if date is valid*/
                 res.send({ status: 401, msg: 'date sold cannot be after today' });
             } else

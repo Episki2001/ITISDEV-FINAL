@@ -420,7 +420,6 @@ const indexFunctions = {
 
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
-        console.log(currentDate());
         try {
             var match = await findUser(parseInt(user));
             if (match) {
@@ -473,13 +472,13 @@ const indexFunctions = {
         console.log('postNewSale');
         //validate session
 
-        if ( /**session valid */ true) {
+        if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
             //get variables
             var { quantity, sellingPrice, total, dateSold, productID } = req.body;
             var salesID = await getMinMaxSalesID(-1, 1);
-            //var userID = req.session.logUser.userID;
-            var userID = 101;
+            var userID = req.session.logUser.userID;
+            //var userID = 101;
             //create new sale
             var sale = new Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
             var newSale = new salesModel(sale);
@@ -488,7 +487,7 @@ const indexFunctions = {
             newSale.recordNewSale();
             //decrease products stock
             //send status
-            res.send({ status: 200 });
+            res.send({ status: 200, msg: 'Sale Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session

@@ -88,15 +88,23 @@ $(document).ready(function() {
         var dateSold = $('#newSale_dateSold').val();
         var productID = $('#newSale_prodID').val();
 
-        //validate productID
-        /**check if productID exsist*/
-        //validate quantity
-        /**check if quantity is less than or equal to stock */
-        //validate dateSold
-
-        // 
         $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
-
+            switch (result.status) {
+                case 200:
+                    {
+                        alert(result.msg);
+                    }
+                case 401:
+                    {
+                        alert('case 401' + result.msg);
+                        break;
+                    }
+                case 500:
+                    {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
+            }
         });
     });
 
