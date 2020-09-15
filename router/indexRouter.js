@@ -18,6 +18,7 @@ router.get('/a/newSupplier', controller.getAnewSupplier);
 router.get('/a/newUser', controller.getAnewUser);
 router.get('/a/deliveries', controller.getAdeliveries);
 router.get('/a/products', controller.getAproducts);
+router.get('/a/products/:productID', controller.getAoneProduct);
 router.get('/a/purchases', controller.getApurchases);
 router.get('/a/sales', controller.getAsales);
 router.get('/a/suppliers', controller.getAsuppliers);

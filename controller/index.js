@@ -344,6 +344,23 @@ const indexFunctions = {
         }
     },
 
+    getAoneProduct: async function(req, res) {
+        try {
+            var productID = req.get.params('productID');
+            var match = await productModel.findOne({ productID: productID });
+            if (match) {
+                res.render('a_editProduct', {
+                    title: match.productName,
+                    product: JSON.parse(JSON.stringify(match))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getApurchases: async function(req, res) {
         try {
             var matches = await purchaseModel.find({});
