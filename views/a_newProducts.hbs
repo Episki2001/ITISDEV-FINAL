@@ -10,36 +10,46 @@
 								<form>
 									<div class="form-group">
 										<label for="formGroupExampleInput2">Product Name</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Name">
+										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Name" required>
 									</div>
 									<div class="form-group">
 										<label for="formGroupExampleInput">Product Type</label>
-										<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Type">
+										<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Type" required>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Suppllier ID</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="ID">
+										<label for="supplierID">Supplier Name</label>
+										<select class="form-control" id="supplierID">
+											<option value = "0">Please select a supplier</option>
+											{{#each suppliers}}
+												<option value ="{{this.supplierID}}">{{this.companyName}}</option>
+											{{/each}}
+										</select>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Category Code</label>
-										<input type="text" class="form-control" id="formGroupExampleInput2" placeholder="ID">
+										<label for="category">Category</label>
+										<select class="form-control" id="category">
+											<option value = "0">Please select a category</option>
+											{{#each ref_category}}
+												<option value ="{{this.categoryCode}}">{{this.categoryName}}</option>
+											{{/each}}
+										</select>
 									</div>
 									<div class="form-group">
-										<label for="totalCost">Selling Price</label>
+										<label for="sellingPrice">Selling Price</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="totalCost" placeholder="0.00">
+											<input type="number" class="form-control" id="sellingPrice" placeholder="0.00" min = '0.00' required>
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="totalCost">Purchase Price</label>
+										<label for="purchasePrice">Purchase Price</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="totalCost" placeholder="0.00">
+											<input type="number" class="form-control" id="purchasePrice" placeholder="0.00" min= '0.0' required>
 										</div>
 									</div>
 								</form>

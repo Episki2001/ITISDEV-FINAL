@@ -253,10 +253,22 @@ const indexFunctions = {
         });
     },
 
-    getAnewProducts: function(req, res) {
-        res.render('a_newProducts', {
-            title: 'Add Product'
-        });
+    getAnewProducts: async function(req, res) {
+        // res.render('a_newProducts', {
+        //     title: 'Add Product'
+        // });
+        try {
+            var matches = await supplierModel.find({});
+            var categories = await ref_categoryModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_newProducts', {
+                title: 'Add Product',
+                suppliers: JSON.parse(JSON.stringify(matches)),
+                ref_category: JSON.parse(JSON.stringify(categories))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAnewPurchase: function(req, res) {
