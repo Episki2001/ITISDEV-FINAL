@@ -38,21 +38,13 @@ function Manager(userID, isSysAd) {
 }
 
 function Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode) {
-    console.log('1');
     this.productID = productID;
-    console.log('1');
     this.productName = productName;
-    console.log('1');
     this.currentStock = currentStock;
-    console.log('1');
     this.sellingPrice = sellingPrice;
-    console.log('1');
     this.purchasePrice = purchasePrice;
-    console.log('1');
     this.supplierID = supplierID;
-    console.log('1');
     this.categoryCode = categoryCode;
-    console.log('1');
 }
 
 function Threshold(thresholdID, thresholdType, number, productID, userID) {
@@ -352,6 +344,23 @@ const indexFunctions = {
         }
     },
 
+    getAoneProduct: async function(req, res) {
+        try {
+            var productID = req.get.params('productID');
+            var match = await productModel.findOne({ productID: productID });
+            if (match) {
+                res.render('a_editProduct', {
+                    title: match.productName,
+                    product: JSON.parse(JSON.stringify(match))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getApurchases: async function(req, res) {
         try {
             var matches = await purchaseModel.find({});
@@ -553,16 +562,14 @@ const indexFunctions = {
             res.send({ status: 500, msg: ': User is not logged in' });
         if (req.session.type == 'admin' || req.session.type == 'manager') {
             try {
-                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice, currentStock } = req.body;
+                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice } = req.body;
                 // supplierID = parseInt(supplierID);
                 // sellingPrice = parseFloat(sellingPrice);
                 // purchasePrice = parseFloat(purchasePrice);
                 //get productID of the new Product
+                var currentStock = 0;
                 var productID = await getMinMaxproductID(-1, 1);
-                console.log(productID);
                 var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
-                console.log('hi');
-                console.log(JSON.stringify(product));
                 var newProduct = new productModel(product);
                 var result = await newProduct.recordNewProduct();
                 console.log(result)
