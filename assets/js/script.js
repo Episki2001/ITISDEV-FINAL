@@ -152,4 +152,71 @@ $(document).ready(function() {
         }
 
     });
+
+    //submit New Product
+    /**
+        Fields received (how to verify):
+        productName (String is not empty)
+        categoryCode - retrived from category (val != 0)
+        supplierID (val != 0)
+        sellingPrice (parseFloat > 0)
+        purchasePrice (parseFloat > 0)
+        
+        Computed Fields
+        type('F' = categoryCode 1xx, 'A' = categoryCode 2xx)
+        currentStock = 0\
+        productID(get the highest product ID in the database and add 1)
+     */
+    $('#submitNewProduct').click(function() {
+        var productName = $('#productName').val();
+        var categoryCode = parseInt($('#category').val());
+        var supplierID = parseInt($('#supplierID').val());
+        var sellingPrice = parseFloat($('#sellingPrice').val());
+        var purchasePrice = parseFloat($('#purchasePrice').val());
+        var valid = true;
+        var type;
+        // console.log('Product Name : ' + productName);
+        // console.log('Category Code : ' + categoryCode);
+        // console.log('SupplierID : ' + supplierID);
+        // console.log('sellingPrice : ' + sellingPrice);
+        // console.log('purchasePrice : ' + purchasePrice);
+        if (validator.isEmpty(productName)) {
+            valid = false;
+            alert('Please fill in product name');
+        }
+
+        // console.log(valid);
+        if (supplierID == 0) {
+            valid = false;
+            alert('Supplier not Selected');
+        }
+        // console.log(valid);
+        if (categoryCode >= 100 && categoryCode <= 199) {
+            type = 'F';
+        } else if (categoryCode >= 200 && categoryCode <= 299) {
+            type = 'A';
+        } else {
+            valid = false;
+            alert('Category not selected');
+        }
+
+        // console.log(valid + ' ' + type);
+
+        if (!(sellingPrice > 0)) {
+            valid = false;
+            alert('Selling Price is invalid');
+        }
+
+        // console.log(valid);
+
+        if (!(purchasePrice > 0)) {
+            valid = false;
+            alert('Purchase Price is invalid');
+        }
+
+        // console.log(valid);
+
+        if (valid)
+            alert('Success');
+    });
 });
