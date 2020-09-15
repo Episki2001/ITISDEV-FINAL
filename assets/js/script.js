@@ -170,18 +170,18 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if(validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 11) {
+        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 7) {
             valid = false;
             alert('Please Input all fields');
         }
 
-        if(valid) {
+        if (valid) {
             console.log('companyName : ' + cName);
             console.log('companyAddress : ' + cAddress);
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
-            $.post('/newSupplier', { companyName:cName,companyAddress: cAddress, email:email, phoneNum:phoneNum }, function(result) {
-                switch(result.status) {
+            $.post('/newSupplier', { companyName: cName, companyAddress: cAddress, email: email, phoneNum: phoneNum }, function(result) {
+                switch (result.status) {
                     case 200:
                         {
                             alert('Supplier successfully added with Supplier ID: ' + result.supplierID)

@@ -420,18 +420,19 @@ const indexFunctions = {
 
     getAoneSupplier: async function(req, res) {
         try {
-            var supplierID = req.get.params('supplierID');
+            var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({ supplierID: supplierID });
-            if(match) {
+            console.log(match);
+            if (match) {
                 res.render('a_editSupplier', {
                     title: match.companyName,
-                    suppliers: JSON.parse(JSON.stringify(matches))
+                    supplier: JSON.parse(JSON.stringify(match))
                 });
             } else res.render('error', {
                 title: 'Error',
                 msg: 'Supplier does not exist'
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e)
         }
     },
@@ -622,23 +623,23 @@ const indexFunctions = {
     postNewSupplier: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
-        res.send({ status: 500, msg: ': User is not logged in' });
+            res.send({ status: 500, msg: ': User is not logged in' });
         if (req.session.type == 'admin' || req.session.type == 'manager') {
-        try {
-            var { companyName, companyAddress, email, phoneNum } = req.body;
-            var supplierID = await getMinMaxsupplierID(-1, 1);
-            console.log(supplierID);
-            console.log(companyName);
-            console.log(companyAddress);
-            console.log(email);
-            console.log(phoneNum);
-            var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
-            var newSupplier = new supplierModel(supplier);
-            var result = await newSupplier.recordNewSupplier();
-            console.log(result)
-            if (result)
-                res.send({ status: 200, supplierID });
-            else res.send({ status: 401, msg: 'Cannot connect to database' });
+            try {
+                var { companyName, companyAddress, email, phoneNum } = req.body;
+                var supplierID = await getMinMaxsupplierID(-1, 1);
+                console.log(supplierID);
+                console.log(companyName);
+                console.log(companyAddress);
+                console.log(email);
+                console.log(phoneNum);
+                var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
+                var newSupplier = new supplierModel(supplier);
+                var result = await newSupplier.recordNewSupplier();
+                console.log(result)
+                if (result)
+                    res.send({ status: 200, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({ status: 500, msg: e });
             }
