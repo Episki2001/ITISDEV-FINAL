@@ -14,8 +14,8 @@ var ProductSchema = new mongoose.Schema({
     productID: { type: Number, required: true },
     productName: { type: String, required: true },
     currentStock: { type: String, required: true },
-    sellingPrice: mongoose.Types.Decimal128,
-    purchasePrice: mongoose.Types.Decimal128,
+    sellingPrice: { type: Number, required: true },
+    purchasePrice: { type: Number, required: true },
     supplierID: { type: String, required: true },
     categoryCode: { type: Number, required: true }
 }, { collection: "products" });

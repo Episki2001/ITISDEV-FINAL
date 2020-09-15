@@ -13,8 +13,8 @@ var db = mongoose.connection;
 var SalesSchema = new mongoose.Schema({
     salesID: { type: Number, required: true },
     quantity: { type: Number, required: true },
-    sellingPrice: mongoose.Types.Decimal128,
-    total: mongoose.Types.Decimal128,
+    sellingPrice: { type: Number, required: true },
+    total: { type: Number, required: true },
     dateSold: { type: Date, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }

@@ -12,9 +12,9 @@ var db = mongoose.connection;
 // defines the schema for collection `purchase`
 var PurchaseSchema = new mongoose.Schema({
     purchaseID: { type: Number, required: true },
-    amountPaid: mongoose.Types.Decimal128,
+    amountPaid: { type: Number, required: true },
     datePurchased: { type: Date, required: true },
-    totalCost: mongoose.Types.Decimal128,
+    totalCost: { type: Number, required: true },
     managerID: { type: Number, required: true },
     deliveryID: { type: Number, required: false }
 }, { collection: "Purchases" });
