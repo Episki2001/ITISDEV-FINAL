@@ -37,7 +37,7 @@ function Manager(userID, isSysAd) {
     this.isSysAd = isSysAd;
 }
 
-function Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
+function Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode) {
     console.log('1');
     this.productID = productID;
     console.log('1');
@@ -49,7 +49,7 @@ function Product(productID, productName, currentStock, sellingPrice, purchasePri
     console.log('1');
     this.purchasePrice = purchasePrice;
     console.log('1');
-    this.sellerID = sellerID;
+    this.supplierID = supplierID;
     console.log('1');
     this.categoryCode = categoryCode;
     console.log('1');
@@ -553,14 +553,14 @@ const indexFunctions = {
             res.send({ status: 500, msg: ': User is not logged in' });
         if (req.session.type == 'admin' || req.session.type == 'manager') {
             try {
-                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice } = req.body;
+                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice, currentStock } = req.body;
                 // supplierID = parseInt(supplierID);
                 // sellingPrice = parseFloat(sellingPrice);
                 // purchasePrice = parseFloat(purchasePrice);
                 //get productID of the new Product
                 var productID = await getMinMaxproductID(-1, 1);
                 console.log(productID);
-                var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode);
+                var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
                 console.log('hi');
                 console.log(JSON.stringify(product));
                 var newProduct = new productModel(product);
