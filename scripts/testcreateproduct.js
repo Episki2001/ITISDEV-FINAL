@@ -15,43 +15,36 @@ async function populate() {
 
     try {
         let db = mongoose.connect(url, options)
-        var hireDate = new Date;
-        var birthdate = new Date("2019-05-14");
-        var password = "lol";
-        var confirm = "lol";
-        var firstName = "Andre";
-        var lastname = "Garcia";
-        var gender = "M";
-        var phonenumber = "09178311218";
-        var address = "Quezon City";
-        var dateFired = new Date("2021-12-12");
-        var highestID = await userModel.aggregate([{
+        var categoryCode = '101';
+        var sellingPrice = 900; //auto defaults to int if integer
+        var purchasePrice = 200; //auto defaults to int if integer
+        var type = 'F'
+        var supplierID = 20000001
+        var highestID = await productModel.aggregate([{
             '$sort': {
-                'userID': -1
+                'productID': -1
             }
         }, {
             '$limit': 1
         }, {
             '$project': {
-                'userID': 1
+                'productID': 1
             }
         }]);
-        var userID = highestID[0].userID + 1;
-        if (confirm == password) {
-            password = bcrypt.hashSync(password, 10)
-            var create = await userModel.create({
-                userID: userID,
-                password: password,
-                lastName: lastname,
-                firstName: firstName,
-                gender: gender,
-                phonenumber: phonenumber,
-                address: address,
-                dateFired: dateFired,
-                dateHired: hireDate,
-                birthdate: birthdate
-            });
-        } else console.log('passwords do not match');
+        var productID = highestID[0].productID + 1;
+        var currentStock = '200'; // doesn't matter if string or int when received
+        var productName = "test";
+
+        var create = await productModel.create({
+            productID: productID,
+            categoryCode: categoryCode,
+            sellingPrice: sellingPrice,
+            purchasePrice: purchasePrice,
+            type: type,
+            supplierID: supplierID,
+            currentStock: currentStock,
+            productName: productName
+        });
 
         console.log(create);
         console.log('Database populated \\o/')
