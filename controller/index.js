@@ -196,6 +196,11 @@ async function findUser(userID) {
     }]);
     return user[0];
 }
+
+async function currentDate() {
+    var today = new Date();
+    return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+}
 const indexFunctions = {
     getLogin: function(req, res) {
         res.render('login', {
@@ -403,6 +408,7 @@ const indexFunctions = {
 
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
+        console.log(currentDate());
         try {
             var match = await findUser(parseInt(user));
             if (match) {

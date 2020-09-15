@@ -5,7 +5,6 @@ function calculatePrice(val) {
     console.log(totalPrice);
     $('#newSale_total').val(totalPrice.toFixed(2));
 }
-
 $(document).ready(function() {
 
     /* LOGIN METHODS */
@@ -93,8 +92,8 @@ $(document).ready(function() {
         /**check if productID exsist*/
         //validate quantity
         /**check if quantity is less than or equal to stock */
-        //validate dateDold
-        /**check if date is valid*/
+        //validate dateSold
+
         // 
         $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
 
