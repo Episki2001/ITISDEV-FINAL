@@ -276,4 +276,41 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('#submitEditSupplier').click(function() {
+        var supplierID = $('#supplierID').val();
+        var email = $('#email').val();
+        var phoneNum = $('#phoneNum').val();
+
+        var valid = true;
+
+        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7) ) {
+            valid = false;
+            alert('Please Input atleast one field');
+        }
+
+        if(valid) {
+            console.log('companyName : ' + cName);
+            console.log('companyAddress : ' + cAddress);
+            console.log('email : ' + email);
+            console.log('phoneNum : ' + phoneNum);
+            console.log(supplierID);
+            $.post('/editSuppliers', {supplierID: supplierID, email: email, phoneNum: phoneNum}, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID)
+                            window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 401:
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
+    });
 });

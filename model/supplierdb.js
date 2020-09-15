@@ -24,6 +24,12 @@ SupplierSchema.methods.recordNewSupplier = async function() {
     return result;
 };
 
+SupplierSchema.methods.recordEditSupplier = async function() {
+    var result = supplierModel.findOneAndUpdate({supplierID:supplierID},{email:email,phoneNum:phoneNum});
+    console.log(JSON.stringify(result));
+    return result;
+};
+
 const supplierModel = db.model('Supplier', SupplierSchema);
 
 module.exports = supplierModel;

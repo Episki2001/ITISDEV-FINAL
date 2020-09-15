@@ -645,6 +645,29 @@ const indexFunctions = {
             }
         } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
 
+    },
+
+    postEditSupplier: async function(req, res) {
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin' || req.session.type == 'manager') {
+            try {
+                var { supplierID, email, phoneNum } = req.body;
+                console.log(supplierID);
+                console.log(email);
+                console.log(phoneNum);
+                var supplier = new Supplier(supplierID, "", "", phoneNum, email);
+                var editSupplier = new supplierModel(supplier);
+                var result = await editSupplier.recordEditSupplier();
+                console.log(result)
+                if (result)
+                    res.send({ status: 200, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
+
     }
 }
 module.exports = indexFunctions;

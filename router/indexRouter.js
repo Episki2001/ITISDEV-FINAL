@@ -32,8 +32,10 @@ router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
 router.post('/newSupplier', controller.postNewSupplier);
+router.post('/editSuppliers', controller.postEditSupplier)
 router.post('/logout', controller.postLogout);
 router.post('/newProduct', controller.postNewProduct);
+
 
 
 module.exports = router;
