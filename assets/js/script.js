@@ -226,28 +226,19 @@ $(document).ready(function() {
         // console.log(valid);
 
         if (valid) {
-            // $.post('/a/newProducts', function(result) {
-            //     if (result.sellingPrice) {
-            //         console.log('result:' + result);
-            //         var sellingPrice = result.sellingPrice;
-            //         console.log(sellingPrice);
-            //         $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
-            //         $('#newSale_qty').attr("max", result.currentStock);
-            //         $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
-            //     } else
-            //         alert('Product not found');
-            // });
-            $.post('newProducts', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice, type: type }, function(result) {
+
+            $.post('/newProduct', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice }, function(result) {
                 switch (result.status) {
                     case 200:
                         {
-                            console.log('I have returned');
+                            alert('User successfully added with userID: ' + result.userID)
+                            window.location.href = '/a/sales';
                         }
                         break;
                     case 401:
                     case 500:
                         {
-                            alert('case 500' + result.msg);
+                            alert('Error ' + result.msg);
                             break;
                         }
                 }

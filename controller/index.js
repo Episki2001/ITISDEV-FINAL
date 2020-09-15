@@ -38,13 +38,21 @@ function Manager(userID, isSysAd) {
 }
 
 function Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
+    console.log('1');
     this.productID = productID;
+    console.log('1');
     this.productName = productName;
+    console.log('1');
     this.currentStock = currentStock;
+    console.log('1');
     this.sellingPrice = sellingPrice;
+    console.log('1');
     this.purchasePrice = purchasePrice;
+    console.log('1');
     this.sellerID = sellerID;
+    console.log('1');
     this.categoryCode = categoryCode;
+    console.log('1');
 }
 
 function Threshold(thresholdID, thresholdType, number, productID, userID) {
@@ -533,24 +541,39 @@ const indexFunctions = {
             var result = await newUser.recordNewUser();
             if (result)
                 res.send({ status: 200, userID });
-            else res.send({ status: 401, msg: 'Connot connect to database' });
+            else res.send({ status: 401, msg: 'Cannot connect to database' });
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
     },
 
     postNewProduct: async function(req, res) {
-        var { productName, categoryCode, supplierID, sellingPrice, purchasePrice, type } = req.body;
-        supplierID = parseInt(supplierID);
-        sellingPrice = parseFloat(sellingPrice);
-        purchasePrice = parseFloat(purchasePrice);
-        console.log('Product Name : ' + productName);
-        console.log('Category Code : ' + categoryCode);
-        console.log('SupplierID : ' + supplierID + " " + typeof supplierID);
-        console.log('sellingPrice : ' + sellingPrice + " " + typeof supplierID);
-        console.log('purchasePrice : ' + purchasePrice + " " + typeof supplierID);
-        console.log('Type : ' + type)
-        res.send({ status: 200 });
+        //check if user is manager or admin
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin' || req.session.type == 'manager') {
+            try {
+                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice } = req.body;
+                supplierID = parseInt(supplierID);
+                sellingPrice = parseFloat(sellingPrice);
+                purchasePrice = parseFloat(purchasePrice);
+                //get productID of the new Product
+                var productID = await getMinMaxproductID(-1, 1);
+                console.log(productID);
+                var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode);
+                console.log('hi');
+                console.log(JSON.stringify(product));
+                var newProduct = new productModel(product);
+                var result = await newProduct.recordNewProduct();
+                console.log(result)
+                if (result)
+                    res.send({ status: 200, productID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
+
     }
 };
 
