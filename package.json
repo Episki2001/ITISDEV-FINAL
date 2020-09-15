@@ -9,7 +9,8 @@
         "puser": "node ./scripts/hashpasswords.js",
         "testlog": "node ./scripts/testlog.js",
         "testjoin": "node ./scripts/testjoin.js",
-        "testcreate": "node ./scripts/testcreateuser.js"
+        "testcreate": "node ./scripts/testcreateuser.js",
+        "testcprod": "node ./scripts/testcreateproduct.js"
     },
     "repository": {
         "type": "git",

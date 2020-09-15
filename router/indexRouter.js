@@ -7,7 +7,7 @@ const indexMiddleware = require('../middlewares/indexMiddleware');
 router.get('/', controller.getLogin);
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/product/editProduct', controller.getAeditProduct);
-router.get('/a/user/editProfiie', controller.getAeditProfile);
+router.get('/a/user/editProfile/*', controller.getAeditProfile);
 router.get('/a/editSupplier', controller.getAeditSupplier);
 router.get('/a/MDgoods', controller.getAMDgoods);
 router.get('/a/newDelivery', controller.getAnewDelivery);
@@ -18,9 +18,11 @@ router.get('/a/newSupplier', controller.getAnewSupplier);
 router.get('/a/newUser', controller.getAnewUser);
 router.get('/a/deliveries', controller.getAdeliveries);
 router.get('/a/products', controller.getAproducts);
+router.get('/a/products/:productID', controller.getAoneProduct);
 router.get('/a/purchases', controller.getApurchases);
 router.get('/a/sales', controller.getAsales);
 router.get('/a/suppliers', controller.getAsuppliers);
+router.get('/a/suppliers/:supplierID', controller.getAoneSupplier);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 // ACTIONS
@@ -29,8 +31,9 @@ router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
-router.post('/logout', controller.postLogout)
-router.post('/a/newProducts', controller.postNewProduct);
+router.post('/newSupplier', controller.postNewSupplier);
+router.post('/logout', controller.postLogout);
+router.post('/newProduct', controller.postNewProduct);
 
 
 module.exports = router;

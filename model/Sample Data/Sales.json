@@ -1,7 +1,7 @@
 [{
         "salesID": 50000201,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "03/09/2020",
         "productID": 30000008,
@@ -10,7 +10,7 @@
     {
         "salesID": 50000202,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "03/17/2020",
         "productID": 30000008,
@@ -19,7 +19,7 @@
     {
         "salesID": 50000203,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "03/28/2020",
         "productID": 30000008,
@@ -28,7 +28,7 @@
     {
         "salesID": 50000204,
         "quantity": 2,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "11000",
         "dateSold": "04/13/2020",
         "productID": 30000008,
@@ -37,7 +37,7 @@
     {
         "salesID": 50000205,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "04/24/2020",
         "productID": 30000008,
@@ -46,8 +46,8 @@
     {
         "salesID": 50000206,
         "quantity": 3,
-        "sellingPrice": 5500,
-        "total": 16500,
+        "sellingPrice": "5500",
+        "total": "16500",
         "dateSold": "05/02/2020",
         "productID": 30000008,
         "userID": 10000014
@@ -55,7 +55,7 @@
     {
         "salesID": 50000207,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "05/10/2020",
         "productID": 30000008,
@@ -64,7 +64,7 @@
     {
         "salesID": 50000208,
         "quantity": 2,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "11000",
         "dateSold": "05/20/2020",
         "productID": 30000008,
@@ -73,7 +73,7 @@
     {
         "salesID": 50000209,
         "quantity": 5,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "27500",
         "dateSold": "05/28/2020",
         "productID": 30000008,
@@ -82,7 +82,7 @@
     {
         "salesID": 50000210,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "06/05/2020",
         "productID": 30000008,
@@ -91,7 +91,7 @@
     {
         "salesID": 50000211,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "06/13/2020",
         "productID": 30000008,
@@ -100,7 +100,7 @@
     {
         "salesID": 50000212,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "06/23/2020",
         "productID": 30000008,
@@ -109,7 +109,7 @@
     {
         "salesID": 50000213,
         "quantity": 2,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "11000",
         "dateSold": "07/01/2020",
         "productID": 30000008,
@@ -118,7 +118,7 @@
     {
         "salesID": 50000214,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "07/09/2020",
         "productID": 30000008,
@@ -127,7 +127,7 @@
     {
         "salesID": 50000215,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "07/25/2020",
         "productID": 30000008,
@@ -136,7 +136,7 @@
     {
         "salesID": 50000216,
         "quantity": 2,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "11000",
         "dateSold": "08/04/2020",
         "productID": 30000008,
@@ -145,7 +145,7 @@
     {
         "salesID": 50000217,
         "quantity": 1,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "5500",
         "dateSold": "08/12/2020",
         "productID": 30000008,
@@ -154,7 +154,7 @@
     {
         "salesID": 50000218,
         "quantity": 2,
-        "sellingPrice": 5500,
+        "sellingPrice": "5500",
         "total": "11000",
         "dateSold": "08/20/2020",
         "productID": 30000008,
@@ -163,7 +163,7 @@
     {
         "salesID": 50000001,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "03/02/2020",
         "productID": 30000005,
@@ -172,7 +172,7 @@
     {
         "salesID": 50000002,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "03/03/2020",
         "productID": 30000005,
@@ -181,7 +181,7 @@
     {
         "salesID": 50000003,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "03/04/2020",
         "productID": 30000005,
@@ -190,7 +190,7 @@
     {
         "salesID": 50000004,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "03/05/2020",
         "productID": 30000005,
@@ -199,7 +199,7 @@
     {
         "salesID": 50000005,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "03/06/2020",
         "productID": 30000005,
@@ -208,7 +208,7 @@
     {
         "salesID": 50000006,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "03/07/2020",
         "productID": 30000005,
@@ -217,7 +217,7 @@
     {
         "salesID": 50000007,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "03/08/2020",
         "productID": 30000005,
@@ -226,7 +226,7 @@
     {
         "salesID": 50000008,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "03/09/2020",
         "productID": 30000005,
@@ -235,7 +235,7 @@
     {
         "salesID": 50000009,
         "quantity": 13,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3900",
         "dateSold": "03/10/2020",
         "productID": 30000005,
@@ -244,7 +244,7 @@
     {
         "salesID": 50000010,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "03/12/2020",
         "productID": 30000005,
@@ -253,7 +253,7 @@
     {
         "salesID": 50000011,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "03/13/2020",
         "productID": 30000005,
@@ -262,7 +262,7 @@
     {
         "salesID": 50000012,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "03/14/2020",
         "productID": 30000005,
@@ -271,7 +271,7 @@
     {
         "salesID": 50000013,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "03/15/2020",
         "productID": 30000005,
@@ -280,7 +280,7 @@
     {
         "salesID": 50000014,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "03/16/2020",
         "productID": 30000005,
@@ -289,7 +289,7 @@
     {
         "salesID": 50000015,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "03/17/2020",
         "productID": 30000005,
@@ -298,7 +298,7 @@
     {
         "salesID": 50000016,
         "quantity": 9,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2700",
         "dateSold": "03/18/2020",
         "productID": 30000005,
@@ -307,7 +307,7 @@
     {
         "salesID": 50000017,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "03/19/2020",
         "productID": 30000005,
@@ -316,7 +316,7 @@
     {
         "salesID": 50000018,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "03/20/2020",
         "productID": 30000005,
@@ -325,7 +325,7 @@
     {
         "salesID": 50000019,
         "quantity": 17,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "5100",
         "dateSold": "03/21/2020",
         "productID": 30000005,
@@ -334,7 +334,7 @@
     {
         "salesID": 50000020,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "03/22/2020",
         "productID": 30000005,
@@ -343,7 +343,7 @@
     {
         "salesID": 50000021,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "03/23/2020",
         "productID": 30000005,
@@ -352,7 +352,7 @@
     {
         "salesID": 50000022,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "03/24/2020",
         "productID": 30000005,
@@ -361,7 +361,7 @@
     {
         "salesID": 50000023,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "03/25/2020",
         "productID": 30000005,
@@ -370,7 +370,7 @@
     {
         "salesID": 50000024,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "03/26/2020",
         "productID": 30000005,
@@ -379,7 +379,7 @@
     {
         "salesID": 50000025,
         "quantity": 17,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "5100",
         "dateSold": "03/27/2020",
         "productID": 30000005,
@@ -388,7 +388,7 @@
     {
         "salesID": 50000026,
         "quantity": 18,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "5400",
         "dateSold": "03/28/2020",
         "productID": 30000005,
@@ -397,7 +397,7 @@
     {
         "salesID": 50000027,
         "quantity": 16,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4800",
         "dateSold": "03/29/2020",
         "productID": 30000005,
@@ -406,7 +406,7 @@
     {
         "salesID": 50000028,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "03/30/2020",
         "productID": 30000005,
@@ -415,7 +415,7 @@
     {
         "salesID": 50000029,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "03/31/2020",
         "productID": 30000005,
@@ -424,7 +424,7 @@
     {
         "salesID": 50000030,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "04/01/2020",
         "productID": 30000005,
@@ -433,7 +433,7 @@
     {
         "salesID": 50000031,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "04/02/2020",
         "productID": 30000005,
@@ -442,7 +442,7 @@
     {
         "salesID": 50000032,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "04/03/2020",
         "productID": 30000005,
@@ -451,7 +451,7 @@
     {
         "salesID": 50000033,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "04/04/2020",
         "productID": 30000005,
@@ -460,7 +460,7 @@
     {
         "salesID": 50000034,
         "quantity": 13,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3900",
         "dateSold": "04/05/2020",
         "productID": 30000005,
@@ -469,7 +469,7 @@
     {
         "salesID": 50000035,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "04/06/2020",
         "productID": 30000005,
@@ -478,7 +478,7 @@
     {
         "salesID": 50000036,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "04/07/2020",
         "productID": 30000005,
@@ -487,7 +487,7 @@
     {
         "salesID": 50000037,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "04/08/2020",
         "productID": 30000005,
@@ -496,7 +496,7 @@
     {
         "salesID": 50000038,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "04/15/2020",
         "productID": 30000005,
@@ -505,7 +505,7 @@
     {
         "salesID": 50000039,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "04/16/2020",
         "productID": 30000005,
@@ -514,7 +514,7 @@
     {
         "salesID": 50000040,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "04/17/2020",
         "productID": 30000005,
@@ -523,7 +523,7 @@
     {
         "salesID": 50000041,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "04/18/2020",
         "productID": 30000005,
@@ -532,7 +532,7 @@
     {
         "salesID": 50000042,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "04/19/2020",
         "productID": 30000005,
@@ -541,7 +541,7 @@
     {
         "salesID": 50000043,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "04/20/2020",
         "productID": 30000005,
@@ -550,7 +550,7 @@
     {
         "salesID": 50000044,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "04/21/2020",
         "productID": 30000005,
@@ -559,7 +559,7 @@
     {
         "salesID": 50000045,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "04/23/2020",
         "productID": 30000005,
@@ -568,7 +568,7 @@
     {
         "salesID": 50000046,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "04/24/2020",
         "productID": 30000005,
@@ -577,7 +577,7 @@
     {
         "salesID": 50000047,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "04/25/2020",
         "productID": 30000005,
@@ -586,7 +586,7 @@
     {
         "salesID": 50000048,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "04/26/2020",
         "productID": 30000005,
@@ -595,7 +595,7 @@
     {
         "salesID": 50000049,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "04/28/2020",
         "productID": 30000005,
@@ -604,7 +604,7 @@
     {
         "salesID": 50000050,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "04/29/2020",
         "productID": 30000005,
@@ -613,7 +613,7 @@
     {
         "salesID": 50000051,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "04/30/2020",
         "productID": 30000005,
@@ -622,7 +622,7 @@
     {
         "salesID": 50000052,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "05/01/2020",
         "productID": 30000005,
@@ -631,7 +631,7 @@
     {
         "salesID": 50000053,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "05/02/2020",
         "productID": 30000005,
@@ -640,7 +640,7 @@
     {
         "salesID": 50000054,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "05/03/2020",
         "productID": 30000005,
@@ -649,7 +649,7 @@
     {
         "salesID": 50000055,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "05/06/2020",
         "productID": 30000005,
@@ -658,7 +658,7 @@
     {
         "salesID": 50000056,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "05/07/2020",
         "productID": 30000005,
@@ -667,7 +667,7 @@
     {
         "salesID": 50000057,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "05/08/2020",
         "productID": 30000005,
@@ -676,7 +676,7 @@
     {
         "salesID": 50000058,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "05/09/2020",
         "productID": 30000005,
@@ -685,7 +685,7 @@
     {
         "salesID": 50000059,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "05/10/2020",
         "productID": 30000005,
@@ -694,7 +694,7 @@
     {
         "salesID": 50000060,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "05/11/2020",
         "productID": 30000005,
@@ -703,7 +703,7 @@
     {
         "salesID": 50000061,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "05/12/2020",
         "productID": 30000005,
@@ -712,7 +712,7 @@
     {
         "salesID": 50000062,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "05/14/2020",
         "productID": 30000005,
@@ -721,7 +721,7 @@
     {
         "salesID": 50000063,
         "quantity": 9,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2700",
         "dateSold": "05/15/2020",
         "productID": 30000005,
@@ -730,7 +730,7 @@
     {
         "salesID": 50000064,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "05/16/2020",
         "productID": 30000005,
@@ -739,7 +739,7 @@
     {
         "salesID": 50000065,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "05/17/2020",
         "productID": 30000005,
@@ -748,7 +748,7 @@
     {
         "salesID": 50000066,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "05/18/2020",
         "productID": 30000005,
@@ -757,7 +757,7 @@
     {
         "salesID": 50000067,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "05/19/2020",
         "productID": 30000005,
@@ -766,7 +766,7 @@
     {
         "salesID": 50000068,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "05/20/2020",
         "productID": 30000005,
@@ -775,7 +775,7 @@
     {
         "salesID": 50000069,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "05/21/2020",
         "productID": 30000005,
@@ -784,7 +784,7 @@
     {
         "salesID": 50000070,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "05/22/2020",
         "productID": 30000005,
@@ -793,7 +793,7 @@
     {
         "salesID": 50000071,
         "quantity": 16,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4800",
         "dateSold": "05/23/2020",
         "productID": 30000005,
@@ -802,7 +802,7 @@
     {
         "salesID": 50000072,
         "quantity": 9,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2700",
         "dateSold": "05/24/2020",
         "productID": 30000005,
@@ -811,7 +811,7 @@
     {
         "salesID": 50000073,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "05/26/2020",
         "productID": 30000005,
@@ -820,7 +820,7 @@
     {
         "salesID": 50000074,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "05/27/2020",
         "productID": 30000005,
@@ -829,7 +829,7 @@
     {
         "salesID": 50000075,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "05/28/2020",
         "productID": 30000005,
@@ -838,7 +838,7 @@
     {
         "salesID": 50000076,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "05/29/2020",
         "productID": 30000005,
@@ -847,7 +847,7 @@
     {
         "salesID": 50000077,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "05/30/2020",
         "productID": 30000005,
@@ -856,7 +856,7 @@
     {
         "salesID": 50000078,
         "quantity": 30,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "9000",
         "dateSold": "05/31/2020",
         "productID": 30000005,
@@ -865,7 +865,7 @@
     {
         "salesID": 50000079,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "06/01/2020",
         "productID": 30000005,
@@ -874,7 +874,7 @@
     {
         "salesID": 50000080,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "06/02/2020",
         "productID": 30000005,
@@ -883,7 +883,7 @@
     {
         "salesID": 50000081,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "06/03/2020",
         "productID": 30000005,
@@ -892,7 +892,7 @@
     {
         "salesID": 50000082,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "06/04/2020",
         "productID": 30000005,
@@ -901,7 +901,7 @@
     {
         "salesID": 50000083,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "06/05/2020",
         "productID": 30000005,
@@ -910,7 +910,7 @@
     {
         "salesID": 50000084,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "06/06/2020",
         "productID": 30000005,
@@ -919,7 +919,7 @@
     {
         "salesID": 50000085,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "06/07/2020",
         "productID": 30000005,
@@ -928,7 +928,7 @@
     {
         "salesID": 50000086,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "06/09/2020",
         "productID": 30000005,
@@ -937,7 +937,7 @@
     {
         "salesID": 50000087,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "06/10/2020",
         "productID": 30000005,
@@ -946,7 +946,7 @@
     {
         "salesID": 50000088,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "06/12/2020",
         "productID": 30000005,
@@ -955,7 +955,7 @@
     {
         "salesID": 50000089,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "06/13/2020",
         "productID": 30000005,
@@ -964,7 +964,7 @@
     {
         "salesID": 50000090,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "06/14/2020",
         "productID": 30000005,
@@ -973,7 +973,7 @@
     {
         "salesID": 50000091,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "06/15/2020",
         "productID": 30000005,
@@ -982,7 +982,7 @@
     {
         "salesID": 50000092,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "06/16/2020",
         "productID": 30000005,
@@ -991,7 +991,7 @@
     {
         "salesID": 50000093,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "06/18/2020",
         "productID": 30000005,
@@ -1000,7 +1000,7 @@
     {
         "salesID": 50000094,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "06/19/2020",
         "productID": 30000005,
@@ -1009,7 +1009,7 @@
     {
         "salesID": 50000095,
         "quantity": 16,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4800",
         "dateSold": "06/20/2020",
         "productID": 30000005,
@@ -1018,7 +1018,7 @@
     {
         "salesID": 50000096,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "06/21/2020",
         "productID": 30000005,
@@ -1027,7 +1027,7 @@
     {
         "salesID": 50000097,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "06/23/2020",
         "productID": 30000005,
@@ -1036,7 +1036,7 @@
     {
         "salesID": 50000098,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "06/24/2020",
         "productID": 30000005,
@@ -1045,7 +1045,7 @@
     {
         "salesID": 50000099,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "06/26/2020",
         "productID": 30000005,
@@ -1054,7 +1054,7 @@
     {
         "salesID": 50000100,
         "quantity": 13,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3900",
         "dateSold": "06/27/2020",
         "productID": 30000005,
@@ -1063,7 +1063,7 @@
     {
         "salesID": 50000101,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "06/28/2020",
         "productID": 30000005,
@@ -1072,7 +1072,7 @@
     {
         "salesID": 50000102,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "06/29/2020",
         "productID": 30000005,
@@ -1081,7 +1081,7 @@
     {
         "salesID": 50000103,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "06/30/2020",
         "productID": 30000005,
@@ -1090,7 +1090,7 @@
     {
         "salesID": 50000104,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "07/01/2020",
         "productID": 30000005,
@@ -1099,7 +1099,7 @@
     {
         "salesID": 50000105,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "07/02/2020",
         "productID": 30000005,
@@ -1108,7 +1108,7 @@
     {
         "salesID": 50000106,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "07/04/2020",
         "productID": 30000005,
@@ -1117,7 +1117,7 @@
     {
         "salesID": 50000107,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "07/05/2020",
         "productID": 30000005,
@@ -1126,7 +1126,7 @@
     {
         "salesID": 50000108,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "07/07/2020",
         "productID": 30000005,
@@ -1135,7 +1135,7 @@
     {
         "salesID": 50000109,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "07/09/2020",
         "productID": 30000005,
@@ -1144,7 +1144,7 @@
     {
         "salesID": 50000110,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "07/10/2020",
         "productID": 30000005,
@@ -1153,7 +1153,7 @@
     {
         "salesID": 50000111,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "07/11/2020",
         "productID": 30000005,
@@ -1162,7 +1162,7 @@
     {
         "salesID": 50000112,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "07/12/2020",
         "productID": 30000005,
@@ -1171,7 +1171,7 @@
     {
         "salesID": 50000113,
         "quantity": 1,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "300",
         "dateSold": "07/13/2020",
         "productID": 30000005,
@@ -1180,7 +1180,7 @@
     {
         "salesID": 50000114,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "07/14/2020",
         "productID": 30000005,
@@ -1189,7 +1189,7 @@
     {
         "salesID": 50000115,
         "quantity": 10,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3000",
         "dateSold": "07/17/2020",
         "productID": 30000005,
@@ -1198,7 +1198,7 @@
     {
         "salesID": 50000116,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "07/18/2020",
         "productID": 30000005,
@@ -1207,7 +1207,7 @@
     {
         "salesID": 50000117,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "07/19/2020",
         "productID": 30000005,
@@ -1216,7 +1216,7 @@
     {
         "salesID": 50000118,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "07/24/2020",
         "productID": 30000005,
@@ -1225,7 +1225,7 @@
     {
         "salesID": 50000119,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "07/25/2020",
         "productID": 30000005,
@@ -1234,7 +1234,7 @@
     {
         "salesID": 50000120,
         "quantity": 11,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3300",
         "dateSold": "07/26/2020",
         "productID": 30000005,
@@ -1243,7 +1243,7 @@
     {
         "salesID": 50000121,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "07/27/2020",
         "productID": 30000005,
@@ -1252,7 +1252,7 @@
     {
         "salesID": 50000122,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "07/28/2020",
         "productID": 30000005,
@@ -1261,7 +1261,7 @@
     {
         "salesID": 50000123,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "07/29/2020",
         "productID": 30000005,
@@ -1270,7 +1270,7 @@
     {
         "salesID": 50000124,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "07/30/2020",
         "productID": 30000005,
@@ -1279,7 +1279,7 @@
     {
         "salesID": 50000125,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "07/31/2020",
         "productID": 30000005,
@@ -1288,7 +1288,7 @@
     {
         "salesID": 50000126,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "08/01/2020",
         "productID": 30000005,
@@ -1297,7 +1297,7 @@
     {
         "salesID": 50000127,
         "quantity": 7,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2100",
         "dateSold": "08/02/2020",
         "productID": 30000005,
@@ -1306,7 +1306,7 @@
     {
         "salesID": 50000128,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "08/04/2020",
         "productID": 30000005,
@@ -1315,7 +1315,7 @@
     {
         "salesID": 50000129,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "08/05/2020",
         "productID": 30000005,
@@ -1324,7 +1324,7 @@
     {
         "salesID": 50000128,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/06/2020",
         "productID": 30000005,
@@ -1333,7 +1333,7 @@
     {
         "salesID": 50000129,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "08/07/2020",
         "productID": 30000005,
@@ -1342,7 +1342,7 @@
     {
         "salesID": 50000130,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "08/08/2020",
         "productID": 30000005,
@@ -1351,7 +1351,7 @@
     {
         "salesID": 50000131,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "08/09/2020",
         "productID": 30000005,
@@ -1360,7 +1360,7 @@
     {
         "salesID": 50000132,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/10/2020",
         "productID": 30000005,
@@ -1369,7 +1369,7 @@
     {
         "salesID": 50000133,
         "quantity": 3,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "900",
         "dateSold": "08/11/2020",
         "productID": 30000005,
@@ -1378,7 +1378,7 @@
     {
         "salesID": 50000134,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "08/12/2020",
         "productID": 30000005,
@@ -1387,7 +1387,7 @@
     {
         "salesID": 50000135,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "08/14/2020",
         "productID": 30000005,
@@ -1396,7 +1396,7 @@
     {
         "salesID": 50000136,
         "quantity": 11,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3300",
         "dateSold": "08/15/2020",
         "productID": 30000005,
@@ -1405,7 +1405,7 @@
     {
         "salesID": 50000137,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "08/16/2020",
         "productID": 30000005,
@@ -1414,7 +1414,7 @@
     {
         "salesID": 50000138,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "08/18/2020",
         "productID": 30000005,
@@ -1423,7 +1423,7 @@
     {
         "salesID": 50000139,
         "quantity": 2,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "600",
         "dateSold": "08/19/2020",
         "productID": 30000005,
@@ -1432,7 +1432,7 @@
     {
         "salesID": 50000140,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/20/2020",
         "productID": 30000005,
@@ -1441,7 +1441,7 @@
     {
         "salesID": 50000141,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "08/21/2020",
         "productID": 30000005,
@@ -1450,7 +1450,7 @@
     {
         "salesID": 50000142,
         "quantity": 12,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "3600",
         "dateSold": "08/22/2020",
         "productID": 30000005,
@@ -1459,7 +1459,7 @@
     {
         "salesID": 50000143,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/23/2020",
         "productID": 30000005,
@@ -1468,7 +1468,7 @@
     {
         "salesID": 50000144,
         "quantity": 4,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1200",
         "dateSold": "08/24/2020",
         "productID": 30000005,
@@ -1477,7 +1477,7 @@
     {
         "salesID": 50000145,
         "quantity": 5,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1500",
         "dateSold": "08/26/2020",
         "productID": 30000005,
@@ -1486,7 +1486,7 @@
     {
         "salesID": 50000146,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/27/2020",
         "productID": 30000005,
@@ -1495,7 +1495,7 @@
     {
         "salesID": 50000147,
         "quantity": 8,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "2400",
         "dateSold": "08/28/2020",
         "productID": 30000005,
@@ -1504,7 +1504,7 @@
     {
         "salesID": 50000148,
         "quantity": 15,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "4500",
         "dateSold": "08/29/2020",
         "productID": 30000005,
@@ -1513,7 +1513,7 @@
     {
         "salesID": 50000149,
         "quantity": 20,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "6000",
         "dateSold": "08/30/2020",
         "productID": 30000005,
@@ -1522,7 +1522,7 @@
     {
         "salesID": 50000150,
         "quantity": 6,
-        "sellingPrice": 300,
+        "sellingPrice": "300",
         "total": "1800",
         "dateSold": "08/31/2020",
         "productID": 30000005,

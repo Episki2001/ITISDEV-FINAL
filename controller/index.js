@@ -37,13 +37,13 @@ function Manager(userID, isSysAd) {
     this.isSysAd = isSysAd;
 }
 
-function Product(productID, productName, currentStock, sellingPrice, purchasePrice, sellerID, categoryCode) {
+function Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode) {
     this.productID = productID;
     this.productName = productName;
     this.currentStock = currentStock;
     this.sellingPrice = sellingPrice;
     this.purchasePrice = purchasePrice;
-    this.sellerID = sellerID;
+    this.supplierID = supplierID;
     this.categoryCode = categoryCode;
 }
 
@@ -160,6 +160,40 @@ async function getMinMaxUserID(sortby, offset) {
         }
     }]);
     return highestID[0].userID + offset;
+}
+
+async function getMinMaxproductID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await productModel.aggregate([{
+        '$sort': {
+            'productID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'productID': 1
+        }
+    }]);
+    return highestID[0].productID + offset;
+}
+
+async function getMinMaxsupplierID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await supplierModel.aggregate([{
+        '$sort': {
+            'supplierID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'supplierID': 1
+        }
+    }]);
+    return highestID[0].supplierID + offset;
 }
 
 async function findUser(userID) {
@@ -327,6 +361,24 @@ const indexFunctions = {
         }
     },
 
+    getAoneProduct: async function(req, res) {
+        try {
+            var productID = req.get.params('productID');
+            var match = await productModel.findOne({ productID: productID });
+            if (match) {
+                res.render('a_editProduct', {
+                    title: match.productName,
+                    products: JSON.parse(JSON.stringify(match))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     getApurchases: async function(req, res) {
         try {
             var matches = await purchaseModel.find({});
@@ -363,6 +415,25 @@ const indexFunctions = {
             });
         } catch (e) {
             console.log(e);
+        }
+    },
+
+    getAoneSupplier: async function(req, res) {
+        try {
+            var supplierID = req.params.supplierID;
+            var match = await supplierModel.findOne({ supplierID: supplierID });
+            console.log(match);
+            if (match) {
+                res.render('a_editSupplier', {
+                    title: match.companyName,
+                    supplier: JSON.parse(JSON.stringify(match))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Supplier does not exist'
+            });
+        } catch (e) {
+            console.log(e)
         }
     },
 
@@ -510,31 +581,70 @@ const indexFunctions = {
 
         try {
             var userID = await getMinMaxUserID(-1, 1);
-            bcrypt.hashSync(password, saltRounds);
+            password = bcrypt.hashSync(password, saltRounds);
             var user = new User(userID, password, lName, fName, gender, birthdate, address, phoneNum);
             var newUser = new userModel(user);
             var result = await newUser.recordNewUser();
             if (result)
                 res.send({ status: 200, userID });
-            else res.send({ status: 401, msg: 'Connot connect to database' });
+            else res.send({ status: 401, msg: 'Cannot connect to database' });
         } catch (e) {
             res.send({ status: 500, msg: e });
         }
     },
 
     postNewProduct: async function(req, res) {
-        var { productName, categoryCode, supplierID, sellingPrice, purchasePrice, type } = req.body;
-        supplierID = parseInt(supplierID);
-        sellingPrice = parseFloat(sellingPrice);
-        purchasePrice = parseFloat(purchasePrice);
-        console.log('Product Name : ' + productName);
-        console.log('Category Code : ' + categoryCode);
-        console.log('SupplierID : ' + supplierID + " " + typeof supplierID);
-        console.log('sellingPrice : ' + sellingPrice + " " + typeof supplierID);
-        console.log('purchasePrice : ' + purchasePrice + " " + typeof supplierID);
-        console.log('Type : ' + type)
-        res.send({ status: 200 });
-    }
-};
+        //check if user is manager or admin
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin' || req.session.type == 'manager') {
+            try {
+                var { productName, categoryCode, supplierID, sellingPrice, purchasePrice } = req.body;
+                // supplierID = parseInt(supplierID);
+                // sellingPrice = parseFloat(sellingPrice);
+                // purchasePrice = parseFloat(purchasePrice);
+                //get productID of the new Product
+                var currentStock = 0;
+                var productID = await getMinMaxproductID(-1, 1);
+                var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
+                var newProduct = new productModel(product);
+                var result = await newProduct.recordNewProduct();
+                console.log(result)
+                if (result)
+                    res.send({ status: 200, productID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
 
+    },
+
+    postNewSupplier: async function(req, res) {
+        //check if user is manager or admin
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin' || req.session.type == 'manager') {
+            try {
+                var { companyName, companyAddress, email, phoneNum } = req.body;
+                var supplierID = await getMinMaxsupplierID(-1, 1);
+                console.log(supplierID);
+                console.log(companyName);
+                console.log(companyAddress);
+                console.log(email);
+                console.log(phoneNum);
+                var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
+                var newSupplier = new supplierModel(supplier);
+                var result = await newSupplier.recordNewSupplier();
+                console.log(result)
+                if (result)
+                    res.send({ status: 200, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
+
+    }
+}
 module.exports = indexFunctions;

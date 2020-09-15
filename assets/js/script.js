@@ -162,6 +162,43 @@ $(document).ready(function() {
 
     });
 
+    $('#submitNewSupplier').click(function() {
+        var cName = $('#cName').val();
+        var cAddress = $('#cAddress').val();
+        var email = $('#email').val();
+        var phoneNum = $('#phoneNum').val();
+
+        var valid = true;
+
+        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 7) {
+            valid = false;
+            alert('Please Input all fields');
+        }
+
+        if (valid) {
+            console.log('companyName : ' + cName);
+            console.log('companyAddress : ' + cAddress);
+            console.log('email : ' + email);
+            console.log('phoneNum : ' + phoneNum);
+            $.post('/newSupplier', { companyName: cName, companyAddress: cAddress, email: email, phoneNum: phoneNum }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID)
+                            window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 401:
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
+    });
+
     //submit New Product
     /**
         Fields received (how to verify):
@@ -183,7 +220,6 @@ $(document).ready(function() {
         var sellingPrice = parseFloat($('#sellingPrice').val());
         var purchasePrice = parseFloat($('#purchasePrice').val());
         var valid = true;
-        var type;
         // console.log('Product Name : ' + productName);
         // console.log('Category Code : ' + categoryCode);
         // console.log('SupplierID : ' + supplierID);
@@ -200,14 +236,9 @@ $(document).ready(function() {
             alert('Supplier not Selected');
         }
         // console.log(valid);
-        if (categoryCode >= 100 && categoryCode <= 199) {
-            type = 'F';
-        } else if (categoryCode >= 200 && categoryCode <= 299) {
-            type = 'A';
-        } else {
-            valid = false;
+
+        if (categoryCode < 100 && categoryCode > 299)
             alert('Category not selected');
-        }
 
         // console.log(valid + ' ' + type);
 
@@ -226,28 +257,19 @@ $(document).ready(function() {
         // console.log(valid);
 
         if (valid) {
-            // $.post('/a/newProducts', function(result) {
-            //     if (result.sellingPrice) {
-            //         console.log('result:' + result);
-            //         var sellingPrice = result.sellingPrice;
-            //         console.log(sellingPrice);
-            //         $('#newSale_qty').attr("placeholder", "Current Stock: " + result.currentStock);
-            //         $('#newSale_qty').attr("max", result.currentStock);
-            //         $('#newSale_sellingPrice').val(sellingPrice.toFixed(2));
-            //     } else
-            //         alert('Product not found');
-            // });
-            $.post('newProducts', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice, type: type }, function(result) {
+
+            $.post('/newProduct', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice }, function(result) {
                 switch (result.status) {
                     case 200:
                         {
-                            console.log('I have returned');
+                            alert('User successfully added with productID: ' + result.productID)
+                            window.location.href = '/a/sales';
                         }
                         break;
                     case 401:
                     case 500:
                         {
-                            alert('case 500' + result.msg);
+                            alert('Error ' + result.msg);
                             break;
                         }
                 }
