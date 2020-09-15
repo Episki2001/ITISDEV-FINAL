@@ -20,6 +20,11 @@ var ProductSchema = new mongoose.Schema({
     categoryCode: { type: Number, required: true }
 }, { collection: "products" });
 
+ProductSchema.methods.recordNewProduct = async function() {
+    var result = await productModel.create(this);
+    return result;
+};
+
 const productModel = db.model('products', ProductSchema);
 
 module.exports = productModel;

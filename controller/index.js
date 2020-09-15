@@ -162,6 +162,23 @@ async function getMinMaxUserID(sortby, offset) {
     return highestID[0].userID + offset;
 }
 
+async function getMinMaxproductID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await productModel.aggregate([{
+        '$sort': {
+            'productID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'productID': 1
+        }
+    }]);
+    return highestID[0].productID + offset;
+}
+
 async function findUser(userID) {
     var user = await userModel.aggregate([{
         '$match': {

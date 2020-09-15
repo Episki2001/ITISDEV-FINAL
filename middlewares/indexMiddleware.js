@@ -30,7 +30,7 @@ const indexMiddleware = {
             } else if ((quantity % 1) != 0 && quantity > product.currentStock) {
                 /**check if quantity is less than or equal to stock */
                 res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product or not a whole number' });
-            } else if (Date() >= Date(dateSold)) {
+            } else if (Date() > Date(dateSold)) {
                 /**check if date is valid*/
                 res.send({ status: 401, msg: 'date sold cannot be after today' });
             } else

@@ -93,6 +93,7 @@ $(document).ready(function() {
                 case 200:
                     {
                         alert(result.msg);
+                        window.location.href = '/a/sales';
                     }
                 case 401:
                     {
