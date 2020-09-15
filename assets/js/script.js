@@ -225,7 +225,7 @@ $(document).ready(function() {
                 switch (result.status) {
                     case 200:
                         {
-                            alert('User successfully added with userID: ' + result.userID)
+                            alert('User successfully added with productID: ' + result.productID)
                             window.location.href = '/a/sales';
                         }
                         break;
