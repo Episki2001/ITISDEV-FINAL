@@ -89,7 +89,6 @@ $(document).ready(function() {
         var dateSold = $('#newSale_dateSold').val();
         var productID = $('#newSale_prodID').val();
 
-        var valid = true;
         var fieldsEmpty = false;
         var invalidQty = false;
 
@@ -97,7 +96,7 @@ $(document).ready(function() {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if (parseInt(quantity) > 0) {
+        if (parseInt(quantity) < 0) {
             invalidQty = true;
             alert('Quantity cannot be less than zero');
         }
