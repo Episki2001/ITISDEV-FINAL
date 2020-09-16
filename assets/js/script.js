@@ -1,5 +1,3 @@
-const { default: validator } = require("validator");
-
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -57,6 +55,7 @@ $(document).ready(function() {
         }
     });
 
+    //Add Methods
     $('#newSale_checkID').click(function() {
         var prodID = $('#newSale_prodID').val();
         console.log(prodID);
@@ -126,6 +125,27 @@ $(document).ready(function() {
         } else {
             alert('No sale recorded');
         }
+
+    });
+
+    $('#submitNewDelivery').click(function() {
+        var productID = $('#productID').val();
+        var dateDelivered = $('#dateDelivered').val();
+        var numDamaged = parseInt($('#numDamaged').val());
+        var numDelivered = parseInt($('#numDelivered').val());
+        console.log(productID);
+        console.log(Date(dateDelivered));
+        console.log(numDamaged);
+        console.log(numDelivered);
+        if (validator.isEmpty(productID)) {
+            alert('Please input a product ID');
+        } else if (Date() < Date(dateDelivered)) {
+            alert('Date is invalid');
+        } else if (!(numDelivered > 0) || !(numDamaged >= 0)) {
+            alert('Quantities invalid');
+        } else if (numDamaged >= numDelivered) {
+            alert('Number of Damaged must be less than number delivered');
+        } else { alert('valid na siya'); }
     });
 
     $('#submitNewUser').click(function() {
