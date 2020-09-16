@@ -19,6 +19,11 @@ var DeliverySchema = new mongoose.Schema({
     userID: { type: Number, required: true }
 }, { collection: "Delivery" });
 
+DeliverySchema.methods.recordNewDelivery = async function() {
+    deliveryModel.create(this);
+    return console.log(this);
+};
+
 const deliveryModel = db.model('Delivery', DeliverySchema);
 
 module.exports = deliveryModel;

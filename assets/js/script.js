@@ -145,7 +145,29 @@ $(document).ready(function() {
             alert('Quantities invalid');
         } else if (numDamaged >= numDelivered) {
             alert('Number of Damaged must be less than number delivered');
-        } else { alert('valid na siya'); }
+        } else {
+            console.log('data is valid');
+            $.post('/newDelivery', { productID: productID, dateDelivered: dateDelivered, number_Of_Units_Delivered: numDelivered, number_Of_Damaged: numDamaged }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/deliveries';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
     });
 
     $('#submitNewUser').click(function() {

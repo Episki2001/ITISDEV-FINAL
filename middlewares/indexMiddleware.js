@@ -47,6 +47,23 @@ const indexMiddleware = {
             res.send({ status: 500, msg: 'Server error. Could not validate.' });
         }
     },
+    validateNewDelivery: async function(req, res, next) {
+        try {
+            console.log('i am here');
+            var productID = req.body.productID;
+            console.log(productID);
+            console.log('in validate delivery');
+            var product = await productModel.findOne({ productID: productID });
+            console.log(product);
+            if (product)
+                return next();
+            else
+                res.send({ status: 401, msg: ': Product not found' });
+
+        } catch (e) {
+            res.send({ status: 500, msg: 'Server error. Could not validate' });
+        }
+    }
 
 };
 

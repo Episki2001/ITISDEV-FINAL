@@ -90,7 +90,7 @@ function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold
     this.userID = userID;
 }
 
-function delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID) {
+function Delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID) {
     this.deliveryID = deliveryID;
     this.number_Of_Units_Delivered = number_Of_Units_Delivered;
     this.number_Of_Damaged = number_Of_Damaged;
@@ -145,6 +145,22 @@ async function getMinMaxSalesID(sortby, offset) {
     return highestID[0].salesID + offset;
 }
 
+async function getMinMaxDeliveryID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await deliveryModel.aggregate([{
+        '$sort': {
+            'deliveryID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'deliveryID': 1
+        }
+    }]);
+    return highestID[0].deliveryID + offset;
+}
 async function getMinMaxUserID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds userad by offset
@@ -538,7 +554,38 @@ const indexFunctions = {
         console.log(req.session);
         res.redirect("/");
     },
+    postNewDelivery: async function(req, res) {
 
+        if ( /**session valid */ req.session.logUser /**true */ ) {
+            /**IF SESSION IS VALID */
+            //get variables
+            let { productID, dateDelivered, number_Of_Units_Delivered, number_Of_Damaged } = req.body;
+            var deliveryID = await getMinMaxDeliveryID(-1, 1);
+            var userID = req.session.logUser.userID;
+            //var userID = 101;
+
+            //create new sale
+            var delivery = new Delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID);
+            var newDelivery = new deliveryModel(delivery);
+            //add new delivery to database
+            newDelivery.recordNewDelivery();
+            //increase products stock
+            var product = await productModel.findOne({ productID: productID });
+            var newStock = parseInt(product.currentStock) + parseInt(number_Of_Units_Delivered) - parseInt(number_Of_Damaged);
+            var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
+            //send status
+            res.send({ status: 200, msg: 'Delivery Recorded' });
+        } else {
+            /**IF SESSION IS NOT VALID */
+            //alert user of invalid session
+            res.send({ status: 500, msg: 'Something went wrong. Sending you back to login' });
+            //send back to login
+            console.log(req.session);
+            req.session.destroy();
+            console.log(req.session);
+            res.redirect("/");
+        }
+    },
     postNewSale: async function(req, res) {
         console.log('postNewSale');
         //validate session
