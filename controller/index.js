@@ -550,30 +550,28 @@ const indexFunctions = {
             var salesID = await getMinMaxSalesID(-1, 1);
             var userID = req.session.logUser.userID;
             //var userID = 101;
+
             //create new sale
             var sale = new Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
             var newSale = new salesModel(sale);
             //add new sale to database
-
             newSale.recordNewSale();
             //decrease products stock
+            var product = await productModel.findOne({ productID: productID });
+            var newStock = product.currentStock - quantity;
+            var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
             //send status
             res.send({ status: 200, msg: 'Sale Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
+            res.send({ status: 500, msg: 'something went wrong sending you back to login' });
             //send back to login
+            console.log(req.session);
+            req.session.destroy();
+            console.log(req.session);
+            res.redirect("/");
         }
-
-        //get salesID
-        //var lastSale = await salesModel.find().sort({ productID: -1 }).limit(1);
-
-        // console.log(lastSale);
-
-        //var newSale = salesModel(salesID, quantity, sellingPrice, total, dateSold, productID, userID);
-
-
-
     },
 
     postNewUser: async function(req, res) {
