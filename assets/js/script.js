@@ -133,13 +133,14 @@ $(document).ready(function() {
         var dateDelivered = $('#dateDelivered').val();
         var numDamaged = parseInt($('#numDamaged').val());
         var numDelivered = parseInt($('#numDelivered').val());
+        //  dateDelivered = new Date(dateDelivered.toString());
         console.log(productID);
-        console.log(Date(dateDelivered));
+        console.log(dateDelivered);
         console.log(numDamaged);
         console.log(numDelivered);
         if (validator.isEmpty(productID)) {
             alert('Please input a product ID');
-        } else if (Date() < Date(dateDelivered)) {
+        } else if (validator.isAfter(dateDelivered)) {
             alert('Date is invalid');
         } else if (!(numDelivered > 0) || !(numDamaged >= 0)) {
             alert('Quantities invalid');
