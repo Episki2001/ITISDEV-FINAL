@@ -1,3 +1,5 @@
+const { default: validator } = require("validator");
+
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -88,25 +90,42 @@ $(document).ready(function() {
         var dateSold = $('#newSale_dateSold').val();
         var productID = $('#newSale_prodID').val();
 
-        $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
-            switch (result.status) {
-                case 200:
-                    {
-                        alert(result.msg);
-                        break;
-                    }
-                case 401:
-                    {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                case 500:
-                    {
-                        alert('case 500: ' + result.msg);
-                        break;
-                    }
-            }
-        });
+        var valid = true;
+        var fieldsEmpty = false;
+        var invalidQty = false;
+
+        if (validator.isEmpty(quantity) || validator.isEmpty(sellingPrice) || validator.isEmpty(total) || validator.isEmpty(dateSold) || validator.isEmpty(productID)) {
+            fieldsEmpty = true;
+            alert('cannot leave empty fields');
+        }
+        if (parseInt(quantity) > 0) {
+            invalidQty = true;
+            alert('Quantity cannot be less than zero');
+        }
+
+        if (!fieldsEmpty && !invalidQty) {
+            $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert(result.msg);
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
+                }
+            });
+        } else {
+            alert('No sale recorded');
+        }
     });
 
     $('#submitNewUser').click(function() {
