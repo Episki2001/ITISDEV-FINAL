@@ -302,10 +302,19 @@ const indexFunctions = {
         }
     },
 
-    getAnewDelivery: function(req, res) {
-        res.render('a_newDelivery', {
-            title: 'Add Delivery Details'
-        });
+    getAnewDelivery: async function(req, res) {
+        // res.render('a_newDelivery', {
+        //     title: 'Add Delivery Details'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('a_newDelivery', {
+                title: 'Add Delivery Details',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAnewProducts: async function(req, res) {
