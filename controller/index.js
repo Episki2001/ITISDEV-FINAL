@@ -341,10 +341,19 @@ const indexFunctions = {
         });
     },
 
-    getAnewSale: function(req, res) {
-        res.render('a_newSales', {
-            title: 'Add Sale'
-        });
+    getAnewSale: async function(req, res) {
+        // res.render('a_newSales', {
+        //     title: 'Add Sale'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('a_newSales', {
+                title: 'Add Sale',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAnewSupplier: function(req, res) {
