@@ -260,6 +260,7 @@ $(document).ready(function() {
         }
     });
 
+
     //submit New Product
     /**
         Fields received (how to verify):
@@ -315,6 +316,10 @@ $(document).ready(function() {
             alert('Purchase Price is invalid');
         }
 
+        if (valid && purchasePrice > sellingPrice) {
+            valid = false;
+            alert('Selling price must be greater than purchase price');
+        }
         // console.log(valid);
 
         if (valid) {
@@ -325,6 +330,60 @@ $(document).ready(function() {
                         {
                             alert('User successfully added with productID: ' + result.productID)
                             window.location.href = '/a/sales';
+                        }
+                        break;
+                    case 401:
+                    case 500:
+                        {
+                            alert('Error ' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
+    });
+
+    $('#submitEditProduct').click(function() {
+        // var productName = $('#productName').val();
+        // var categoryCode = parseInt($('#category').val());
+        // var supplierID = parseInt($('#supplierID').val());
+        var productID = parseInt($('#productID').val());
+        var sellingPrice = parseFloat($('#sellingPrice').val());
+        var purchasePrice = parseFloat($('#purchasePrice').val());
+        var valid = true;
+        // console.log('Product Name : ' + productName);
+        // console.log('Category Code : ' + categoryCode);
+        // console.log('SupplierID : ' + supplierID);
+        console.log(productID);
+        console.log('sellingPrice : ' + sellingPrice);
+        console.log('purchasePrice : ' + purchasePrice);
+
+        if (!(sellingPrice > 0)) {
+            valid = false;
+            alert('Selling Price is invalid');
+        }
+
+        // console.log(valid);
+
+        if (!(purchasePrice > 0)) {
+            valid = false;
+            alert('Purchase Price is invalid');
+        }
+
+        if (valid && purchasePrice > sellingPrice) {
+            valid = false;
+            alert('Selling price must be greater than purchase price');
+        }
+        // console.log(valid);
+
+        if (valid) {
+            // alert('valid na');
+            $.post('/editProduct', { productID: productID, purchasePrice: purchasePrice, sellingPrice: sellingPrice }, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert('Product successfully edited with productID: ' + result.productID)
+                            window.location.href = '/a/products';
                         }
                         break;
                     case 401:
