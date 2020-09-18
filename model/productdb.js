@@ -25,6 +25,11 @@ ProductSchema.methods.recordNewProduct = async function() {
     return result;
 };
 
+ProductSchema.methods.recordEditProduct = async function() {
+    console.log('inside mehtod')
+    var result = productModel.findOneAndUpdate({ productID: this.productID }, { sellingPrice: this.sellingPrice, purchasePrice: this.purchasePrice });
+    return result;
+};
 const productModel = db.model('products', ProductSchema);
 
 module.exports = productModel;

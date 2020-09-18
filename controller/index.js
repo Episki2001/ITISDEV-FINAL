@@ -283,12 +283,6 @@ const indexFunctions = {
         });
     },
 
-    getAeditSupplier: function(req, res) {
-        res.render('a_editSupplier', {
-            title: 'Edit Supplier'
-        });
-    },
-
     getAMDgoods: async function(req, res) {
         try {
             var matches = await damagedgoodsModel.find({});
@@ -315,7 +309,7 @@ const indexFunctions = {
         try {
             var matches = await supplierModel.find({});
             var categories = await ref_categoryModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_newProducts', {
                 title: 'Add Product',
                 suppliers: JSON.parse(JSON.stringify(matches)),
@@ -353,7 +347,7 @@ const indexFunctions = {
     getAdeliveries: async function(req, res) {
         try {
             var matches = await deliveryModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_delivery', {
                 title: 'View Deliveries',
                 delivery: JSON.parse(JSON.stringify(matches))
@@ -367,7 +361,7 @@ const indexFunctions = {
     getAproducts: async function(req, res) {
         try {
             var matches = await productModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -379,7 +373,6 @@ const indexFunctions = {
 
     getAoneEditProduct: async function(req, res) {
         try {
-            console.log('i made it');
             var productID = req.params.productID;
             var match = await productModel.findOne({ productID: productID });
             console.log(match);
@@ -387,7 +380,7 @@ const indexFunctions = {
                 var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
                 var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
                 res.render('a_editProduct', {
-                    title: match.productName,
+                    title: 'Edit ' + match.productName,
                     product: JSON.parse(JSON.stringify(match)),
                     supplier: JSON.parse(JSON.stringify(supplier)),
                     ref_category: JSON.parse(JSON.stringify(ref_category))
@@ -417,7 +410,7 @@ const indexFunctions = {
     getAsales: async function(req, res) {
         try {
             var matches = await salesModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_sales', {
                 title: 'View Sales',
                 sales: JSON.parse(JSON.stringify(matches))
@@ -462,7 +455,7 @@ const indexFunctions = {
     getAusers: async function(req, res) {
         try {
             var matches = await userModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_users', {
                 title: 'View users',
                 users: JSON.parse(JSON.stringify(matches))
@@ -671,6 +664,27 @@ const indexFunctions = {
 
     },
 
+    postEditProduct: async function(req, res) {
+        console.log('i am in posteditproduct');
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin' || req.session.type == 'manager') {
+            try {
+                var { productID, sellingPrice, purchasePrice } = req.body;
+                var product = new Product(productID, '', 0, sellingPrice, purchasePrice, 0, 0);
+                console.log(product);
+                var editProduct = new productModel(product);
+                var result = await editProduct.recordEditProduct();
+                console.log(result);
+                if (result)
+                    res.send({ status: 200, productID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a product' });
+    },
+
     postNewSupplier: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
@@ -679,11 +693,11 @@ const indexFunctions = {
             try {
                 var { companyName, companyAddress, email, phoneNum } = req.body;
                 var supplierID = await getMinMaxsupplierID(-1, 1);
-                console.log(supplierID);
-                console.log(companyName);
-                console.log(companyAddress);
-                console.log(email);
-                console.log(phoneNum);
+                // console.log(supplierID);
+                // console.log(companyName);
+                // console.log(companyAddress);
+                // console.log(email);
+                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
                 var newSupplier = new supplierModel(supplier);
                 var result = await newSupplier.recordNewSupplier();
@@ -704,9 +718,9 @@ const indexFunctions = {
         if (req.session.type == 'admin' || req.session.type == 'manager') {
             try {
                 var { supplierID, email, phoneNum } = req.body;
-                console.log(supplierID);
-                console.log(email);
-                console.log(phoneNum);
+                // console.log(supplierID);
+                // console.log(email);
+                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, "", "", phoneNum, email);
                 // console.log('testing = ' + JSON.stringify(testing));
                 var editSupplier = new supplierModel(supplier);
