@@ -247,6 +247,46 @@ async function findUser(userID) {
     return user[0];
 }
 
+async function getDeliveries() {
+    //for new purchases
+    return await deliveryModel.aggregate([{
+        '$lookup': {
+            'from': 'Purchases',
+            'localField': 'deliveryID',
+            'foreignField': 'deliveryID',
+            'as': 'Purchases'
+        }
+    }, {
+        '$unwind': {
+            'path': '$Purchases',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            'Purchases': null
+        }
+    }, {
+        '$lookup': {
+            'from': 'products',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'product'
+        }
+    }, {
+        '$unwind': {
+            'path': '$product',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$project': {
+            'deliveryID': 1,
+            'number_Of_Units_Delivered': 1,
+            'number_Of_Damaged': 1,
+            'productName': '$product.productName'
+        }
+    }]);
+}
+
 async function currentDate() {
     var today = new Date();
     return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -335,10 +375,19 @@ const indexFunctions = {
         }
     },
 
-    getAnewPurchase: function(req, res) {
-        res.render('a_newPurchases', {
-            title: 'Add Purchase'
-        });
+    getAnewPurchase: async function(req, res) {
+        // res.render('a_newPurchases', {
+        //     title: 'Add Purchase'
+        // });
+        try {
+            var delivery = await getDeliveries();
+            res.render('a_newPurchases', {
+                title: 'Add Purchase',
+                delivery: JSON.parse(JSON.stringify(delivery)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     getAnewSale: async function(req, res) {
