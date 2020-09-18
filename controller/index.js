@@ -99,7 +99,7 @@ function Delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, date
     this.userID = userID;
 }
 
-function discrepancies(discrepancyID, oldCount, newCount, date, userID, productID) {
+function Discrepancy(discrepancyID, oldCount, newCount, date, userID, productID) {
     this.discrepancyID = discrepancyID;
     this.oldCount = oldCount;
     this.newCount = newCount;
@@ -212,6 +212,23 @@ async function getMinMaxsupplierID(sortby, offset) {
     return highestID[0].supplierID + offset;
 }
 
+async function getMinMaxdiscrepancyID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await discrepanciesModel.aggregate([{
+        '$sort': {
+            'supplierID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'discrepancyID': 1
+        }
+    }]);
+    return highestID[0].discrepancyID + offset;
+}
+
 async function findUser(userID) {
     var user = await userModel.aggregate([{
         '$match': {
@@ -311,9 +328,31 @@ const indexFunctions = {
         }
     },
 
+    getAnewDiscrepancy: async function(req, res) {
+        // res.render('a_newDiscrepancy', {
+        //     title: 'New Discrepancy'
+        // });
+        try {
+            var products = await productModel.find({});
+            // console.log(products);
+            res.render('a_newDiscrepancy', {
+                title: 'New Discrepancy',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     getAeditProduct: function(req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
+        });
+    },
+
+    getAThreshold: function(req, res) {
+        res.render('a_threshold', {
+            title: 'Threshold'
         });
     },
 
@@ -610,7 +649,9 @@ const indexFunctions = {
 
     getProductDetails: async function(req, res) {
         var prodID = req.params.checkProdID;
+        console.log(typeof prodID);
         var match = await productModel.findOne({ productID: prodID });
+        console.log(match);
         res.send(match);
     },
 
@@ -675,6 +716,41 @@ const indexFunctions = {
             var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
             //send status
             res.send({ status: 200, msg: 'Sale Recorded' });
+        } else {
+            /**IF SESSION IS NOT VALID */
+            //alert user of invalid session
+            res.send({ status: 500, msg: 'something went wrong sending you back to login' });
+            //send back to login
+            console.log(req.session);
+            req.session.destroy();
+            console.log(req.session);
+            res.redirect("/");
+        }
+    },
+
+    postNewDiscrepancy: async function(req, res) {
+        console.log('postNewDiscrepancy');
+
+        if ( /**session valid */ req.session.logUser /**true */ ) {
+            /**IF SESSION IS VALID */
+            //get variables
+            var { oldCount, newCount, productID } = req.body;
+            var discrepancyID = await getMinMaxdiscrepancyID(-1, 1);
+            var userID = req.session.logUser.userID;
+            var date = new Date();
+            //var userID = 101;
+
+            //create new discrepancy
+            var discrepancy = new Discrepancy(discrepancyID, oldCount, newCount, date, userID, productID);
+            var newdiscrepancy = new discrepanciesModel(discrepancy);
+            //add new discrepancy to database
+            newdiscrepancy.recordNewDiscrepancy();
+            //decrease products stock
+            var product = await productModel.findOne({ productID: productID });
+            var newStock = newCount;
+            var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
+            //send status
+            res.send({ status: 200, msg: 'Discrepancy Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
