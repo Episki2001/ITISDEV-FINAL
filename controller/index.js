@@ -377,14 +377,20 @@ const indexFunctions = {
         }
     },
 
-    getAoneProduct: async function(req, res) {
+    getAoneEditProduct: async function(req, res) {
         try {
-            var productID = req.get.params('productID');
+            console.log('i made it');
+            var productID = req.params.productID;
             var match = await productModel.findOne({ productID: productID });
+            console.log(match);
             if (match) {
+                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
+                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
                 res.render('a_editProduct', {
                     title: match.productName,
-                    products: JSON.parse(JSON.stringify(match))
+                    product: JSON.parse(JSON.stringify(match)),
+                    supplier: JSON.parse(JSON.stringify(supplier)),
+                    ref_category: JSON.parse(JSON.stringify(ref_category))
                 });
             } else res.render('error', {
                 title: 'Error',
