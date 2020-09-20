@@ -5,28 +5,29 @@
         <div class="display-4 text-center">Record Purchases</div>
         <form class="container mt-2">
             <div class="form-group">
-                <label for="deliveryID">Delivery ID</label>
-                <select class="form-control" id="deliveryID">
+                <label for="purchase_deliveryID">Delivery ID</label>
+                <select class="form-control" id="purchase_deliveryID">
                     <option value="0">Please select <View>
                     </option>
                     {{#each delivery}}
-                    <option value="{{this.deliveryID}}">{{this.deliveryID}} - {{this.productName}} | Delivered: ({{this.number_Of_Units_Delivered}}) Damaged:({{this.number_Of_Damaged}})</option>
+                    <option value="{{this.deliveryID}}">{{this.deliveryID}} - {{this.productName}} | Delivered:
+                        ({{this.number_Of_Units_Delivered}}) Damaged:({{this.number_Of_Damaged}})</option>
                     {{/each}}
                 </select>
             </div>
             <div class="form-group">
-                <label for="amountPaid">Amount Due</label>
+                <label for="purchase_amountDue">Amount Due</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">PHP</div>
                     </div>
-                    <input type="number" class="form-control" id="amountDue" placeholder="0.00" disabled>
+                    <input type="number" class="form-control" id="purchase_amountDue" placeholder="0.00">
                 </div>
             </div>
             <div class="form-group">
-                <label for="datePaid">Date Paid</label>
+                <label for="purchase_datePaid">Date Paid</label>
                 <div class="input-group mb-2">
-                    <input type="date" class="form-control" id="datePaid">
+                    <input type="date" class="form-control" id="purchase_datePaid">
                     <script>
                         Date.prototype.toDateInputValue = (function () {
                             var local = new Date(this);
@@ -39,22 +40,21 @@
 
             </div>
             <div class="form-group">
-                <label for="totalCost">Amount Paid</label>
+                <label for="purchase_totalCost">Amount Paid</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">PHP</div>
                     </div>
-                    <input type="number" class="form-control" id="totalCost" placeholder="0.00">
+                    <input type="number" class="form-control" id="purchase_totalCost" placeholder="0.00">
                 </div>
             </div>
-            
+
             <div class="form-group ">
                 <div class="row">
                     <div class="col-6 mb-5 d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-dark ">Submit</button>
-                    </div>
-                    <div class="col-6 mb-5 d-flex justify-content-start">
-                        <a href="/a/purchases" class="btn btn-outline-secondary ">Cancel</a>
+                        <button type="button" class="btn btn-outline-dark" id="purchase_Submit" Submit</button> </div>
+                            <div class="col-6 mb-5 d-flex justify-content-start">
+                            <a href="/a/purchases" class="btn btn-outline-secondary" id="purchase_Cancel">Cancel</a>
                     </div>
                 </div>
 
