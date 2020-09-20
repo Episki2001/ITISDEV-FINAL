@@ -83,6 +83,22 @@ const indexMiddleware = {
         } catch(e) {
             res.send({ status: 500, msg: 'Server error. Could not validate.' });
         }
+    },
+
+    validateNewMDgoods: async function(req, res, next) {
+        let {productID,  numDmg, comment} = req.body;
+        let product = await productModel.findOne({productID: productID});
+
+        try {
+            if(productID == null) {
+                res.send({status: 401, msg: 'no product with matching product ID found' });
+            } else if(product.currentStock < parseInt(numDmg)) {
+                res.send({status: 401, msg: 'number of damaged cannot go beyond of current stock'});
+            } else
+                return next();
+        } catch(e) {
+            res.send({status: 500, msg: 'Server error. Could not validate.' });
+        }
     }
 
 };

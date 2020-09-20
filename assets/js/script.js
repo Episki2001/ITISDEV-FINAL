@@ -1,6 +1,7 @@
 
 
 
+
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -104,6 +105,23 @@ $(document).ready(function() {
             alert('Please Select a Product');
     });
 
+    $('#newMDgoods_checkID').click(function() {
+        var prodID = $('#MDproductID').val();
+        console.log(prodID);
+
+        if(prodID != '0') {
+            $.post('/newMDgoods/' + prodID, function(result) {
+                if(result) {
+                    var currentStock = result.currentStock;
+                    console.log(currentStock);
+                    $('#MDdmg').attr("placeholder", "Current Stock: " + currentStock);
+                } else {
+                    alert('Product not found');
+                }
+            });
+        }
+    })
+
     $('#submitNewDiscrepancy').click(function() {
         var productID = $('#productID').val();
         var oldCount = $('#oldCount_qty').val();
@@ -195,6 +213,48 @@ $(document).ready(function() {
             alert('No sale recorded');
         }
 
+    });
+
+    $('#submitNewMDgoods').click(function() {
+        var productID = $('#MDproductID').val();
+        var numDmg = $('#MDdmg').val();
+        var comment = $('#MDcomment').val();
+
+        var fieldsEmpty = false;
+        var invalidQty = false;
+
+        if(validator.isEmpty(productID) || validator.isEmpty(numDmg) || validator.isEmpty(comment)) {
+            fieldsEmpty = true;
+            alert('cannot leave empty fields');
+        }
+        if(parseInt(numDmg) < 0) {
+            invalidQty = true;
+            alert('number of damaged must be equal or more than 0');
+        }
+
+        if(!fieldsEmpty && !invalidQty) {
+            $.post('/newMD_submit', {productID: productID, numDamaged: numDmg, comments: comment}, function(result) {
+                switch (result.status) {
+                    case 200:
+                        {
+                            alert(result.msg);
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
+                }
+            })
+        } else {
+            alert('No Missing/Damaged Goods recorded');
+        }
     });
 
     $('#submitNewDelivery').click(function() {

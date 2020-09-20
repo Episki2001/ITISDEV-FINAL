@@ -117,7 +117,7 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, d
     this.deliveryID = deliveryID;
 }
 
-function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
+function DamagedGoods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
     this.dmgrecordID = dmgrecordID;
     this.dateDamaged = dateDamaged;
     this.numDamaged = numDamaged;
@@ -217,7 +217,7 @@ async function getMinMaxdiscrepancyID(sortby, offset) {
     //offset - adds productID by offset
     var highestID = await discrepanciesModel.aggregate([{
         '$sort': {
-            'supplierID': sortby
+            'discrepancyID': sortby
         }
     }, {
         '$limit': 1
@@ -227,6 +227,23 @@ async function getMinMaxdiscrepancyID(sortby, offset) {
         }
     }]);
     return highestID[0].discrepancyID + offset;
+}
+
+async function getMinMaxdmgrecordID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await damagedgoodsModel.aggregate([{
+        '$sort' : {
+            'dmgrecordID' : sortby
+        }
+    }, {
+        '$limit' : 1
+    }, {
+        '$project': {
+            'dmgrecordID' : 1
+        }
+    }]);
+    return highestID[0].dmgrecordID + offset;
 }
 
 async function findUser(userID) {
@@ -369,6 +386,19 @@ const indexFunctions = {
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAnewMDgoods: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            // console.log(products);
+            res.render('a_newMDgoods', {
+                title: 'New Missing/Damaged goods',
+                product: JSON.parse(JSON.stringify(products)),
             });
         } catch (e) {
             console.log(e);
@@ -693,6 +723,7 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
+
     postNewSale: async function(req, res) {
         console.log('postNewSale');
         //validate session
@@ -844,7 +875,7 @@ const indexFunctions = {
                 var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
                 var newSupplier = new supplierModel(supplier);
                 var result = await newSupplier.recordNewSupplier();
-                console.log(result)
+                console.log(result);
                 if (result)
                     res.send({ status: 200, supplierID });
                 else res.send({ status: 401, msg: 'Cannot connect to database' });
@@ -853,6 +884,31 @@ const indexFunctions = {
             }
         } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
 
+    },
+
+    postNewMDgoods: async function(req, res) {
+        if(!req.session.logUser) 
+            res.send({status: 500, msg: ': User is not logged in'});
+        try {
+            var {productID, numDamaged, comments} = req.body;
+            var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
+            var date = new Date();
+            var userID = req.session.logUser.userID;
+            var approved = null;
+            var managerID = null;
+
+            var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
+            var newMDgoods = new damagedgoodsModel(MDgoods);
+            var result = await newMDgoods.recordNewMDgoods();
+            console.log(result);
+
+            if(result) 
+                res.send({status: 200, dmgrecordID });
+            else
+                res.send({status: 401, msg: 'cannot connect to database'});
+        } catch(e) {
+            res.send({status: 500, msg: e});
+        }
     },
 
     postEditSupplier: async function(req, res) {
