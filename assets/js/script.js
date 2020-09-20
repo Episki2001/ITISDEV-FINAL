@@ -1,5 +1,3 @@
-const { default: validator } = require("validator");
-
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -432,20 +430,5 @@ $(document).ready(function() {
                 }
             });
         }
-    });
-
-    $('#purchase_Submit').click(function(){
-        var deliveryID = $('#purchase_deliveryID').val();
-        var datePaid = $('#purchase_datePaid').val();
-        var amountPaid = $('#purchase_amountPaid').val();
-
-        if(!validator.isEmpty(deliveryID) && !validator.isEmpty(datePaid) && !validator.isEmpty(amountPaid)){
-            $.post('/newPurchase', {deliveryID: deliveryID, datePaid: datePaid, amountPaid: amountPaid}, function(result){
-
-            });
-        }else{
-            alert('cannot leave empty fields');
-        }
-        
     });
 });

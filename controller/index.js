@@ -31,10 +31,12 @@ function User(userID, password, lastName, firstName, gender, birthdate, address,
     this.phoneNumber = phoneNumber;
     this.dateHired = new Date();
 }
+
 function Manager(userID, isSysAd) {
     this.userID = userID;
     this.isSysAd = isSysAd;
 }
+
 function Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode) {
     this.productID = productID;
     this.productName = productName;
@@ -44,6 +46,7 @@ function Product(productID, productName, currentStock, sellingPrice, purchasePri
     this.supplierID = supplierID;
     this.categoryCode = categoryCode;
 }
+
 function Threshold(thresholdID, thresholdType, number, productID, userID) {
     this.thresholdID = thresholdID;
     this.thresholdType = thresholdType;
@@ -51,6 +54,7 @@ function Threshold(thresholdID, thresholdType, number, productID, userID) {
     this.productID = productID;
     this.userID = userID;
 }
+
 function Supplier(supplierID, companyName, companyAddress, phoneNum, email) {
     this.supplierID = supplierID;
     this.companyName = companyName;
@@ -58,11 +62,13 @@ function Supplier(supplierID, companyName, companyAddress, phoneNum, email) {
     this.phoneNum = phoneNum;
     this.email = email;
 }
+
 function Ref_Category(categoryCode, categoryName, ProductType) {
     this.categoryCode = categoryCode;
     this.categoryNamee = categoryName;
     this.ProductType = ProductType;
 }
+
 function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, userID) {
     this.salesID = salesID;
     this.quantity = quantity;
@@ -72,6 +78,7 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
     this.productID = productID;
     this.userID = userID;
 }
+
 function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
     this.discountID = discountID;
     this.quantity = quantity;
@@ -82,6 +89,7 @@ function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold
     this.productID = productID;
     this.userID = userID;
 }
+
 function Delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, dateDelivered, productID, userID) {
     this.deliveryID = deliveryID;
     this.number_Of_Units_Delivered = number_Of_Units_Delivered;
@@ -90,6 +98,7 @@ function Delivery(deliveryID, number_Of_Units_Delivered, number_Of_Damaged, date
     this.productID = productID;
     this.userID = userID;
 }
+
 function discrepancies(discrepancyID, oldCount, newCount, date, userID, productID) {
     this.discrepancyID = discrepancyID;
     this.oldCount = oldCount;
@@ -98,6 +107,7 @@ function discrepancies(discrepancyID, oldCount, newCount, date, userID, productI
     this.userID = userID;
     this.productID = productID;
 }
+
 function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, deliveryID) {
     this.purchaseID = purchaseID;
     this.amountPaid = amountPaid;
@@ -106,6 +116,7 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, d
     this.managerID = managerID;
     this.deliveryID = deliveryID;
 }
+
 function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
     this.dmgrecordID = dmgrecordID;
     this.dateDamaged = dateDamaged;
@@ -116,6 +127,7 @@ function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments,
     this.managerID = managerID;
     this.productID = productID;
 }
+
 async function getMinMaxSalesID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -132,6 +144,7 @@ async function getMinMaxSalesID(sortby, offset) {
     }]);
     return highestID[0].salesID + offset;
 }
+
 async function getMinMaxDeliveryID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -164,6 +177,7 @@ async function getMinMaxUserID(sortby, offset) {
     }]);
     return highestID[0].userID + offset;
 }
+
 async function getMinMaxproductID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -180,6 +194,7 @@ async function getMinMaxproductID(sortby, offset) {
     }]);
     return highestID[0].productID + offset;
 }
+
 async function getMinMaxsupplierID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -196,6 +211,7 @@ async function getMinMaxsupplierID(sortby, offset) {
     }]);
     return highestID[0].supplierID + offset;
 }
+
 async function findUser(userID) {
     var user = await userModel.aggregate([{
         '$match': {
@@ -230,6 +246,7 @@ async function findUser(userID) {
     }]);
     return user[0];
 }
+
 async function getDeliveries() {
     //for new purchases
     return await deliveryModel.aggregate([{
@@ -269,6 +286,7 @@ async function getDeliveries() {
         }
     }]);
 }
+
 async function currentDate() {
     var today = new Date();
     return today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
@@ -279,6 +297,7 @@ const indexFunctions = {
             title: 'Login'
         });
     },
+
     getAdiscrepancy: async function(req, res) {
         try {
             var matches = await discrepanciesModel.find({});
@@ -291,16 +310,19 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAeditProduct: function(req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
+
     getAeditProfile: function(req, res) {
         res.render('a_editProfile', {
             title: 'Edit Profile'
         });
     },
+
     getAMDgoods: async function(req, res) {
         try {
             var matches = await damagedgoodsModel.find({});
@@ -313,6 +335,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAnewDelivery: async function(req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
@@ -327,6 +350,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAnewProducts: async function(req, res) {
         // res.render('a_newProducts', {
         //     title: 'Add Product'
@@ -344,6 +368,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAnewPurchase: async function(req, res) {
         // res.render('a_newPurchases', {
         //     title: 'Add Purchase'
@@ -358,6 +383,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAnewSale: async function(req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
@@ -372,16 +398,19 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAnewSupplier: function(req, res) {
         res.render('a_newSupplier', {
             title: 'Add Supplier'
         });
     },
+
     getAnewUser: function(req, res) {
         res.render('a_newUser', {
             title: 'Add User'
         });
     },
+
     getAdeliveries: async function(req, res) {
         try {
             var matches = await deliveryModel.find({});
@@ -394,6 +423,8 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
+
     getAproducts: async function(req, res) {
         try {
             var matches = await productModel.find({});
@@ -406,6 +437,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAoneEditProduct: async function(req, res) {
         try {
             var productID = req.params.productID;
@@ -428,6 +460,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getApurchases: async function(req, res) {
         try {
             var matches = await purchaseModel.find({});
@@ -440,6 +473,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAsales: async function(req, res) {
         try {
             var matches = await salesModel.find({});
@@ -452,6 +486,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAsuppliers: async function(req, res) {
         try {
             var matches = await supplierModel.find({});
@@ -464,6 +499,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAoneSupplier: async function(req, res) {
         try {
             var supplierID = req.params.supplierID;
@@ -482,6 +518,7 @@ const indexFunctions = {
             console.log(e)
         }
     },
+
     getAusers: async function(req, res) {
         try {
             var matches = await userModel.find({});
@@ -494,6 +531,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getAmanagers: async function(req, res) {
         try {
             var match = await managerModel.aggregate([{
@@ -532,6 +570,7 @@ const indexFunctions = {
             })
         }
     },
+
     postLogin: async function(req, res) {
         var { user, pass } = req.body;
         try {
@@ -568,11 +607,13 @@ const indexFunctions = {
             res.send({ status: 500, msg: e });
         }
     },
+
     getProductDetails: async function(req, res) {
         var prodID = req.params.checkProdID;
         var match = await productModel.findOne({ productID: prodID });
         res.send(match);
     },
+
     postLogout: function(req, res) {
         console.log(req.session);
         req.session.destroy();
@@ -645,6 +686,7 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
+
     postNewUser: async function(req, res) {
         var { fName, lName, birthdate, gender, address, phoneNum, password } = req.body;
 
@@ -661,6 +703,7 @@ const indexFunctions = {
             res.send({ status: 500, msg: e });
         }
     },
+
     postNewProduct: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
@@ -687,6 +730,7 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
 
     },
+
     postEditProduct: async function(req, res) {
         console.log('i am in posteditproduct');
         if (!req.session.logUser)
@@ -707,6 +751,7 @@ const indexFunctions = {
             }
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a product' });
     },
+
     postNewSupplier: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
@@ -733,6 +778,7 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new supplier' });
 
     },
+
     postEditSupplier: async function(req, res) {
         if (!req.session.logUser)
             res.send({ status: 500, msg: ': User is not logged in' });
@@ -754,10 +800,6 @@ const indexFunctions = {
                 res.send({ status: 500, msg: e });
             }
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
-
-    },
-    postNewPurchase: async function(req, res){
-        var {productID, datePaid, amountPaid} = req.body;
 
     }
 }
