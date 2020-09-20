@@ -870,6 +870,10 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
     },
+    calculateAmountDue: async function(req, res){
+        var deliveryID = req.params.deliveryID;
+        
+    },
     postNewPurchase: async function(req, res){
         var {deliveryID, datePaid, amountPaid} = req.body;
         var product = await productModel.findOne({ productID: productID });

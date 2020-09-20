@@ -8,6 +8,14 @@ function calculatePrice(val) {
     console.log(totalPrice);
     $('#newSale_total').val(totalPrice.toFixed(2));
 }
+
+function calculateAmountDue(){
+    var deliveryID = $('#purchase_deliveryID').val();
+    $.post('/newPurchase/'+deliveryID, function(result){
+        $('#purchase_amountDue').val(result);
+    });
+}
+
 $(document).ready(function() {
 
     /* LOGIN METHODS */
@@ -500,7 +508,7 @@ $(document).ready(function() {
             });
         }
     });
-
+    
     $('#purchase_Submit').click(function(){
         var deliveryID = $('#purchase_deliveryID').val();
         var datePaid = $('#purchase_datePaid').val();

@@ -30,6 +30,7 @@ router.get('/a/managers', controller.getAmanagers);
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
+router.post('/newPurchase/:deliveryID', controller.calculateAmountDue);
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
