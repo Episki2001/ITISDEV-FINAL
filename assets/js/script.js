@@ -223,13 +223,13 @@ $(document).ready(function() {
         var fieldsEmpty = false;
         var invalidQty = false;
 
-        if(validator.isEmpty(productID) || validator.isEmpty(numDmg) || validator.isEmpty(comment)) {
+        if(productID == 0 || validator.isEmpty(numDmg) || validator.isEmpty(comment)) {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if(parseInt(numDmg) < 0) {
+        if(parseInt(numDmg) <= 0) {
             invalidQty = true;
-            alert('number of damaged must be equal or more than 0');
+            alert('number of damaged must be more than 0');
         }
 
         if(!fieldsEmpty && !invalidQty) {
@@ -237,7 +237,7 @@ $(document).ready(function() {
                 switch (result.status) {
                     case 200:
                         {
-                            alert(result.msg);
+                            alert(result.msg); window.location.href = '/a/MDgoods';
                             break;
                         }
                     case 401:

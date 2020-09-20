@@ -86,14 +86,16 @@ const indexMiddleware = {
     },
 
     validateNewMDgoods: async function(req, res, next) {
-        let {productID,  numDmg, comment} = req.body;
+        let {productID,  numDamaged, comment} = req.body;
         let product = await productModel.findOne({productID: productID});
-
+        console.log(numDamaged);
+        console.log(product.currentStock);
         try {
             if(productID == null) {
                 res.send({status: 401, msg: 'no product with matching product ID found' });
-            } else if(product.currentStock < parseInt(numDmg)) {
+            } else if(parseInt(numDamaged) > parseInt(product.currentStock)) {
                 res.send({status: 401, msg: 'number of damaged cannot go beyond of current stock'});
+                
             } else
                 return next();
         } catch(e) {

@@ -378,7 +378,7 @@ const indexFunctions = {
     getAMDgoods: async function(req, res) {
         try {
             var matches = await damagedgoodsModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -879,28 +879,35 @@ const indexFunctions = {
     },
 
     postNewMDgoods: async function(req, res) {
+        
         if(!req.session.logUser) 
             res.send({status: 500, msg: ': User is not logged in'});
-        try {
-            var {productID, numDamaged, comments} = req.body;
-            var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
-            var date = new Date();
-            var userID = req.session.logUser.userID;
-            var approved = null;
-            var managerID = null;
+        else {
+            try {
+                var {productID, numDamaged, comments} = req.body;
+                var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
+                var date = new Date();
+                var userID = req.session.logUser.userID;
+                var approved = null;
+                var managerID = null;
+                if (req.session.type == 'admin' || req.session.type == 'manager') {
+                    approved = true;
+                    managerID = userID;
+                }   
 
-            var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
-            var newMDgoods = new damagedgoodsModel(MDgoods);
-            var result = await newMDgoods.recordNewMDgoods();
-            console.log(result);
-
-            if(result) 
-                res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
-            else
-                res.send({status: 401, msg: 'cannot connect to database'});
-        } catch(e) {
-            res.send({status: 500, msg: e});
-        }
+                var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
+                var newMDgoods = new damagedgoodsModel(MDgoods);
+                var result = await newMDgoods.recordNewMDgoods();
+                console.log(result);
+    
+                if(result) 
+                    res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
+                else
+                    res.send({status: 401, msg: 'cannot connect to database'});
+            } catch(e) {
+                res.send({status: 500, msg: e});
+            }
+        }    
     },
 
     postEditSupplier: async function(req, res) {
