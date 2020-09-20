@@ -5,6 +5,8 @@ const indexMiddleware = require('../middlewares/indexMiddleware');
 
 // GETS
 router.get('/', controller.getLogin);
+
+//ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 // router.get('/a/product/editProduct', controller.getAeditProduct);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
@@ -46,5 +48,10 @@ router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.post
 router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', controller.postNewPurchase);
 
+//MANAGERS
+
+
+
+//USERS
 
 module.exports = router;
