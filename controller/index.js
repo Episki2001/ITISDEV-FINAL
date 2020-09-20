@@ -898,10 +898,21 @@ const indexFunctions = {
                 var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
                 var newMDgoods = new damagedgoodsModel(MDgoods);
                 var result = await newMDgoods.recordNewMDgoods();
+
                 console.log(result);
+
+                if(managerID && result) {
+                        var product = await productModel.findOne({productID: productID});
+                        var newStock = parseInt(product.currentStock) - parseInt(numDamaged);
+                        var resultUpdate = await productModel.findOneAndUpdate({productID: productID}, {currentStock: newStock});
+                }
     
-                if(result) 
-                    res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
+                if(result)  { 
+                    if(resultUpdate){
+                        res.send({status: 200, msg: 'Missing/Damaged goods approved'});
+                    } else
+                        res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
+                }     
                 else
                     res.send({status: 401, msg: 'cannot connect to database'});
             } catch(e) {
