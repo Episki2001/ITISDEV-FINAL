@@ -344,7 +344,6 @@ const indexFunctions = {
             console.log(e);
         }
     },
-
     getAnewDiscrepancy: async function(req, res) {
         // res.render('a_newDiscrepancy', {
         //     title: 'New Discrepancy'
@@ -360,19 +359,16 @@ const indexFunctions = {
             console.log(e);
         }
     },
-
     getAeditProduct: function(req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
-
     getAThreshold: function(req, res) {
         res.render('a_threshold', {
             title: 'Threshold'
         });
     },
-
     getAeditProfile: function(req, res) {
         res.render('a_editProfile', {
             title: 'Edit Profile'
@@ -679,9 +675,7 @@ const indexFunctions = {
 
     getProductDetails: async function(req, res) {
         var prodID = req.params.checkProdID;
-        console.log(typeof prodID);
         var match = await productModel.findOne({ productID: prodID });
-        console.log(match);
         res.send(match);
     },
 
@@ -758,7 +752,6 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
-
     postNewDiscrepancy: async function(req, res) {
         console.log('postNewDiscrepancy');
 
@@ -793,7 +786,6 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
-
     postNewUser: async function(req, res) {
         var { fName, lName, birthdate, gender, address, phoneNum, password } = req.body;
 
@@ -932,6 +924,12 @@ const indexFunctions = {
                 res.send({ status: 500, msg: e });
             }
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
+
+    },
+    postNewPurchase: async function(req, res){
+        var {deliveryID, datePaid, amountPaid} = req.body;
+        var product = await productModel.findOne({ productID: productID });
+        // var amountDue = ;
 
     }
 }

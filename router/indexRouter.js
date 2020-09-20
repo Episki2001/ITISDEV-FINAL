@@ -43,6 +43,7 @@ router.post('/logout', controller.postLogout);
 router.post('/newProduct', controller.postNewProduct);
 router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.postNewDelivery);
 router.post('/editProduct', controller.postEditProduct);
+router.post('/newPurchase', controller.postNewPurchase);
 
 
 module.exports = router;
