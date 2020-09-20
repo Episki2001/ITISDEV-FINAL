@@ -63,26 +63,6 @@ const indexMiddleware = {
         } catch (e) {
             res.send({ status: 500, msg: 'Server error. Could not validate' });
         }
-    },
-
-    validateNewDiscrepancy: async function(req, res, next) {
-        let {productID, newCount, oldCount} = req.body;
-        let product = await productModel.findOne({productID: productID});
-        
-        try {
-            if(product == null) {
-                res.send({status: 401, msg: 'no product with matching product ID found' });
-                
-            } else if(product.currentStock == parseInt(newCount)) {
-                res.send({status: 401, msg: 'Old count and current stock do not match, please press check again'});
-                
-            }else if(product.currentStock != parseInt(oldCount)){
-                res.send({status: 401, msg: 'Stock of current product selected does not match "Old Count", please re-check the product.'})
-            }  else
-                return next();
-        } catch(e) {
-            res.send({ status: 500, msg: 'Server error. Could not validate.' });
-        }
     }
 
 };

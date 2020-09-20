@@ -10,9 +10,7 @@ router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
 router.get('/a/MDgoods', controller.getAMDgoods);
-router.get('/a/thresholds', controller.getAThreshold);
 router.get('/a/newDelivery', controller.getAnewDelivery);
-router.get('/a/newDiscrepancy', controller.getAnewDiscrepancy);
 router.get('/a/newProducts', controller.getAnewProducts);
 router.get('/a/newPurchase', controller.getAnewPurchase);
 router.get('/a/newSale', controller.getAnewSale);
@@ -29,14 +27,12 @@ router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
-router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
 router.post('/newSupplier', controller.postNewSupplier);
-router.post('/editSuppliers', controller.postEditSupplier);
-router.post('/newDiscrepancy', indexMiddleware.validateNewDiscrepancy, controller.postNewDiscrepancy);
+router.post('/editSuppliers', controller.postEditSupplier)
 router.post('/logout', controller.postLogout);
 router.post('/newProduct', controller.postNewProduct);
 router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.postNewDelivery);

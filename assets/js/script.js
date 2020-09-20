@@ -1,6 +1,3 @@
-
-
-
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
@@ -82,73 +79,6 @@ $(document).ready(function() {
                 } else
                     alert('Product not found');
             });
-        }
-    });
-
-
-    $('#newDiscrepancy_checkID').click(function() {
-        var prodID = $('#productID').val();
-        console.log(prodID);
-
-        if(prodID != '0') {
-            $.post('/newDiscrepancy/' + prodID, function(result) {
-                if(result) {
-                    var currentStock = result.currentStock;
-                    console.log(currentStock);
-                    $('#oldCount_qty').val(currentStock);
-                    $('#newCount_qty').val(currentStock);
-                } else
-                    alert('Product not found');
-            });
-        } else
-            alert('Please Select a Product');
-    });
-
-    $('#submitNewDiscrepancy').click(function() {
-        var productID = $('#productID').val();
-        var oldCount = $('#oldCount_qty').val();
-        var newCount = $('#newCount_qty').val();
-
-        var fieldsEmpty = false;
-        var invalidQty = false;
-        
-        if(validator.isEmpty(newCount)) {
-            fieldsEmpty = true;
-            alert('cannot leave empty fields');
-        }
-        if(parseInt(newCount) < 0) {
-            invalidQty = true;
-            alert('New count cannot be less than zero');
-        }
-        if(parseInt(newCount) == parseInt(oldCount)) {
-            invalidQty = true;
-            alert('New count has to be different from old count');
-        }
-
-        if(!fieldsEmpty && !invalidQty) {
-            $.post('/newDiscrepancy', {productID: productID, newCount: newCount, oldCount: oldCount}, function(result) {
-                console.log(result);
-                console.log(result.msg);
-                switch(result.status) {
-                    case 200:
-                        {
-                            alert(result.msg); window.location.href = '/a/discrepancy';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500: ' + result.msg);
-                            break;
-                        }
-                }
-            });
-        } else {
-            alert('No discrepancy recorded');
         }
     });
 
@@ -329,6 +259,7 @@ $(document).ready(function() {
             });
         }
     });
+
 
     //submit New Product
     /**
