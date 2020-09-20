@@ -7,7 +7,7 @@
            
             <div class="form-group">
                 <label for="purchase_deliveryID">Delivery ID</label>
-                <select class="form-control" id="purchase_deliveryID">
+                <select class="form-control" id="purchase_deliveryID" onchange="fillNewPurchase()">
                     <option value="0">Please select <View>
                     </option>
                     {{#each delivery}}
@@ -22,7 +22,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">PHP</div>
                     </div>
-                    <input type="number" class="form-control" id="purchase_amountDue" placeholder="0.00" disabled>
+                    <input type="number" class="form-control" id="purchase_amountDue" placeholder="0.00">
                 </div>
             </div>
 
