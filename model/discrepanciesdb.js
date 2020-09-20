@@ -18,12 +18,6 @@ const discrepancySchema = new mongoose.Schema({
     productID: { type: Number, required: true }
 }, {collection: "Discrepancy"});
 
-discrepancySchema.methods.recordNewDiscrepancy = async function() {
-    var result = DiscrepancyModel.create(this);
-    console.log(JSON.stringify(result));
-    return result;
-};
-
 const DiscrepancyModel = db.model('Discrepancy', discrepancySchema);
 
 module.exports = DiscrepancyModel;

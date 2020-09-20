@@ -757,9 +757,7 @@ const indexFunctions = {
 
     },
     postNewPurchase: async function(req, res){
-        var {deliveryID, datePaid, amountPaid} = req.body;
-        var product = await productModel.findOne({ productID: productID });
-        // var amountDue = ;
+        var {productID, datePaid, amountPaid} = req.body;
 
     }
 }
