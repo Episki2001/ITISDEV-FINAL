@@ -13,13 +13,23 @@ var db = mongoose.connection;
 var ProductSchema = new mongoose.Schema({
     productID: { type: Number, required: true },
     productName: { type: String, required: true },
-    currentStock: { type: String, required: true },
+    currentStock: { type: Number, required: true },
     sellingPrice: { type: Number, required: true },
     purchasePrice: { type: Number, required: true },
-    supplierID: { type: String, required: true },
+    supplierID: { type: Number, required: true },
     categoryCode: { type: Number, required: true }
-}, {collection: "products"});
+}, { collection: "products" });
 
-const producrModel = db.model('products', ProductSchema);
+ProductSchema.methods.recordNewProduct = async function() {
+    var result = await productModel.create(this);
+    return result;
+};
 
-module.exports = producrModel;
+ProductSchema.methods.recordEditProduct = async function() {
+    console.log('inside mehtod')
+    var result = productModel.findOneAndUpdate({ productID: this.productID }, { sellingPrice: this.sellingPrice, purchasePrice: this.purchasePrice });
+    return result;
+};
+const productModel = db.model('products', ProductSchema);
+
+module.exports = productModel;

@@ -16,11 +16,11 @@ var DiscountSchema = new mongoose.Schema({
     sellingPrice: { type: Number, required: true },
     discount: { type: Number, required: true },
     total: { type: Number, required: true },
-    dateSold: { type: Number, required: true },
+    dateSold: { type: Date, required: true },
     productID: { type: Number, required: true },
     userID: { type: Number, required: true }
-}, {collection: "Discount"});
+}, { collection: "Discount" });
 
-const discountModel =  db.model('Discount', DiscountSchema);
+const discountModel = db.model('Discount', DiscountSchema);
 
 module.exports = discountModel;
