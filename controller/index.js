@@ -895,7 +895,7 @@ const indexFunctions = {
             console.log(result);
 
             if(result) 
-                res.send({status: 200, dmgrecordID });
+                res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
             else
                 res.send({status: 401, msg: 'cannot connect to database'});
         } catch(e) {

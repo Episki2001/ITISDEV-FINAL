@@ -233,7 +233,7 @@ $(document).ready(function() {
         }
 
         if(!fieldsEmpty && !invalidQty) {
-            $.post('/newMD_submit', {productID: productID, numDamaged: numDmg, comments: comment}, function(result) {
+            $.post('/newMDgoods', {productID: productID, numDamaged: numDmg, comments: comment}, function(result) {
                 switch (result.status) {
                     case 200:
                         {
