@@ -368,7 +368,7 @@ $(document).ready(function() {
         if (!(purchasePrice > 0)) {
             valid = false;
             alert('Purchase Price is invalid');
-        }
+        }   
 
         if (valid && purchasePrice > sellingPrice) {
             valid = false;
