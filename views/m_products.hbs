@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
@@ -32,58 +32,23 @@
 
                             </div>
                             <div class="mt-2">
-                                <table class="table table-hover">
-                                    <thead class="thead-danger">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">ProductID</th>
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">Supplier ID</th>
+                                            <th scope="col">Category</th>
                                             <th scope="col">Product Name</th>
                                             <th scope="col">Current Stock</th>
                                             <th scope="col">Selling Price</th>
-                                            <th scope="col">Supplier Name</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Purchase Price</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Bizzare Adventures Inc.</td>
-                                            <td>123456789</td>
-                                            <td>@mdo</td>
-                                            <td>Wolololo</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-danger">Edit</button>
-                                                    <button type="button" class="btn btn-outline-danger">Delete  </button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Arknights Addicts Co.</td>
-                                            <td>987654321</td>
-                                            <td>@fat</td>
-                                            <td>69420 St.</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-danger">Edit</button>
-                                                    <button type="button" class="btn btn-outline-danger">Delete  </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Dame Da Ne ltd.</td>
-                                            <td>963258741</td>
-                                            <td>@twitter</td>
-                                            <td>bakamitai</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-danger">Edit</button>
-                                                    <button type="button" class="btn btn-outline-danger">Delete  </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {{#each products}}
+                                            {{>products_row_m this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">

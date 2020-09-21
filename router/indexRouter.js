@@ -49,9 +49,14 @@ router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', controller.postNewPurchase);
 
 //MANAGERS
+router.get('/m/products', controller.getMproducts);
+router.get('/m/products/:productID', controller.getMoneEditProduct);
 
 
 
 //USERS
+router.get('/u/products', controller.getUproducts);
+router.get('/u/products/:productID', controller.getUoneViewProduct);
+router.get('/u/suppliers', controller.getUsuppliers);
 
 module.exports = router;

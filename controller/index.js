@@ -949,6 +949,94 @@ const indexFunctions = {
         var product = await productModel.findOne({ productID: productID });
         // var amountDue = ;
 
-    }
+    },
+
+
+    //MANAGERS
+    getMproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMoneEditProduct: async function(req, res) {
+        try {
+            var productID = req.params.productID;
+            var match = await productModel.findOne({ productID: productID });
+            console.log(match);
+            if (match) {
+                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
+                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                res.render('m_editProduct', {
+                    title: 'Edit ' + match.productName,
+                    product: JSON.parse(JSON.stringify(match)),
+                    supplier: JSON.parse(JSON.stringify(supplier)),
+                    ref_category: JSON.parse(JSON.stringify(ref_category))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    //USERS
+    getUproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('u_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUoneViewProduct: async function(req, res) {
+        try {
+            var productID = req.params.productID;
+            var match = await productModel.findOne({ productID: productID });
+            console.log(match);
+            if (match) {
+                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
+                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                res.render('u_productDetails', {
+                    title: 'View ' + match.productName,
+                    product: JSON.parse(JSON.stringify(match)),
+                    supplier: JSON.parse(JSON.stringify(supplier)),
+                    ref_category: JSON.parse(JSON.stringify(ref_category))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUsuppliers: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('u_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
 }
 module.exports = indexFunctions;

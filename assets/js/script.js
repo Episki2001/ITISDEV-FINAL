@@ -33,19 +33,19 @@ $(document).ready(function() {
                     case 201:
                         {
                             //admin
-                            window.location.href = '/a/users';
+                            window.location.href = '/a/products';
                             break;
                         }
                     case 202:
                         {
                             //manager
-                            window.location.href = '/a/suppliers';
+                            window.location.href = '/m/products';
                             break;
                         }
                     case 203:
                         {
                             //user
-                            window.location.href = '/a/products';
+                            window.location.href = '/u/products';
                             break;
                         }
                     case 401:
