@@ -161,6 +161,21 @@ async function getMinMaxDeliveryID(sortby, offset) {
     }]);
     return highestID[0].deliveryID + offset;
 }
+
+
+function getUserType(type) {
+    
+    if(type == "admin") {
+        return 201;
+    } else if(type == "manager") {
+        return 202;
+    } else if(type == "user") {
+        return 203;
+    }
+
+    return 500;
+}
+
 async function getMinMaxUserID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds userad by offset
@@ -393,7 +408,7 @@ const indexFunctions = {
             var products = await productModel.find({});
             // console.log(products);
             res.render('a_newMDgoods', {
-                title: 'New Missing/Damaged goods',
+                title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
             });
         } catch (e) {
@@ -693,6 +708,7 @@ const indexFunctions = {
             let { productID, dateDelivered, number_Of_Units_Delivered, number_Of_Damaged } = req.body;
             var deliveryID = await getMinMaxDeliveryID(-1, 1);
             var userID = req.session.logUser.userID;
+            var userStatus = getUserType(req.session.type);
             //var userID = 101;
 
             //create new sale
@@ -705,7 +721,7 @@ const indexFunctions = {
             var newStock = parseInt(product.currentStock) + parseInt(number_Of_Units_Delivered) - parseInt(number_Of_Damaged);
             var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
             //send status
-            res.send({ status: 200, msg: 'Delivery Recorded' });
+            res.send({ status: userStatus, msg: 'Delivery Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -740,7 +756,9 @@ const indexFunctions = {
             var newStock = product.currentStock - quantity;
             var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
             //send status
-            res.send({ status: 200, msg: 'Sale Recorded' });
+            status = getUserType(req.session.type);
+            console.log(status);
+            res.send({ status: status, msg: 'Sale Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -762,6 +780,7 @@ const indexFunctions = {
             var discrepancyID = await getMinMaxdiscrepancyID(-1, 1);
             var userID = req.session.logUser.userID;
             var date = new Date();
+            var userStatus = getUserType(req.session.type);
             //var userID = 101;
 
             //create new discrepancy
@@ -774,7 +793,7 @@ const indexFunctions = {
             var newStock = newCount;
             var result = await productModel.findOneAndUpdate({ productID: product.productID }, { currentStock: newStock });
             //send status
-            res.send({ status: 200, msg: 'Discrepancy Recorded' });
+            res.send({ status: userStatus, msg: 'Discrepancy Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -819,9 +838,10 @@ const indexFunctions = {
                 var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
                 var newProduct = new productModel(product);
                 var result = await newProduct.recordNewProduct();
+                var userStatus = getUserType(req.session.type);
                 console.log(result)
                 if (result)
-                    res.send({ status: 200, productID });
+                    res.send({ status: userStatus, productID });
                 else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({ status: 500, msg: e });
@@ -841,9 +861,10 @@ const indexFunctions = {
                 console.log(product);
                 var editProduct = new productModel(product);
                 var result = await editProduct.recordEditProduct();
+                var userStatus = getUserType(req.session.type);
                 console.log(result);
                 if (result)
-                    res.send({ status: 200, productID });
+                    res.send({ status: userStatus, productID });
                 else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({ status: 500, msg: e });
@@ -898,6 +919,7 @@ const indexFunctions = {
                 var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
                 var newMDgoods = new damagedgoodsModel(MDgoods);
                 var result = await newMDgoods.recordNewMDgoods();
+                var userStatus = getUserType(req.session.type);
 
                 console.log(result);
 
@@ -909,9 +931,9 @@ const indexFunctions = {
     
                 if(result)  { 
                     if(resultUpdate){
-                        res.send({status: 200, msg: 'Missing/Damaged goods approved'});
+                        res.send({status: userStatus, msg: 'Missing/Damaged goods approved'});
                     } else
-                        res.send({status: 200, msg: 'Missing/Damaged goods recorded'});
+                        res.send({status: userStatus, msg: 'Missing/Damaged goods recorded'});
                 }     
                 else
                     res.send({status: 401, msg: 'cannot connect to database'});
@@ -989,6 +1011,33 @@ const indexFunctions = {
         }
     },
 
+    getMnewProducts: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            var ref_category = await ref_categoryModel.find({});
+            res.render('m_newProducts', {
+                title: 'Add product',
+                suppliers: JSON.parse(JSON.stringify(matches)),
+                ref_category: JSON.parse(JSON.stringify(ref_category))
+                
+            });
+        } catch(e) {
+            console.log(e)
+        }
+    },
+
+    getMsupplier: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            res.render('m_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
     //USERS
     getUproducts: async function(req, res) {
         try {
@@ -1038,5 +1087,56 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
+    getUnewSale: async function(req, res) {
+        // res.render('a_newSales', {
+        //     title: 'Add Sale'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('u_newSales', {
+                title: 'Add Sale',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUnewMDgoods: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newMDgoods', {
+                title: 'Add Missing/Damaged goods',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    getUnewDiscrepancy: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newDiscrepancy', {
+                title: 'Add Discrepancy',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    getUnewDelivery: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newDelivery', {
+                title: 'Add delivery details',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch(e) {
+            console.log(e);
+        }
+    }
 }
 module.exports = indexFunctions;

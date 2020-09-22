@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>u_navbar}}
+{{>u_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
@@ -34,46 +34,15 @@
                                         <tr>
                                             <th scope="col">SupplierID</th>
                                             <th scope="col">Company Name</th>
-                                            <th scope="col">Email</th>
                                             <th scope="col">Phone Number</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Bizzare Adventures Inc.</td>
-                                            <td>123456789</td>
-                                            <td>@mdo</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Add Delivery Details</button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Arknights Addicts Co.</td>
-                                            <td>987654321</td>
-                                            <td>@fat</td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Add Delivery Details</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Dame Da Ne ltd.</td>
-                                            <td>963258741</td>
-                                            <td>@twitter</td>	
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-dark">Add Delivery Details</button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {{#each suppliers}}
+                                            {{>suppliers_row_u this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">

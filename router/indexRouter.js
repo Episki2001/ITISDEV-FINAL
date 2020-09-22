@@ -51,12 +51,18 @@ router.post('/newPurchase', controller.postNewPurchase);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);
-
+router.get('/m/newProducts', controller.getMnewProducts);
+router.get('/m/suppliers', controller.getMsupplier);
 
 
 //USERS
 router.get('/u/products', controller.getUproducts);
 router.get('/u/products/:productID', controller.getUoneViewProduct);
 router.get('/u/suppliers', controller.getUsuppliers);
+router.get('/u/newSale', controller.getUnewSale);
+router.get('/U/newMDgoods', controller.getUnewMDgoods);
+router.get('/u/newDiscrepancy', controller.getUnewDiscrepancy);
+router.get('/u/newDelivery', controller.getUnewDelivery);
+
 
 module.exports = router;

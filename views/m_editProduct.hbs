@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class="shadow">
 						<div class="d-flex flex-column mt-2">
@@ -9,16 +9,16 @@
 							<div class="container">
 								<form>
 									<div class="form-group">
-										<input type="hidden" class="form-control" id="MproductID" value="{{product.productID}}">
+										<input type="hidden" class="form-control" id="productID" value="{{product.productID}}">
 									</div>
 									<div class="form-group">
-										<label for="MproductName">Product Name</label>
-										<input type="text" class="form-control" id="MproductName" value="{{product.productName}}" readonly>
+										<label for="productName">Product Name</label>
+										<input type="text" class="form-control" id="productName" value="{{product.productName}}" readonly>
 									</div>
 									<div class="form-group">
-										<input type="hidden" class="form-control" id="MsupplierID" value="{{product.supplierID}}">
-										<label for="MsupplierName">Supplier Name</label>
-										<input type="text" class="form-control" id ="MsupplierName" value="{{supplier.companyName}}" readonly>
+										<input type="hidden" class="form-control" id="supplierID" value="{{product.supplierID}}">
+										<label for="supplierName">Supplier Name</label>
+										<input type="text" class="form-control" id ="supplierName" value="{{supplier.companyName}}" readonly>
 										{{!-- <select class="form-control" id="supplierID">
 											<option value = "{{product.supplierID}}">Please select a supplier</option>
 											{{!-- {{#each suppliers}}
@@ -27,8 +27,8 @@
 										{{!-- </select> --}}
 									</div>
 									<div class="form-group">
-										<label for="Mcategory">Category</label>
-										<input type="text" class="form-control" id="Mcategory" value ="{{ref_category.categoryName}}" readonly>
+										<label for="category">Category</label>
+										<input type="text" class="form-control" id="category" value ="{{ref_category.categoryName}}" readonly>
 										{{!-- <select class="form-control" id="category" read>
 											<option value = "{{product.supplierID}}">Please select a category</option> --}}
 											{{!-- {{#each ref_category}}
@@ -37,34 +37,35 @@
 										</select>
 									</div>
 									<div class="form-group">
-										<label for="MsellingPrice">Selling Price</label>
+										<label for="sellingPrice">Selling Price</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="MsellingPrice" value="{{product.sellingPrice}}" min = '0.00' required>
+											<input type="number" class="form-control" id="sellingPrice" value="{{product.sellingPrice}}" min = '0.00' required>
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="MpurchasePrice">Purchase Price</label>
+										<label for="purchasePrice">Purchase Price</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="MpurchasePrice" value="{{product.purchasePrice}}" min= '0.0' required>
+											<input type="number" class="form-control" id="purchasePrice" value="{{product.purchasePrice}}" min= '0.0' required>
+										</div>
+									</div>
+									<div class="form-group ">
+										<div class="row">
+											<div class="col-6 mb-5 d-flex justify-content-end">
+												<button type="button" class="btn btn-outline-danger" id="submitEditProduct">Submit</button>
+											</div>
+											<div class="col-6 mb-5 d-flex justify-content-start">
+												<a href="/m/products" class="btn btn-outline-secondary">Cancel</a>
+											</div>
 										</div>
 									</div>
 								</form>
-                            <div class="form-group ">
-                                <div class="row">
-                                    <div class="col-6 mb-5 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-danger">Submit</button>
-                                    </div>
-                                    <div class="col-6 mb-5 d-flex justify-content-start">
-                                        <button type="button" class="btn btn-outline-secondary">Cancel</button>
-                                    </div>
-                                </div>
-							</div>	
+                            	
 						</div>
                     </div>
                 </div>
