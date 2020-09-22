@@ -1,0 +1,62 @@
+{{>m_navbar}} {{>m_sidebar}}
+<div class="col-9">
+    <div class="shadow">
+        <div class="d-flex flex-column mt-2">
+            <div class="container">
+                <h1 class="display-4 text-center">Add Delivery Details</h1>
+            </div>
+            <div class="container">
+                <form>
+                    <!-- product ID -->
+                    <div class="form-group">
+                        <label for="productID">Product ID</label>
+                        <select class="form-control" id="productID">
+                            <option value="0">Please select a product</option>
+                            {{#each product}}
+                            <option value="{{this.productID}}">{{this.productName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateDelivered">Date Delivered</label>
+                        <div class="input-group mb-2">
+                            <input type="date" class="form-control" id="dateDelivered">
+                            <script>
+                                Date.prototype.toDateInputValue = (function () {
+                                    var local = new Date(this);
+                                    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                                    return local.toJSON().slice(0, 10);
+                                });
+                                document.getElementById('dateDelivered').value = new Date().toDateInputValue();
+                            </script>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="numDelivered">Number of Unite Delivered</label>
+                        <input type="number" class="form-control" id="numDelivered" placeholder="" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="numDamaged">Number of Units Damaged</label>
+                        <input type="number" class="form-control" id="numDamaged" placeholder="" min="0" required>
+                    </div>
+                </form>
+                <div class="form-group ">
+                    <div class="row">
+                        <div class="col-6 mb-5 d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-dark" id='submitNewDelivery'>Submit</button>
+                        </div>
+                        <div class="col-6 mb-5 d-flex justify-content-start">
+                            <a href="/m/deliveries" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+</div>

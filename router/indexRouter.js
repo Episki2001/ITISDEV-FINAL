@@ -53,7 +53,16 @@ router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);
 router.get('/m/newProducts', controller.getMnewProducts);
 router.get('/m/suppliers', controller.getMsupplier);
-
+router.get('/m/suppliers/:supplierID', controller.getMoneSupplier);
+router.get('/m/newSupplier', controller.getMnewSupplier);
+router.get('/m/purchases', controller.getMpurchases);
+router.get('/m/newPurchase', controller.getMnewPurchase);
+router.get('/m/deliveries', controller.getMdeliveries);
+router.get('/m/newDelivery', controller.getMnewDelivery);
+router.get('/m/sales', controller.getMsales);
+router.get('/m/newSale', controller.getMnewSale);
+router.get('/m/MDgoods', controller.getMMDgoods);
+router.get('/m/newMDgoods', controller.getMnewMDgoods);
 
 //USERS
 router.get('/u/products', controller.getUproducts);

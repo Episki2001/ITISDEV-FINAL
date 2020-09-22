@@ -412,10 +412,14 @@ $(document).ready(function() {
             console.log('phoneNum : ' + phoneNum);
             $.post('/newSupplier', { companyName: cName, companyAddress: cAddress, email: email, phoneNum: phoneNum }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID)
-                            window.location.href = '/a/suppliers';
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID); window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID); window.location.href = '/m/suppliers';
                             break;
                         }
                     case 401:
@@ -603,10 +607,14 @@ $(document).ready(function() {
             console.log(supplierID);
             $.post('/editSuppliers', { supplierID: supplierID, email: email, phoneNum: phoneNum }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID)
-                            window.location.href = '/a/suppliers';
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID); window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID); window.location.href = '/m/suppliers';
                             break;
                         }
                     case 401:
@@ -631,7 +639,28 @@ $(document).ready(function() {
 
         if(!validator.isEmpty(deliveryID) && !validator.isEmpty(datePaid) && !validator.isEmpty(amountPaid)){
             $.post('/newPurchase', {deliveryID: deliveryID, datePaid: datePaid, amountPaid: amountPaid}, function(result){
-
+                switch (result.status) {
+                    case 201:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID); window.location.href = '/a/purchases';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID); window.location.href = '/m/purchases';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
             });
         }else{
             alert('cannot leave empty fields');
