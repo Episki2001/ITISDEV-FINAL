@@ -658,6 +658,16 @@ $(document).ready(function() {
         }
     });
 
+    $('#purchase_deliveryID').change(function() {
+        var deliveryID = $('#purchase_deliveryID').val();
+        if (deliveryID != '0') {
+            $.post('/puchases_checkDeliveryID', { deliveryID: deliveryID }, function(result) {
+                $('#purchase_amountPaid').val(calculatePrice(result.amount));
+                $('#purchase_totalCost').val(calculatePrice(result.amount));
+            });
+        }
+    });
+
     $('#purchase_Submit').click(function() {
         var deliveryID = $('#purchase_deliveryID').val();
         var datePaid = $('#purchase_datePaid').val();
