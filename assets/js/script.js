@@ -5,6 +5,11 @@ function calculatePrice(val) {
     console.log(totalPrice);
     $('#newSale_total').val(totalPrice.toFixed(2));
 }
+
+function convertToPrice(val) {
+    var value = val;
+    return value.toFixed(2);
+}
 $(document).ready(function() {
 
     /* LOGIN METHODS */
@@ -660,10 +665,12 @@ $(document).ready(function() {
 
     $('#purchase_deliveryID').change(function() {
         var deliveryID = $('#purchase_deliveryID').val();
+        console.log("testing");
         if (deliveryID != '0') {
             $.post('/puchases_checkDeliveryID', { deliveryID: deliveryID }, function(result) {
-                $('#purchase_amountPaid').val(calculatePrice(result.amount));
-                $('#purchase_totalCost').val(calculatePrice(result.amount));
+                console.log(result.amount);
+                $('#purchase_amountPaid').val(convertToPrice(result.amount));
+                $('#purchase_totalCost').val(convertToPrice(result.amount));
             });
         }
     });

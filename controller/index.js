@@ -1017,6 +1017,40 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
     },
+    postPurchaseCheckDelivery: async function(req, res) {
+        var deliveryID = req.body.deliveryID;
+        try {
+            console.log('i am here');
+            var values = await deliveryModel.aggregate([{
+                '$match': {
+                    'deliveryID': 60000201
+                }
+            }, {
+                '$lookup': {
+                    'from': 'products',
+                    'localField': 'productID',
+                    'foreignField': 'productID',
+                    'as': 'product'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$product',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$project': {
+                    'purchasePrice': '$product.purchasePrice',
+                    'number_Of_Units_Delivered': 1
+                }
+            }]);
+            console.log(values);
+            var amount = parseFloat(values[0].purchasePrice) * parseFloat(values[0].number_Of_Units_Delivered);
+            console.log(amount);
+            res.send({ amount: amount });
+        } catch (e) {
+            console.log(e)
+        }
+    },
     postNewPurchase: async function(req, res) {
         var { deliveryID, datePaid, amountPaid } = req.body;
         var product = await productModel.findOne({ productID: productID });

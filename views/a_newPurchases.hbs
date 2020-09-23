@@ -16,15 +16,6 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="purchase_totalCost">Amount Due</label>
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">PHP</div>
-                    </div>
-                    <input type="number" class="form-control" id="purchase_amountDue" placeholder="0.00">
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="purchase_datePaid">Date Paid</label>
                 <div class="input-group mb-2">
                     <input type="date" class="form-control" id="purchase_datePaid">
@@ -34,13 +25,13 @@
                             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
                             return local.toJSON().slice(0, 10);
                         });
-                        document.getElementById('datePaid').value = new Date().toDateInputValue();
+                        document.getElementById('purchase_datePaid').value = new Date().toDateInputValue();
                     </script>
                 </div>
 
             </div>
             <div class="form-group">
-                <label for="purchase_amountPaid">Amount Paid</label>
+                <label for="purchase_purchasePrice">Amount Paid</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">PHP</div>
@@ -48,7 +39,15 @@
                     <input type="number" class="form-control" id="purchase_amountPaid" placeholder="0.00">
                 </div>
             </div>
-
+             <div class="form-group">
+                <label for="purchase_totalCost">Total Cost</label>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">PHP</div>
+                    </div>
+                    <input type="number" class="form-control" id="purchase_totalCost" placeholder="0.00" readonly>
+                </div>
+            </div>
             <div class="form-group ">
                 <div class="row">
                     <div class="col-6 mb-5 d-flex justify-content-end">
