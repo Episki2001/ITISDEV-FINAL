@@ -30,6 +30,7 @@ router.get('/a/suppliers', controller.getAsuppliers);
 router.get('/a/suppliers/:supplierID', controller.getAoneSupplier);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
+router.get('/a/newManager', controller.getAnewManager);
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
@@ -47,7 +48,7 @@ router.post('/newProduct', controller.postNewProduct);
 router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.postNewDelivery);
 router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', controller.postNewPurchase);
-
+router.post('/newManager', controller.postNewManager);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);

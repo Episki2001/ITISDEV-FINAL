@@ -164,12 +164,12 @@ async function getMinMaxDeliveryID(sortby, offset) {
 
 
 function getUserType(type) {
-    
-    if(type == "admin") {
+
+    if (type == "admin") {
         return 201;
-    } else if(type == "manager") {
+    } else if (type == "manager") {
         return 202;
-    } else if(type == "user") {
+    } else if (type == "user") {
         return 203;
     }
 
@@ -248,14 +248,14 @@ async function getMinMaxdmgrecordID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
     var highestID = await damagedgoodsModel.aggregate([{
-        '$sort' : {
-            'dmgrecordID' : sortby
+        '$sort': {
+            'dmgrecordID': sortby
         }
     }, {
-        '$limit' : 1
+        '$limit': 1
     }, {
         '$project': {
-            'dmgrecordID' : 1
+            'dmgrecordID': 1
         }
     }]);
     return highestID[0].dmgrecordID + offset;
@@ -491,6 +491,44 @@ const indexFunctions = {
         });
     },
 
+    getAnewManager: async function(req, res) {
+        try {
+            var users = await userModel.aggregate([{
+                '$lookup': {
+                    'from': 'managers',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'manager'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$manager',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$match': {
+                    'manager.userID': null
+                }
+            }, {
+                '$sort': {
+                    'userID': 1
+                }
+            }, {
+                '$project': {
+                    'userID': 1,
+                    'firstName': 1,
+                    'lastName': 1
+                }
+            }])
+            res.render('a_newManager', {
+                title: 'Add Manager',
+                user: JSON.parse(JSON.stringify(users))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     getAdeliveries: async function(req, res) {
         try {
             var matches = await deliveryModel.find({});
@@ -636,18 +674,12 @@ const indexFunctions = {
 
             }])
             console.log(JSON.parse(JSON.stringify(match)));
-            console.log('Database populated \\o/')
             res.render('a_managers', {
                 title: 'View Managers',
                 managers: JSON.parse(JSON.stringify(match))
             });
-        } catch (err) {
-            throw err
-        } finally {
-            mongoose.connection.close(() => {
-                console.log('Disconnected from MongoDB, bye o/')
-                process.exit(0)
-            })
+        } catch (e) {
+            console.log(e);
         }
     },
 
@@ -822,6 +854,24 @@ const indexFunctions = {
         }
     },
 
+    postNewManager: async function(req, res) {
+        var { userID, isSysAd } = req.body;
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin') {
+            try {
+                var manager = new Manager(userID, isSysAd);
+                var newManager = new managerModel(manager);
+                var result = await newManager.recordNewManager();
+                if (result)
+                    res.send({ status: 201, userID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
+    },
+
     postNewProduct: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
@@ -901,12 +951,12 @@ const indexFunctions = {
     },
 
     postNewMDgoods: async function(req, res) {
-        
-        if(!req.session.logUser) 
-            res.send({status: 500, msg: ': User is not logged in'});
+
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
         else {
             try {
-                var {productID, numDamaged, comments} = req.body;
+                var { productID, numDamaged, comments } = req.body;
                 var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
                 var date = new Date();
                 var userID = req.session.logUser.userID;
@@ -915,7 +965,7 @@ const indexFunctions = {
                 if (req.session.type == 'admin' || req.session.type == 'manager') {
                     approved = true;
                     managerID = userID;
-                }   
+                }
 
                 var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
                 var newMDgoods = new damagedgoodsModel(MDgoods);
@@ -924,24 +974,23 @@ const indexFunctions = {
 
                 console.log(result);
 
-                if(managerID && result) {
-                        var product = await productModel.findOne({productID: productID});
-                        var newStock = parseInt(product.currentStock) - parseInt(numDamaged);
-                        var resultUpdate = await productModel.findOneAndUpdate({productID: productID}, {currentStock: newStock});
+                if (managerID && result) {
+                    var product = await productModel.findOne({ productID: productID });
+                    var newStock = parseInt(product.currentStock) - parseInt(numDamaged);
+                    var resultUpdate = await productModel.findOneAndUpdate({ productID: productID }, { currentStock: newStock });
                 }
-    
-                if(result)  { 
-                    if(resultUpdate){
-                        res.send({status: userStatus, msg: 'Missing/Damaged goods approved'});
+
+                if (result) {
+                    if (resultUpdate) {
+                        res.send({ status: userStatus, msg: 'Missing/Damaged goods approved' });
                     } else
-                        res.send({status: userStatus, msg: 'Missing/Damaged goods recorded'});
-                }     
-                else
-                    res.send({status: 401, msg: 'cannot connect to database'});
-            } catch(e) {
-                res.send({status: 500, msg: e});
+                        res.send({ status: userStatus, msg: 'Missing/Damaged goods recorded' });
+                } else
+                    res.send({ status: 401, msg: 'cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
             }
-        }    
+        }
     },
 
     postEditSupplier: async function(req, res) {
@@ -968,8 +1017,8 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
     },
-    postNewPurchase: async function(req, res){
-        var {deliveryID, datePaid, amountPaid} = req.body;
+    postNewPurchase: async function(req, res) {
+        var { deliveryID, datePaid, amountPaid } = req.body;
         var product = await productModel.findOne({ productID: productID });
         // var amountDue = ;
 
@@ -1021,9 +1070,9 @@ const indexFunctions = {
                 title: 'Add product',
                 suppliers: JSON.parse(JSON.stringify(matches)),
                 ref_category: JSON.parse(JSON.stringify(ref_category))
-                
+
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e)
         }
     },
@@ -1035,7 +1084,7 @@ const indexFunctions = {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     },
@@ -1247,7 +1296,7 @@ const indexFunctions = {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products))
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     },
@@ -1259,7 +1308,7 @@ const indexFunctions = {
                 title: 'Add Discrepancy',
                 product: JSON.parse(JSON.stringify(products))
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     },
@@ -1271,7 +1320,7 @@ const indexFunctions = {
                 title: 'Add delivery details',
                 product: JSON.parse(JSON.stringify(products))
             });
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
