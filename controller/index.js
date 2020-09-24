@@ -712,7 +712,35 @@ const indexFunctions = {
 
     getAsales: async function(req, res) {
         try {
-            var matches = await salesModel.find({});
+            var matches = await salesModel.aggregate([{
+                      '$lookup': {
+                        'from': 'users', 
+                        'localField': 'userID', 
+                        'foreignField': 'userID', 
+                        'as': 'user'
+                      }
+                    }, {
+                      '$unwind': {
+                        'path': '$user', 
+                        'preserveNullAndEmptyArrays': true
+                      }
+                    }, {
+                      '$sort': {
+                        'dateSold': 1
+                      }
+                    }, {
+                      '$project': {
+                        'salesID': 1, 
+                        'quantity': 1, 
+                        'sellingPrice': 1, 
+                        'total': 1, 
+                        'dateSold': 1, 
+                        'productID': 1, 
+                        'userID': 1, 
+                        'firstName': '$user.firstName', 
+                        'lastName': '$user.lastName'
+                      }
+            }]).sort({ dateSold: -1 });
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_sales', {
                 title: 'View Sales',
