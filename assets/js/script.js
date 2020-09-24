@@ -6,23 +6,16 @@ function calculatePrice(val) {
     $('#newSale_total').val(totalPrice.toFixed(2));
 }
 
-function calculateAmountDue(){
-    var deliveryID = $('#purchase_deliveryID').val();
-    $.post('/newPurchase/'+deliveryID, function(result){
-        $('#purchase_amountDue').val(result);
-    });
-}
-
 function convertToPrice(val) {
     var value = val;
     return value.toFixed(2);
 }
-$(document).ready(function() {
+$(document).ready(function () {
 
     /* LOGIN METHODS */
 
     // LOGIN: validation of form when submitting
-    $('#submitLogin').click(function() {
+    $('#submitLogin').click(function () {
 
         var user = $('#id').val();
         var pass = $('#pword').val();
@@ -36,39 +29,38 @@ $(document).ready(function() {
         }
 
         if (!validator.isEmpty(user) && !validator.isEmpty(pass)) {
-            $.post('/', { user: user, pass: pass }, function(result) {
+            $.post('/', {
+                user: user,
+                pass: pass
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            //admin
-                            window.location.href = '/a/products';
-                            break;
-                        }
-                    case 202:
-                        {
-                            //manager
-                            window.location.href = '/m/products';
-                            break;
-                        }
-                    case 203:
-                        {
-                            //user
-                            window.location.href = '/u/products';
-                            break;
-                        }
+                    case 201: {
+                        //admin
+                        window.location.href = '/a/products';
+                        break;
+                    }
+                    case 202: {
+                        //manager
+                        window.location.href = '/m/products';
+                        break;
+                    }
+                    case 203: {
+                        //user
+                        window.location.href = '/u/products';
+                        break;
+                    }
                     case 401:
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
     //Add Methods
-    $('#newSale_checkID').click(function() {
+    $('#newSale_checkID').click(function () {
         var prodID = $('#newSale_prodID').val();
         console.log(prodID);
 
@@ -80,7 +72,7 @@ $(document).ready(function() {
         }
 
         if (!validator.isEmpty(prodID)) {
-            $.post('/newSale/' + prodID, function(result) {
+            $.post('/newSale/' + prodID, function (result) {
                 if (result.sellingPrice) {
                     console.log('result:' + result);
                     var sellingPrice = result.sellingPrice;
@@ -95,12 +87,12 @@ $(document).ready(function() {
     });
 
 
-    $('#newDiscrepancy_checkID').click(function() {
+    $('#newDiscrepancy_checkID').click(function () {
         var prodID = $('#productID').val();
         console.log(prodID);
 
         if (prodID != '0') {
-            $.post('/newDiscrepancy/' + prodID, function(result) {
+            $.post('/newDiscrepancy/' + prodID, function (result) {
                 if (result) {
                     var currentStock = result.currentStock;
                     console.log(currentStock);
@@ -113,12 +105,12 @@ $(document).ready(function() {
             alert('Please Select a Product');
     });
 
-    $('#newMDgoods_checkID').click(function() {
+    $('#newMDgoods_checkID').click(function () {
         var prodID = $('#MDproductID').val();
         console.log(prodID);
 
         if (prodID != '0') {
-            $.post('/newMDgoods/' + prodID, function(result) {
+            $.post('/newMDgoods/' + prodID, function (result) {
                 if (result) {
                     var currentStock = result.currentStock;
                     console.log(currentStock);
@@ -130,7 +122,7 @@ $(document).ready(function() {
         }
     })
 
-    $('#submitNewDiscrepancy').click(function() {
+    $('#submitNewDiscrepancy').click(function () {
         var productID = $('#productID').val();
         var oldCount = $('#oldCount_qty').val();
         var newCount = $('#newCount_qty').val();
@@ -152,35 +144,37 @@ $(document).ready(function() {
         }
 
         if (!fieldsEmpty && !invalidQty) {
-            $.post('/newDiscrepancy', { productID: productID, newCount: newCount, oldCount: oldCount }, function(result) {
+            $.post('/newDiscrepancy', {
+                productID: productID,
+                newCount: newCount,
+                oldCount: oldCount
+            }, function (result) {
                 console.log(result);
                 console.log(result.msg);
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert(result.msg);window.location.href = '/a/discrepancy';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert(result.msg);window.location.href = '/m/discrepancy';
-                            break;
-                        }
-                    case 203:
-                        {
-                            alert(result.msg);window.location.href = '/u/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500: ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert(result.msg);
+                        window.location.href = '/a/discrepancy';
+                        break;
+                    }
+                    case 202: {
+                        alert(result.msg);
+                        window.location.href = '/m/discrepancy';
+                        break;
+                    }
+                    case 203: {
+                        alert(result.msg);
+                        window.location.href = '/u/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
                 }
             });
         } else {
@@ -188,7 +182,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#submitNewSale').click(function() {
+    $('#submitNewSale').click(function () {
         var quantity = $('#newSale_qty').val();
         var sellingPrice = $('#newSale_sellingPrice').val();
         var total = $('#newSale_total').val();
@@ -202,39 +196,43 @@ $(document).ready(function() {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if (parseInt(quantity) < 0) {
+        if (parseInt(quantity) <= 0 || quantity % 1 != 0) {
             invalidQty = true;
-            alert('Quantity cannot be less than zero');
+            alert('Quantity must be more than zero and must be a whole number');
         }
 
         if (!fieldsEmpty && !invalidQty) {
-            $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
+            $.post('/newSale_submit', {
+                quantity: quantity,
+                sellingPrice: sellingPrice,
+                total: total,
+                dateSold: dateSold,
+                productID: productID
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert(result.msg);window.location.href = '/a/sales';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert(result.msg);window.location.href = '/m/sales';
-                            break;
-                        }
-                    case 203:
-                        {
-                            alert(result.msg);window.location.href = '/u/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500: ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert(result.msg);
+                        window.location.href = '/a/sales';
+                        break;
+                    }
+                    case 202: {
+                        alert(result.msg);
+                        window.location.href = '/m/sales';
+                        break;
+                    }
+                    case 203: {
+                        alert(result.msg);
+                        window.location.href = '/u/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
                 }
             });
         } else {
@@ -243,7 +241,7 @@ $(document).ready(function() {
 
     });
 
-    $('#submitNewMDgoods').click(function() {
+    $('#submitNewMDgoods').click(function () {
         var productID = $('#MDproductID').val();
         var numDmg = $('#MDdmg').val();
         var comment = $('#MDcomment').val();
@@ -261,33 +259,35 @@ $(document).ready(function() {
         }
 
         if (!fieldsEmpty && !invalidQty) {
-            $.post('/newMDgoods', { productID: productID, numDamaged: numDmg, comments: comment }, function(result) {
+            $.post('/newMDgoods', {
+                productID: productID,
+                numDamaged: numDmg,
+                comments: comment
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert(result.msg);window.location.href = '/a/MDgoods';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert(result.msg);window.location.href = '/m/MDgoods';
-                            break;
-                        }
-                    case 203:
-                        {
-                            alert(result.msg);window.location.href = '/u/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500: ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert(result.msg);
+                        window.location.href = '/a/MDgoods';
+                        break;
+                    }
+                    case 202: {
+                        alert(result.msg);
+                        window.location.href = '/m/MDgoods';
+                        break;
+                    }
+                    case 203: {
+                        alert(result.msg);
+                        window.location.href = '/u/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
                 }
             })
         } else {
@@ -295,7 +295,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#submitNewDelivery').click(function() {
+    $('#submitNewDelivery').click(function () {
         var productID = $('#productID').val();
         var dateDelivered = $('#dateDelivered').val();
         var numDamaged = parseInt($('#numDamaged').val());
@@ -315,39 +315,42 @@ $(document).ready(function() {
             alert('Number of Damaged must be less than number delivered');
         } else {
             console.log('data is valid');
-            $.post('/newDelivery', { productID: productID, dateDelivered: dateDelivered, number_Of_Units_Delivered: numDelivered, number_Of_Damaged: numDamaged }, function(result) {
+            $.post('/newDelivery', {
+                productID: productID,
+                dateDelivered: dateDelivered,
+                number_Of_Units_Delivered: numDelivered,
+                number_Of_Damaged: numDamaged
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert(result.msg);window.location.href = '/a/deliveries';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert(result.msg);window.location.href = '/m/deliveries';
-                            break;
-                        }
-                    case 203:
-                        {
-                            alert(result.msg);window.location.href = '/u/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500: ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert(result.msg);
+                        window.location.href = '/a/deliveries';
+                        break;
+                    }
+                    case 202: {
+                        alert(result.msg);
+                        window.location.href = '/m/deliveries';
+                        break;
+                    }
+                    case 203: {
+                        alert(result.msg);
+                        window.location.href = '/u/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
-    $('#submitNewUser').click(function() {
+    $('#submitNewUser').click(function () {
         var fName = $('#fName').val();
         var lName = $('#lName').val();
         var birthdate = $('#birthdate').val();
@@ -393,57 +396,63 @@ $(document).ready(function() {
             console.log('address : ' + address);
             console.log('password : ' + password);
             console.log('confirm : ' + confirm);
-            $.post('/a/newUser', { fName: fName, lName: lName, birthdate: birthdate, gender: gender, address: address, phoneNum: phoneNum, password: password }, function(result) {
+            $.post('/a/newUser', {
+                fName: fName,
+                lName: lName,
+                birthdate: birthdate,
+                gender: gender,
+                address: address,
+                phoneNum: phoneNum,
+                password: password
+            }, function (result) {
                 switch (result.status) {
-                    case 200:
-                        {
-                            alert('User successfully added with userID: ' + result.userID)
-                            window.location.href = '/a/users';
-                            break;
-                        }
+                    case 200: {
+                        alert('User successfully added with userID: ' + result.userID)
+                        window.location.href = '/a/users';
+                        break;
+                    }
                     case 401:
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         }
 
     });
 
-    $('#submitNewManager').click(function() {
+    $('#submitNewManager').click(function () {
         var userID = $('#userID').val();
         var isSysAd = $('#isSysAd').val();
 
         if (userID == 0) {
             alert('Please select a user');
         } else {
-            $.post('/newManager', { userID: userID, isSysAd: isSysAd }, function(result) {
+            $.post('/newManager', {
+                userID: userID,
+                isSysAd: isSysAd
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Manager Successfully Added');
-                            window.location.href = '/a/managers';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('Manager Successfully Added');
+                        window.location.href = '/a/managers';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
-    $('#submitNewSupplier').click(function() {
+    $('#submitNewSupplier').click(function () {
         var cName = $('#cName').val();
         var cAddress = $('#cAddress').val();
         var email = $('#email').val();
@@ -461,28 +470,31 @@ $(document).ready(function() {
             console.log('companyAddress : ' + cAddress);
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
-            $.post('/newSupplier', { companyName: cName, companyAddress: cAddress, email: email, phoneNum: phoneNum }, function(result) {
+            $.post('/newSupplier', {
+                companyName: cName,
+                companyAddress: cAddress,
+                email: email,
+                phoneNum: phoneNum
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);window.location.href = '/a/suppliers';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);window.location.href = '/m/suppliers';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
+                        window.location.href = '/a/suppliers';
+                        break;
+                    }
+                    case 202: {
+                        alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
+                        window.location.href = '/m/suppliers';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         }
@@ -502,7 +514,7 @@ $(document).ready(function() {
         currentStock = 0\
         productID(get the highest product ID in the database and add 1)
      */
-    $('#submitNewProduct').click(function() {
+    $('#submitNewProduct').click(function () {
         var productName = $('#productName').val();
         var categoryCode = parseInt($('#category').val());
         var supplierID = parseInt($('#supplierID').val());
@@ -553,34 +565,38 @@ $(document).ready(function() {
 
         if (valid) {
 
-            $.post('/newProduct', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice }, function(result) {
+            $.post('/newProduct', {
+                productName: productName,
+                categoryCode: categoryCode,
+                supplierID: supplierID,
+                sellingPrice: sellingPrice,
+                purchasePrice: purchasePrice
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Product successfully added with productID: ' + result.productID);window.location.href = '/a/products';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert('Product successfully added with productID: ' + result.productID);window.location.href = '/m/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('Error ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('User successfully added with productID: ' + result.productID);
+                        window.location.href = '/a/products';
+                        break;
+                    }
+                    case 202: {
+                        alert('User successfully added with productID: ' + result.productID);
+                        window.location.href = '/m/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('Error ' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
-    $('#submitEditProduct').click(function() {
+    $('#submitEditProduct').click(function () {
         // var productName = $('#productName').val();
         // var categoryCode = parseInt($('#category').val());
         // var supplierID = parseInt($('#supplierID').val());
@@ -615,34 +631,36 @@ $(document).ready(function() {
 
         if (valid) {
             // alert('valid na');
-            $.post('/editProduct', { productID: productID, purchasePrice: purchasePrice, sellingPrice: sellingPrice }, function(result) {
+            $.post('/editProduct', {
+                productID: productID,
+                purchasePrice: purchasePrice,
+                sellingPrice: sellingPrice
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Product successfully edited with productID: ' + result.productID);window.location.href = '/a/products';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert('Product successfully edited with productID: ' + result.productID);window.location.href = '/m/products';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('Error ' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('Product successfully edited with productID: ' + result.productID);
+                        window.location.href = '/a/products';
+                        break;
+                    }
+                    case 202: {
+                        alert('Product successfully edited with productID: ' + result.productID);
+                        window.location.href = '/m/products';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('Error ' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
-    $('#submitEditSupplier').click(function() {
+    $('#submitEditSupplier').click(function () {
         var supplierID = $('#supplierID').val();
         var email = $('#email').val();
         var phoneNum = $('#phoneNum').val();
@@ -658,38 +676,39 @@ $(document).ready(function() {
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
             console.log(supplierID);
-            $.post('/editSuppliers', { supplierID: supplierID, email: email, phoneNum: phoneNum }, function(result) {
+            $.post('/editSuppliers', {
+                supplierID: supplierID,
+                email: email,
+                phoneNum: phoneNum
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);window.location.href = '/a/suppliers';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);window.location.href = '/m/suppliers';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
+                        window.location.href = '/a/suppliers';
+                        break;
+                    }
+                    case 202: {
+                        alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
+                        window.location.href = '/m/suppliers';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         }
     });
 
-    $('#purchase_deliveryID').change(function() {
+    $('#purchase_deliveryID').change(function () {
         var deliveryID = $('#purchase_deliveryID').val();
-        console.log("testing");
         if (deliveryID != '0') {
-            $.post('/puchases_checkDeliveryID', { deliveryID: deliveryID }, function(result) {
+            $.post('/newPurchase/' + deliveryID, function (result) {
                 console.log(result.amount);
                 $('#purchase_amountPaid').val(convertToPrice(result.amount));
                 $('#purchase_totalCost').val(convertToPrice(result.amount));
@@ -697,34 +716,37 @@ $(document).ready(function() {
         }
     });
 
-    $('#purchase_Submit').click(function() {
+    $('#purchase_Submit').click(function () {
         var deliveryID = $('#purchase_deliveryID').val();
         var datePaid = $('#purchase_datePaid').val();
         var amountPaid = $('#purchase_amountPaid').val();
+        var totalCost = $('#purchase_totalCost').val();
 
         if (!validator.isEmpty(deliveryID) && !validator.isEmpty(datePaid) && !validator.isEmpty(amountPaid)) {
-            $.post('/newPurchase', { deliveryID: deliveryID, datePaid: datePaid, amountPaid: amountPaid }, function(result) {
+            $.post('/newPurchase', {
+                deliveryID: deliveryID,
+                datePaid: datePaid,
+                amountPaid: amountPaid
+            }, function (result) {
                 switch (result.status) {
-                    case 201:
-                        {
-                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID);window.location.href = '/a/purchases';
-                            break;
-                        }
-                    case 202:
-                        {
-                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID);window.location.href = '/m/purchases';
-                            break;
-                        }
-                    case 401:
-                        {
-                            alert('case 401: ' + result.msg);
-                            break;
-                        }
-                    case 500:
-                        {
-                            alert('case 500' + result.msg);
-                            break;
-                        }
+                    case 201: {
+                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                        window.location.href = '/a/purchases';
+                        break;
+                    }
+                    case 202: {
+                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                        window.location.href = '/m/purchases';
+                        break;
+                    }
+                    case 401: {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                    case 500: {
+                        alert('case 500' + result.msg);
+                        break;
+                    }
                 }
             });
         } else {
