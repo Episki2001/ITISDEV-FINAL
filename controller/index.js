@@ -894,7 +894,7 @@ const indexFunctions = {
             //alert user of invalid session
             res.send({
                 status: 500,
-                msg: 'Something went wrong. Sending you back to login'
+                msg: ': User is not logged in'
             });
             //send back to login
             console.log(req.session);
@@ -945,7 +945,7 @@ const indexFunctions = {
             //alert user of invalid session
             res.send({
                 status: 500,
-                msg: 'something went wrong sending you back to login'
+                msg: ': User is not logged in'
             });
             //send back to login
             console.log(req.session);
@@ -993,7 +993,7 @@ const indexFunctions = {
             //alert user of invalid session
             res.send({
                 status: 500,
-                msg: 'something went wrong sending you back to login'
+                msg: ': User is not logged in'
             });
             //send back to login
             console.log(req.session);
@@ -1012,6 +1012,9 @@ const indexFunctions = {
             phoneNum,
             password
         } = req.body;
+
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
 
         try {
             var userID = await getMinMaxUserID(-1, 1);

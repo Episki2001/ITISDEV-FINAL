@@ -360,6 +360,9 @@ $(document).ready(function() {
             gender = 'M';
         } else gender = 'F';
 
+        var today = new Date();
+        var bday = new Date(birthdate);
+
         var valid = true;
 
         if (validator.isEmpty(fName) || validator.isEmpty(lName) || validator.isEmpty(address) || validator.isEmpty(password) || validator.isEmpty(confirm) || validator.isEmpty(phoneNum)) {
@@ -367,9 +370,19 @@ $(document).ready(function() {
             alert('Please Input all fields');
         }
 
+        if (valid && phoneNum.length != 11) {
+            valid = false;
+            alert('Please input a valid phone number')
+        }
+
         if (valid && confirm != password) {
             valid = false;
             alert('Passwords do not match');
+        }
+
+        if (valid && today < bday) {
+            valid = false;
+            alert('Birthdate cannot be after today')
         }
 
         if (valid) {
@@ -513,8 +526,10 @@ $(document).ready(function() {
         }
         // console.log(valid);
 
-        if (categoryCode < 100 && categoryCode > 299)
+        if (categoryCode == 0) {
+            valid = false;
             alert('Category not selected');
+        }
 
         // console.log(valid + ' ' + type);
 
@@ -542,12 +557,12 @@ $(document).ready(function() {
                 switch (result.status) {
                     case 201:
                         {
-                            alert('User successfully added with productID: ' + result.productID);window.location.href = '/a/products';
+                            alert('Product successfully added with productID: ' + result.productID);window.location.href = '/a/products';
                             break;
                         }
                     case 202:
                         {
-                            alert('User successfully added with productID: ' + result.productID);window.location.href = '/m/products';
+                            alert('Product successfully added with productID: ' + result.productID);window.location.href = '/m/products';
                             break;
                         }
                     case 401:
@@ -634,7 +649,7 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7)) {
+        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 11)) {
             valid = false;
             alert('Please Input atleast one field');
         }
