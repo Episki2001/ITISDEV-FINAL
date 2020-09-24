@@ -138,6 +138,12 @@ $(document).ready(function () {
             invalidQty = true;
             alert('New count cannot be less than zero');
         }
+
+        if (newCount % 1 != 0) {
+            invalidQty = true;
+            alert('New count must be a whole number');
+        }
+
         if (parseInt(newCount) == parseInt(oldCount)) {
             invalidQty = true;
             alert('New count has to be different from old count');
@@ -258,6 +264,11 @@ $(document).ready(function () {
             alert('number of damaged must be more than 0');
         }
 
+        if (numDmg % 1 != 0) {
+            invalidQty = true;
+            alert("number of damaged must be a whole number")
+        }
+
         if (!fieldsEmpty && !invalidQty) {
             $.post('/newMDgoods', {
                 productID: productID,
@@ -313,7 +324,11 @@ $(document).ready(function () {
             alert('Quantities invalid');
         } else if (numDamaged >= numDelivered) {
             alert('Number of Damaged must be less than number delivered');
-        } else {
+        } else if (numDelivered % 1 != 0) {
+            alert('Number of Delivered must be a whole number');
+        } else if (numDamaged % 1 != 0) {
+            alert('Number of Damaged must be a whole number');
+        }else {
             console.log('data is valid');
             $.post('/newDelivery', {
                 productID: productID,
