@@ -462,7 +462,7 @@ const indexFunctions = {
         try {
             var record = await damagedgoodsModel.aggregate([{
                 '$match': {
-                    'dmgrecordID': dmgrecordID
+                    'dmgrecordID': parseInt(dmgrecordID)
                 }
             }, {
                 '$lookup': {
@@ -505,7 +505,7 @@ const indexFunctions = {
             console.log(record);
             res.render('a_approveMDgoods', {
                 title: 'Approve Damaged Record',
-                record: JSON.parse(JSON.stringify(record[0]))
+                record: JSON.parse(JSON.stringify(record))
             });
         } catch (e) {
             console.log(e);
