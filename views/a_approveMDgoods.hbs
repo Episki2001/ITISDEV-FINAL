@@ -1,0 +1,73 @@
+{{>a_navbar}}
+{{>a_sidebar}}
+            <div class="col-9">
+                    <div class="shadow">
+						<div class="d-flex flex-column mt-2">
+                            <div class="container">
+								<h1 class="display-4 text-center">New Missing/Damaged goods</h1>
+							</div>
+							<div class="container">
+								<form>
+                                    <div class="form-group">
+                                        <label for="userID">Added by</label>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- newMDgoods_prodID -->
+                                                <input type ="text" class = "form-control" id = "userID" value="{{record.userID}} - {{record.firstName}} {{record.lastName}}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+									<div class="form-group">
+                                        <label for="MDproductID">Product</label>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- newMDgoods_prodID -->
+                                                <input type ="text" class = "form-control" id = "MDproductID" value="{{record.productID}} - {{record.productName}}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dateDamaged">Date Damaged</label>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <!-- newMDgoods_prodID -->
+                                                <input type ="date" class = "form-control" id = "dateDamaged"  readonly>
+                                                <script>
+                                                Date.prototype.toDateInputValue = (function () {
+                                                    var local = new Date("{{record.dateDamaged}}");
+                                                    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                                                    return local.toJSON().slice(0, 10);
+                                                });
+                                                document.getElementById('dateDamaged').value = new Date().toDateInputValue();
+                                            </script>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="MDdmg">Number of Damaged</label>
+                                        <input type="number" class="form-control" id="MDdmg" value ="{{record.numDamaged}}" min="0" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="MDcomment">Comment</label>
+                                        <textarea class="form-control" id="MDcomment" placeholder="no comment" rows="3" readonly>{{record.comments}}</textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6 mb-5 d-flex justify-content-end">
+                                                <button type="button" class="btn btn-outline-dark" id="submitNewMDgoods">Submit</button>
+                                            </div>
+                                            <div class="col-6 mb-5 d-flex justify-content-start">
+                                                <a href="/a/MDgoods" class="btn btn-outline-secondary">Cancel</a>
+                                            </div>
+                                        </div>
+                                    </div>
+								</form>
+						    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

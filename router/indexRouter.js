@@ -12,6 +12,8 @@ router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
 router.get('/a/MDgoods', controller.getAMDgoods);
+router.get('/a/forApprovalMDgoods', controller.getAForApprovalMDgoods);
+router.get('/a/approveMDGoods/:dmgrecordID', controller.getAoneFAMDGoods)
 router.get('/a/thresholds', controller.getAThreshold);
 router.get('/a/newDelivery', controller.getAnewDelivery);
 router.get('/a/newDiscrepancy', controller.getAnewDiscrepancy);

@@ -196,9 +196,9 @@ $(document).ready(function () {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if (parseInt(quantity) < 0) {
+        if (parseInt(quantity) <= 0 || quantity % 1 != 0) {
             invalidQty = true;
-            alert('Quantity cannot be less than zero');
+            alert('Quantity must be more than zero and must be a whole number');
         }
 
         if (!fieldsEmpty && !invalidQty) {
@@ -363,6 +363,9 @@ $(document).ready(function () {
             gender = 'M';
         } else gender = 'F';
 
+        var today = new Date();
+        var bday = new Date(birthdate);
+
         var valid = true;
 
         if (validator.isEmpty(fName) || validator.isEmpty(lName) || validator.isEmpty(address) || validator.isEmpty(password) || validator.isEmpty(confirm) || validator.isEmpty(phoneNum)) {
@@ -370,9 +373,19 @@ $(document).ready(function () {
             alert('Please Input all fields');
         }
 
+        if (valid && phoneNum.length != 11) {
+            valid = false;
+            alert('Please input a valid phone number')
+        }
+
         if (valid && confirm != password) {
             valid = false;
             alert('Passwords do not match');
+        }
+
+        if (valid && today < bday) {
+            valid = false;
+            alert('Birthdate cannot be after today')
         }
 
         if (valid) {
@@ -525,8 +538,10 @@ $(document).ready(function () {
         }
         // console.log(valid);
 
-        if (categoryCode < 100 && categoryCode > 299)
+        if (categoryCode == 0) {
+            valid = false;
             alert('Category not selected');
+        }
 
         // console.log(valid + ' ' + type);
 
@@ -652,7 +667,7 @@ $(document).ready(function () {
 
         var valid = true;
 
-        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7)) {
+        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 11)) {
             valid = false;
             alert('Please Input atleast one field');
         }
