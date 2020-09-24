@@ -6,7 +6,7 @@
         <form class="container mt-2">
             <div class="form-group">
                 <label for="purchase_deliveryID">Delivery ID</label>
-                <select class="form-control" id="purchase_deliveryID" onchange="calculateAmountDue()">
+                <select class="form-control" id="purchase_deliveryID">
                     <option value="0">Please select <View>
                     </option>
                     {{#each delivery}}
@@ -31,7 +31,7 @@
 
             </div>
             <div class="form-group">
-                <label for="purchase_purchasePrice">Amount Paid</label>
+                <label for="purchase_amountPaid">Amount Paid</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
                         <div class="input-group-text">PHP</div>
@@ -39,7 +39,7 @@
                     <input type="number" class="form-control" id="purchase_amountPaid" placeholder="0.00">
                 </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label for="purchase_totalCost">Total Cost</label>
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -51,10 +51,10 @@
             <div class="form-group ">
                 <div class="row">
                     <div class="col-6 mb-5 d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-dark" id="purchase_Submit"> Submit</button> 
+                        <button type="button" class="btn btn-outline-dark" id="purchase_Submit"> Submit</button>
                     </div>
                     <div class="col-6 mb-5 d-flex justify-content-start">
-                            <a href="/a/purchases" class="btn btn-outline-secondary" id="purchase_Cancel">Cancel</a>
+                        <a href="/a/purchases" class="btn btn-outline-secondary" id="purchase_Cancel">Cancel</a>
                     </div>
                 </div>
 
