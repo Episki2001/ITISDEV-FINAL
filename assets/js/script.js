@@ -202,9 +202,9 @@ $(document).ready(function() {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if (parseInt(quantity) < 0) {
+        if (parseInt(quantity) <= 0 || quantity % 1 != 0) {
             invalidQty = true;
-            alert('Quantity cannot be less than zero');
+            alert('Quantity must be more than zero and must be a whole number');
         }
 
         if (!fieldsEmpty && !invalidQty) {

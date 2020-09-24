@@ -35,9 +35,9 @@ const indexMiddleware = {
             if (product == null) {
                 /**check if productID is in db */
                 res.send({ status: 401, msg: 'no product with matching productID found' });
-            } else if (parseInt(quantity) % 1 != 0 || parseInt(quantity) > parseInt(product.currentStock)) {
+            } else if (parseInt(quantity) > parseInt(product.currentStock)) {
                 /**check if quantity is less than or equal to stock */
-                res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product or not a whole number' });
+                res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product' });
             } else if (today < saleDate) {
                 /**check if date is valid*/
                 res.send({ status: 401, msg: 'date sold cannot be after today' });
