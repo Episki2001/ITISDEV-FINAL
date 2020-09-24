@@ -34,9 +34,8 @@ router.get('/a/newManager', controller.getAnewManager);
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
-router.post('/newPurchase/:deliveryID', controller.calculateAmountDue);
+router.post('/newPurchase/:deliveryID', controller.calculateTotalCost);
 router.post('/newMDgoods/:checkProdID', controller.getProductDetails);
-router.post('/puchases_checkDeliveryID', controller.postPurchaseCheckDelivery);
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);

@@ -261,6 +261,23 @@ async function getMinMaxdmgrecordID(sortby, offset) {
     return highestID[0].dmgrecordID + offset;
 }
 
+async function getMinMaxPurchaseID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds ID by offset
+    var highestID = await purchaseModel.aggregate([{
+        '$sort': {
+            'purchaseID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'purchaseID': 1
+        }
+    }]);
+    return highestID[0].purchaseID + offset;
+}
+
 async function findUser(userID) {
     var user = await userModel.aggregate([{
         '$match': {
@@ -337,7 +354,7 @@ async function getDeliveries() {
 }
 
 async function getDeliveryProdDetails(deliveryID) {
-    return await deliveryModel.aggregate([{
+    var result = await deliveryModel.aggregate([{
         '$match': {
             'deliveryID': deliveryID
         }
@@ -362,6 +379,7 @@ async function getDeliveryProdDetails(deliveryID) {
             'purchasePrice': '$product.purchasePrice'
         }
     }]);
+    return result[0];
 }
 
 
@@ -428,8 +446,8 @@ const indexFunctions = {
         }
     },
 
-    
-    getAnewMDgoods: async function(req, res) {
+
+    getAnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             // console.log(products);
@@ -442,7 +460,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewDelivery: async function(req, res) {
+    getAnewDelivery: async function (req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
         // });
@@ -517,8 +535,8 @@ const indexFunctions = {
         });
     },
 
-   
-    getAnewManager: async function(req, res) {
+
+    getAnewManager: async function (req, res) {
         try {
             var users = await userModel.aggregate([{
                 '$lookup': {
@@ -556,7 +574,7 @@ const indexFunctions = {
         }
     },
 
-    getAdeliveries: async function(req, res) {
+    getAdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -819,7 +837,10 @@ const indexFunctions = {
                 currentStock: newStock
             });
             //send status
-            res.send({ status: userStatus, msg: 'Delivery Recorded' });
+            res.send({
+                status: userStatus,
+                msg: 'Delivery Recorded'
+            });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -870,7 +891,10 @@ const indexFunctions = {
             //send status
             status = getUserType(req.session.type);
             console.log(status);
-            res.send({ status: status, msg: 'Sale Recorded' });
+            res.send({
+                status: status,
+                msg: 'Sale Recorded'
+            });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -918,7 +942,10 @@ const indexFunctions = {
                 currentStock: newStock
             });
             //send status
-            res.send({ status: userStatus, msg: 'Discrepancy Recorded' });
+            res.send({
+                status: userStatus,
+                msg: 'Discrepancy Recorded'
+            });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -967,25 +994,43 @@ const indexFunctions = {
         }
     },
 
-    postNewManager: async function(req, res) {
-        var { userID, isSysAd } = req.body;
+    postNewManager: async function (req, res) {
+        var {
+            userID,
+            isSysAd
+        } = req.body;
         if (!req.session.logUser)
-            res.send({ status: 500, msg: ': User is not logged in' });
+            res.send({
+                status: 500,
+                msg: ': User is not logged in'
+            });
         if (req.session.type == 'admin') {
             try {
                 var manager = new Manager(userID, isSysAd);
                 var newManager = new managerModel(manager);
                 var result = await newManager.recordNewManager();
                 if (result)
-                    res.send({ status: 201, userID });
-                else res.send({ status: 401, msg: 'Cannot connect to database' });
+                    res.send({
+                        status: 201,
+                        userID
+                    });
+                else res.send({
+                    status: 401,
+                    msg: 'Cannot connect to database'
+                });
             } catch (e) {
-                res.send({ status: 500, msg: e });
+                res.send({
+                    status: 500,
+                    msg: e
+                });
             }
-        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
+        } else res.send({
+            status: 500,
+            msg: ': You must be an admin or manager to post a new product'
+        });
     },
 
-    postNewProduct: async function(req, res) {
+    postNewProduct: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -1013,8 +1058,14 @@ const indexFunctions = {
                 var userStatus = getUserType(req.session.type);
                 console.log(result)
                 if (result)
-                    res.send({ status: userStatus, productID });
-                else res.send({ status: 401, msg: 'Cannot connect to database' });
+                    res.send({
+                        status: userStatus,
+                        productID
+                    });
+                else res.send({
+                    status: 401,
+                    msg: 'Cannot connect to database'
+                });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -1049,15 +1100,24 @@ const indexFunctions = {
                 var userStatus = getUserType(req.session.type);
                 console.log(result);
                 if (result)
-                    res.send({ status: userStatus, supplierID });
-                else res.send({ status: 401, msg: 'Cannot connect to database' });
+                    res.send({
+                        status: userStatus,
+                        supplierID
+                    });
+                else res.send({
+                    status: 401,
+                    msg: 'Cannot connect to database'
+                });
             } catch (e) {
                 res.send({
                     status: 500,
                     msg: e
                 });
             }
-        } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
+        } else res.send({
+            status: 500,
+            msg: ': You must be an admin or manager to edit a new supplier'
+        });
 
     },
     postNewSupplier: async function (req, res) {
@@ -1087,8 +1147,14 @@ const indexFunctions = {
                 var userStatus = getUserType(req.session.type);
                 console.log(result);
                 if (result)
-                    res.send({ status: userStatus, supplierID });
-                else res.send({ status: 401, msg: 'Cannot connect to database' });
+                    res.send({
+                        status: userStatus,
+                        supplierID
+                    });
+                else res.send({
+                    status: 401,
+                    msg: 'Cannot connect to database'
+                });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -1102,13 +1168,20 @@ const indexFunctions = {
 
     },
 
-    postNewMDgoods: async function(req, res) {
+    postNewMDgoods: async function (req, res) {
 
         if (!req.session.logUser)
-            res.send({ status: 500, msg: ': User is not logged in' });
+            res.send({
+                status: 500,
+                msg: ': User is not logged in'
+            });
         else {
             try {
-                var { productID, numDamaged, comments } = req.body;
+                var {
+                    productID,
+                    numDamaged,
+                    comments
+                } = req.body;
                 var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
                 var date = new Date();
                 var userID = req.session.logUser.userID;
@@ -1127,25 +1200,43 @@ const indexFunctions = {
                 console.log(result);
 
                 if (managerID && result) {
-                    var product = await productModel.findOne({ productID: productID });
+                    var product = await productModel.findOne({
+                        productID: productID
+                    });
                     var newStock = parseInt(product.currentStock) - parseInt(numDamaged);
-                    var resultUpdate = await productModel.findOneAndUpdate({ productID: productID }, { currentStock: newStock });
+                    var resultUpdate = await productModel.findOneAndUpdate({
+                        productID: productID
+                    }, {
+                        currentStock: newStock
+                    });
                 }
 
                 if (result) {
                     if (resultUpdate) {
-                        res.send({ status: userStatus, msg: 'Missing/Damaged goods approved' });
+                        res.send({
+                            status: userStatus,
+                            msg: 'Missing/Damaged goods approved'
+                        });
                     } else
-                        res.send({ status: userStatus, msg: 'Missing/Damaged goods recorded' });
+                        res.send({
+                            status: userStatus,
+                            msg: 'Missing/Damaged goods recorded'
+                        });
                 } else
-                    res.send({ status: 401, msg: 'cannot connect to database' });
+                    res.send({
+                        status: 401,
+                        msg: 'cannot connect to database'
+                    });
             } catch (e) {
-                res.send({ status: 500, msg: e });
+                res.send({
+                    status: 500,
+                    msg: e
+                });
             }
         }
     },
 
-    postEditSupplier: async function(req, res) {
+    postEditSupplier: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -1168,8 +1259,14 @@ const indexFunctions = {
                 var userStatus = getUserType(req.session.type);
                 console.log(result)
                 if (result)
-                    res.send({ status: userStatus, supplierID });
-                else res.send({ status: 401, msg: 'Cannot connect to database' });
+                    res.send({
+                        status: userStatus,
+                        supplierID
+                    });
+                else res.send({
+                    status: 401,
+                    msg: 'Cannot connect to database'
+                });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -1182,59 +1279,45 @@ const indexFunctions = {
         });
 
     },
-    calculateAmountDue: async function (req, res) {
+    calculateTotalCost: async function (req, res) {
         var deliveryID = req.params.deliveryID;
-        var result = getDeliveryProdDetails(deliveryID);
-        console.log(result);
-        res.send({status:200});
-    },
-    postNewPurchase: async function (req, res) {
-        var {
-            deliveryID,
-            datePaid,
-            amountPaid
-        } = req.body;
-        var product = await productModel.findOne({
-            productID: productID
+        var result = await getDeliveryProdDetails(parseInt(deliveryID));
+        var totalCost = result.purchasePrice * result.number_Of_Units_Delivered
+        res.send({
+            status: 200,
+            amount: totalCost
         });
     },
-    postPurchaseCheckDelivery: async function(req, res) {
-        var deliveryID = req.body.deliveryID;
-        try {
-            console.log('i am here');
-            var values = await deliveryModel.aggregate([{
-                '$match': {
-                    'deliveryID': 60000201
-                }
-            }, {
-                '$lookup': {
-                    'from': 'products',
-                    'localField': 'productID',
-                    'foreignField': 'productID',
-                    'as': 'product'
-                }
-            }, {
-                '$unwind': {
-                    'path': '$product',
-                    'preserveNullAndEmptyArrays': true
-                }
-            }, {
-                '$project': {
-                    'purchasePrice': '$product.purchasePrice',
-                    'number_Of_Units_Delivered': 1
-                }
-            }]);
-            console.log(values);
-            var amount = parseFloat(values[0].purchasePrice) * parseFloat(values[0].number_Of_Units_Delivered);
-            console.log(amount);
-            res.send({ amount: amount });
-        } catch (e) {
-            console.log(e)
+    postNewPurchase: async function (req, res) {
+        /**VERIFY SESSION ID IF MANAGER */
+        if (!req.session.logUser)
+            res.send({
+                status: 500,
+                msg: ': User is not logged in'
+            });
+
+        if (req.session.type == 'manager' /*temporary -->*/ || true) {
+            /**GET VARIABLES */
+            var {
+                deliveryID,
+                datePaid,
+                amountPaid
+            } = req.body;
+            var delivery = await getDeliveryProdDetails(parseInt(deliveryID));
+            // CREATE NEW PURHCASE ID
+            var purchaseID = getMinMaxPurchaseID(-1, 1);
+            /**RECORD PURCHASE */
+            console.log(purchaseID);
+        } else {
+            res.send({
+                status: 500,
+                msg: 'Please log in as a manager'
+            });
         }
     },
-  
+
     //MANAGERS
-    getMproducts: async function(req, res) {
+    getMproducts: async function (req, res) {
         try {
             var matches = await productModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1247,14 +1330,20 @@ const indexFunctions = {
         }
     },
 
-    getMoneEditProduct: async function(req, res) {
+    getMoneEditProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
-            var match = await productModel.findOne({ productID: productID });
+            var match = await productModel.findOne({
+                productID: productID
+            });
             console.log(match);
             if (match) {
-                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
-                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                var supplier = await supplierModel.findOne({
+                    supplierID: match.supplierID
+                });
+                var ref_category = await ref_categoryModel.findOne({
+                    categoryCode: match.categoryCode
+                });
                 res.render('m_editProduct', {
                     title: 'Edit ' + match.productName,
                     product: JSON.parse(JSON.stringify(match)),
@@ -1270,7 +1359,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewProducts: async function(req, res) {
+    getMnewProducts: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             var ref_category = await ref_categoryModel.find({});
@@ -1285,7 +1374,7 @@ const indexFunctions = {
         }
     },
 
-    getMsupplier: async function(req, res) {
+    getMsupplier: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             res.render('m_suppliers', {
@@ -1297,10 +1386,12 @@ const indexFunctions = {
         }
     },
 
-    getMoneSupplier: async function(req, res) {
+    getMoneSupplier: async function (req, res) {
         try {
             var supplierID = req.params.supplierID;
-            var match = await supplierModel.findOne({ supplierID: supplierID });
+            var match = await supplierModel.findOne({
+                supplierID: supplierID
+            });
             console.log(match);
             if (match) {
                 res.render('m_editSupplier', {
@@ -1316,13 +1407,13 @@ const indexFunctions = {
         }
     },
 
-    getMnewSupplier: function(req, res) {
+    getMnewSupplier: function (req, res) {
         res.render('m_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getMpurchases: async function(req, res) {
+    getMpurchases: async function (req, res) {
         try {
             var matches = await purchaseModel.find({});
             console.log(JSON.parse(JSON.stringify(matches)));
@@ -1335,7 +1426,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewPurchase: async function(req, res) {
+    getMnewPurchase: async function (req, res) {
         // res.render('a_newPurchases', {
         //     title: 'Add Purchase'
         // });
@@ -1350,7 +1441,7 @@ const indexFunctions = {
         }
     },
 
-    getMdeliveries: async function(req, res) {
+    getMdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1363,7 +1454,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewDelivery: async function(req, res) {
+    getMnewDelivery: async function (req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
         // });
@@ -1378,7 +1469,7 @@ const indexFunctions = {
         }
     },
 
-    getMsales: async function(req, res) {
+    getMsales: async function (req, res) {
         try {
             var matches = await salesModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1391,7 +1482,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewSale: async function(req, res) {
+    getMnewSale: async function (req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -1406,7 +1497,7 @@ const indexFunctions = {
         }
     },
 
-    getMMDgoods: async function(req, res) {
+    getMMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1419,7 +1510,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewMDgoods: async function(req, res) {
+    getMnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             // console.log(products);
@@ -1433,7 +1524,7 @@ const indexFunctions = {
     },
 
     //USERS
-    getUproducts: async function(req, res) {
+    getUproducts: async function (req, res) {
         try {
             var matches = await productModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1446,14 +1537,20 @@ const indexFunctions = {
         }
     },
 
-    getUoneViewProduct: async function(req, res) {
+    getUoneViewProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
-            var match = await productModel.findOne({ productID: productID });
+            var match = await productModel.findOne({
+                productID: productID
+            });
             console.log(match);
             if (match) {
-                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
-                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                var supplier = await supplierModel.findOne({
+                    supplierID: match.supplierID
+                });
+                var ref_category = await ref_categoryModel.findOne({
+                    categoryCode: match.categoryCode
+                });
                 res.render('u_productDetails', {
                     title: 'View ' + match.productName,
                     product: JSON.parse(JSON.stringify(match)),
@@ -1469,7 +1566,7 @@ const indexFunctions = {
         }
     },
 
-    getUsuppliers: async function(req, res) {
+    getUsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1482,7 +1579,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewSale: async function(req, res) {
+    getUnewSale: async function (req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -1497,7 +1594,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewMDgoods: async function(req, res) {
+    getUnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newMDgoods', {
@@ -1509,7 +1606,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDiscrepancy: async function(req, res) {
+    getUnewDiscrepancy: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDiscrepancy', {
@@ -1521,7 +1618,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDelivery: async function(req, res) {
+    getUnewDelivery: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDelivery', {
