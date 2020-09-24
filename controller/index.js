@@ -456,9 +456,7 @@ const indexFunctions = {
     },
 
     getAoneFAMDGoods: async function(req, res) {
-        console.log('im here');
         var dmgrecordID = req.params.dmgrecordID;
-        console.log(dmgrecordID);
         try {
             var record = await damagedgoodsModel.aggregate([{
                 '$match': {
