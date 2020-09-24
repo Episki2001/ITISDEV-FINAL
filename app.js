@@ -32,16 +32,22 @@ app.engine('hbs', exphbs.create({
     helpers: {
         getDate: function(date) {
             var d = new Date(date);
-            let formatted_date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate()
-            return d.getFullYear() + '-' + (d.getMonth() + 1) + "-" + d.getDate()
+            var day, month;
+            day = d.getDate();
+            if (day < 10)
+                day = '0' + day;
+            month = d.getMonth() + 1;
+            if (month < 10)
+                month = '0' + month;
+
+            return month + '/' + day + '/' + d.getFullYear();
         },
 
         getPrice: function(price) {
             return price.toFixed(2);
-        }
-        ,
-        convertbool: function(bVal){
-            if(bVal)
+        },
+        convertbool: function(bVal) {
+            if (bVal)
                 return 'Yes';
             else return 'No';
         }
