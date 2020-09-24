@@ -366,13 +366,13 @@ async function getDeliveryProdDetails(deliveryID) {
 
 
 const indexFunctions = {
-    getLogin: function (req, res) {
+    getLogin: function(req, res) {
         res.render('login', {
             title: 'Login'
         });
     },
 
-    getAdiscrepancy: async function (req, res) {
+    getAdiscrepancy: async function(req, res) {
         try {
             var matches = await discrepanciesModel.find({});
             console.log(JSON.parse(JSON.stringify(matches)));
@@ -384,7 +384,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAnewDiscrepancy: async function (req, res) {
+    getAnewDiscrepancy: async function(req, res) {
         // res.render('a_newDiscrepancy', {
         //     title: 'New Discrepancy'
         // });
@@ -399,26 +399,26 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAeditProduct: function (req, res) {
+    getAeditProduct: function(req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
-    getAThreshold: function (req, res) {
+    getAThreshold: function(req, res) {
         res.render('a_threshold', {
             title: 'Threshold'
         });
     },
-    getAeditProfile: function (req, res) {
+    getAeditProfile: function(req, res) {
         res.render('a_editProfile', {
             title: 'Edit Profile'
         });
     },
 
-    getAMDgoods: async function (req, res) {
+    getAMDgoods: async function(req, res) {
         try {
-            var matches = await damagedgoodsModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
+            var matches = await damagedgoodsModel.find({ approved: { $ne: null } }).sort({ dateDamaged: -1 });
+            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -428,7 +428,7 @@ const indexFunctions = {
         }
     },
 
-    
+
     getAnewMDgoods: async function(req, res) {
         try {
             var products = await productModel.find({});
@@ -442,6 +442,75 @@ const indexFunctions = {
         }
     },
 
+    getAForApprovalMDgoods: async function(req, res) {
+        try {
+            var matches = await damagedgoodsModel.find({ approved: null });
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('a_FAMDgoods', {
+                title: 'View Missing and Damaged Goods',
+                MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAoneFAMDGoods: async function(req, res) {
+        console.log('im here');
+        var dmgrecordID = req.params.dmgrecordID;
+        console.log(dmgrecordID);
+        try {
+            var record = await damagedgoodsModel.aggregate([{
+                '$match': {
+                    'dmgrecordID': dmgrecordID
+                }
+            }, {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'users'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$users',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$lookup': {
+                    'from': 'products',
+                    'localField': 'productID',
+                    'foreignField': 'productID',
+                    'as': 'products'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$products',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$project': {
+                    'dmgrecordID': 1,
+                    'dateDamaged': 1,
+                    'numDamaged': 1,
+                    'comments': 1,
+                    'userID': 1,
+                    'productID': 1,
+                    'productName': '$products.productName',
+                    'firstName': '$users.firstName',
+                    'lastName': '$users.lastName'
+                }
+            }])
+            record = record[0];
+            console.log(record);
+            res.render('a_approveMDgoods', {
+                title: 'Approve Damaged Record',
+                record: JSON.parse(JSON.stringify(record[0]))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getAnewDelivery: async function(req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
@@ -457,7 +526,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewProducts: async function (req, res) {
+    getAnewProducts: async function(req, res) {
         // res.render('a_newProducts', {
         //     title: 'Add Product'
         // });
@@ -475,7 +544,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewPurchase: async function (req, res) {
+    getAnewPurchase: async function(req, res) {
         // res.render('a_newPurchases', {
         //     title: 'Add Purchase'
         // });
@@ -490,7 +559,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewSale: async function (req, res) {
+    getAnewSale: async function(req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -505,19 +574,19 @@ const indexFunctions = {
         }
     },
 
-    getAnewSupplier: function (req, res) {
+    getAnewSupplier: function(req, res) {
         res.render('a_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getAnewUser: function (req, res) {
+    getAnewUser: function(req, res) {
         res.render('a_newUser', {
             title: 'Add User'
         });
     },
 
-   
+
     getAnewManager: async function(req, res) {
         try {
             var users = await userModel.aggregate([{
@@ -570,7 +639,7 @@ const indexFunctions = {
     },
 
 
-    getAproducts: async function (req, res) {
+    getAproducts: async function(req, res) {
         try {
             var matches = await productModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -583,7 +652,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneEditProduct: async function (req, res) {
+    getAoneEditProduct: async function(req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
@@ -612,7 +681,7 @@ const indexFunctions = {
         }
     },
 
-    getApurchases: async function (req, res) {
+    getApurchases: async function(req, res) {
         try {
             var matches = await purchaseModel.find({});
             console.log(JSON.parse(JSON.stringify(matches)));
@@ -625,7 +694,7 @@ const indexFunctions = {
         }
     },
 
-    getAsales: async function (req, res) {
+    getAsales: async function(req, res) {
         try {
             var matches = await salesModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -638,7 +707,7 @@ const indexFunctions = {
         }
     },
 
-    getAsuppliers: async function (req, res) {
+    getAsuppliers: async function(req, res) {
         try {
             var matches = await supplierModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -651,7 +720,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneSupplier: async function (req, res) {
+    getAoneSupplier: async function(req, res) {
         try {
             var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({
@@ -672,7 +741,7 @@ const indexFunctions = {
         }
     },
 
-    getAusers: async function (req, res) {
+    getAusers: async function(req, res) {
         try {
             var matches = await userModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -685,7 +754,7 @@ const indexFunctions = {
         }
     },
 
-    getAmanagers: async function (req, res) {
+    getAmanagers: async function(req, res) {
         try {
             var match = await managerModel.aggregate([{
                 '$lookup': {
@@ -718,7 +787,7 @@ const indexFunctions = {
         }
     },
 
-    postLogin: async function (req, res) {
+    postLogin: async function(req, res) {
         var {
             user,
             pass
@@ -726,7 +795,7 @@ const indexFunctions = {
         try {
             var match = await findUser(parseInt(user));
             if (match) {
-                bcrypt.compare(pass, match.password, function (err, result) {
+                bcrypt.compare(pass, match.password, function(err, result) {
                     if (result) {
                         if (match.managerID && match.isSysAd) {
                             //send 201 admin
@@ -773,7 +842,7 @@ const indexFunctions = {
         }
     },
 
-    getProductDetails: async function (req, res) {
+    getProductDetails: async function(req, res) {
         var prodID = req.params.checkProdID;
         var match = await productModel.findOne({
             productID: prodID
@@ -781,13 +850,13 @@ const indexFunctions = {
         res.send(match);
     },
 
-    postLogout: function (req, res) {
+    postLogout: function(req, res) {
         console.log(req.session);
         req.session.destroy();
         console.log(req.session);
         res.redirect("/");
     },
-    postNewDelivery: async function (req, res) {
+    postNewDelivery: async function(req, res) {
 
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
@@ -834,7 +903,7 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
-    postNewSale: async function (req, res) {
+    postNewSale: async function(req, res) {
         console.log('postNewSale');
         //validate session
 
@@ -885,7 +954,7 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
-    postNewDiscrepancy: async function (req, res) {
+    postNewDiscrepancy: async function(req, res) {
         console.log('postNewDiscrepancy');
 
         if ( /**session valid */ req.session.logUser /**true */ ) {
@@ -933,7 +1002,7 @@ const indexFunctions = {
             res.redirect("/");
         }
     },
-    postNewUser: async function (req, res) {
+    postNewUser: async function(req, res) {
         var {
             fName,
             lName,
@@ -1031,7 +1100,7 @@ const indexFunctions = {
 
     },
 
-    postEditProduct: async function (req, res) {
+    postEditProduct: async function(req, res) {
         console.log('i am in posteditproduct');
         if (!req.session.logUser)
             res.send({
@@ -1063,7 +1132,7 @@ const indexFunctions = {
         } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
     },
-    postNewSupplier: async function (req, res) {
+    postNewSupplier: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -1185,13 +1254,13 @@ const indexFunctions = {
         });
 
     },
-    calculateAmountDue: async function (req, res) {
+    calculateAmountDue: async function(req, res) {
         var deliveryID = req.params.deliveryID;
         var result = getDeliveryProdDetails(deliveryID);
         console.log(result);
-        res.send({status:200});
+        res.send({ status: 200 });
     },
-    postNewPurchase: async function (req, res) {
+    postNewPurchase: async function(req, res) {
         var {
             deliveryID,
             datePaid,
@@ -1235,7 +1304,7 @@ const indexFunctions = {
             console.log(e)
         }
     },
-  
+
     //MANAGERS
     getMproducts: async function(req, res) {
         try {
