@@ -10,12 +10,12 @@ function convertToPrice(val) {
     var value = val;
     return value.toFixed(2);
 }
-$(document).ready(function () {
+$(document).ready(function() {
 
     /* LOGIN METHODS */
 
     // LOGIN: validation of form when submitting
-    $('#submitLogin').click(function () {
+    $('#submitLogin').click(function() {
 
         var user = $('#id').val();
         var pass = $('#pword').val();
@@ -32,35 +32,39 @@ $(document).ready(function () {
             $.post('/', {
                 user: user,
                 pass: pass
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        //admin
-                        window.location.href = '/a/products';
-                        break;
-                    }
-                    case 202: {
-                        //manager
-                        window.location.href = '/m/products';
-                        break;
-                    }
-                    case 203: {
-                        //user
-                        window.location.href = '/u/products';
-                        break;
-                    }
+                    case 201:
+                        {
+                            //admin
+                            window.location.href = '/a/products';
+                            break;
+                        }
+                    case 202:
+                        {
+                            //manager
+                            window.location.href = '/m/products';
+                            break;
+                        }
+                    case 203:
+                        {
+                            //user
+                            window.location.href = '/u/products';
+                            break;
+                        }
                     case 401:
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
     //Add Methods
-    $('#newSale_checkID').click(function () {
+    $('#newSale_checkID').click(function() {
         var prodID = $('#newSale_prodID').val();
         console.log(prodID);
 
@@ -72,7 +76,7 @@ $(document).ready(function () {
         }
 
         if (!validator.isEmpty(prodID)) {
-            $.post('/newSale/' + prodID, function (result) {
+            $.post('/newSale/' + prodID, function(result) {
                 if (result.sellingPrice) {
                     console.log('result:' + result);
                     var sellingPrice = result.sellingPrice;
@@ -87,12 +91,12 @@ $(document).ready(function () {
     });
 
 
-    $('#newDiscrepancy_checkID').click(function () {
+    $('#newDiscrepancy_checkID').click(function() {
         var prodID = $('#productID').val();
         console.log(prodID);
 
         if (prodID != '0') {
-            $.post('/newDiscrepancy/' + prodID, function (result) {
+            $.post('/newDiscrepancy/' + prodID, function(result) {
                 if (result) {
                     var currentStock = result.currentStock;
                     console.log(currentStock);
@@ -105,12 +109,12 @@ $(document).ready(function () {
             alert('Please Select a Product');
     });
 
-    $('#newMDgoods_checkID').click(function () {
+    $('#newMDgoods_checkID').click(function() {
         var prodID = $('#MDproductID').val();
         console.log(prodID);
 
         if (prodID != '0') {
-            $.post('/newMDgoods/' + prodID, function (result) {
+            $.post('/newMDgoods/' + prodID, function(result) {
                 if (result) {
                     var currentStock = result.currentStock;
                     console.log(currentStock);
@@ -122,7 +126,7 @@ $(document).ready(function () {
         }
     })
 
-    $('#submitNewDiscrepancy').click(function () {
+    $('#submitNewDiscrepancy').click(function() {
         var productID = $('#productID').val();
         var oldCount = $('#oldCount_qty').val();
         var newCount = $('#newCount_qty').val();
@@ -154,33 +158,38 @@ $(document).ready(function () {
                 productID: productID,
                 newCount: newCount,
                 oldCount: oldCount
-            }, function (result) {
+            }, function(result) {
                 console.log(result);
                 console.log(result.msg);
                 switch (result.status) {
-                    case 201: {
-                        alert(result.msg);
-                        window.location.href = '/a/discrepancy';
-                        break;
-                    }
-                    case 202: {
-                        alert(result.msg);
-                        window.location.href = '/m/discrepancy';
-                        break;
-                    }
-                    case 203: {
-                        alert(result.msg);
-                        window.location.href = '/u/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500: ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/discrepancy';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/discrepancy';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
                 }
             });
         } else {
@@ -188,7 +197,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#submitNewSale').click(function () {
+    $('#submitNewSale').click(function() {
         var quantity = $('#newSale_qty').val();
         var sellingPrice = $('#newSale_sellingPrice').val();
         var total = $('#newSale_total').val();
@@ -214,31 +223,36 @@ $(document).ready(function () {
                 total: total,
                 dateSold: dateSold,
                 productID: productID
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert(result.msg);
-                        window.location.href = '/a/sales';
-                        break;
-                    }
-                    case 202: {
-                        alert(result.msg);
-                        window.location.href = '/m/sales';
-                        break;
-                    }
-                    case 203: {
-                        alert(result.msg);
-                        window.location.href = '/u/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500: ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/sales';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/sales';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
                 }
             });
         } else {
@@ -247,7 +261,7 @@ $(document).ready(function () {
 
     });
 
-    $('#submitNewMDgoods').click(function () {
+    $('#submitNewMDgoods').click(function() {
         var productID = $('#MDproductID').val();
         var numDmg = $('#MDdmg').val();
         var comment = $('#MDcomment').val();
@@ -274,31 +288,36 @@ $(document).ready(function () {
                 productID: productID,
                 numDamaged: numDmg,
                 comments: comment
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert(result.msg);
-                        window.location.href = '/a/MDgoods';
-                        break;
-                    }
-                    case 202: {
-                        alert(result.msg);
-                        window.location.href = '/m/MDgoods';
-                        break;
-                    }
-                    case 203: {
-                        alert(result.msg);
-                        window.location.href = '/u/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500: ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/MDgoods';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/MDgoods';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
                 }
             })
         } else {
@@ -306,7 +325,83 @@ $(document).ready(function () {
         }
     });
 
-    $('#submitNewDelivery').click(function () {
+    $('#approveMDGoods').click(function() {
+        var dmgrecordID = $('#dmgrecordID').val();
+        var numDamaged = $('#MDdmg').val();
+        var productID = $('#productID').val();
+        console.log('i made it');
+        $.post('/approvalMDGoods', {
+            dmgrecordID: dmgrecordID,
+            approved: true,
+            numDamaged: numDamaged,
+            productID: productID
+        }, function(result) {
+            switch (result.status) {
+                case 201:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/a/forApprovalMDgoods';
+                        break;
+                    }
+                case 202:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/m/deliveries';
+                        break;
+                    }
+                case 401:
+                    {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                case 500:
+                    {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
+            }
+        });
+    });
+
+    $('#rejectMDGoods').click(function() {
+        var dmgrecordID = $('#dmgrecordID').val();
+        var numDamaged = $('#MDdmg').val();
+        var productID = $('#productID').val();
+        console.log('i made it');
+        $.post('/approvalMDGoods', {
+            dmgrecordID: dmgrecordID,
+            approved: false,
+            numDamaged: numDamaged,
+            productID: productID
+        }, function(result) {
+            switch (result.status) {
+                case 201:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/a/forApprovalMDgoods';
+                        break;
+                    }
+                case 202:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/m/deliveries';
+                        break;
+                    }
+                case 401:
+                    {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                case 500:
+                    {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
+            }
+        });
+    });
+
+    $('#submitNewDelivery').click(function() {
         var productID = $('#productID').val();
         var dateDelivered = $('#dateDelivered').val();
         var numDamaged = parseInt($('#numDamaged').val());
@@ -328,44 +423,49 @@ $(document).ready(function () {
             alert('Number of Delivered must be a whole number');
         } else if (numDamaged % 1 != 0) {
             alert('Number of Damaged must be a whole number');
-        }else {
+        } else {
             console.log('data is valid');
             $.post('/newDelivery', {
                 productID: productID,
                 dateDelivered: dateDelivered,
                 number_Of_Units_Delivered: numDelivered,
                 number_Of_Damaged: numDamaged
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert(result.msg);
-                        window.location.href = '/a/deliveries';
-                        break;
-                    }
-                    case 202: {
-                        alert(result.msg);
-                        window.location.href = '/m/deliveries';
-                        break;
-                    }
-                    case 203: {
-                        alert(result.msg);
-                        window.location.href = '/u/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500: ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/deliveries';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/deliveries';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
-    $('#submitNewUser').click(function () {
+    $('#submitNewUser').click(function() {
         var fName = $('#fName').val();
         var lName = $('#lName').val();
         var birthdate = $('#birthdate').val();
@@ -419,25 +519,27 @@ $(document).ready(function () {
                 address: address,
                 phoneNum: phoneNum,
                 password: password
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 200: {
-                        alert('User successfully added with userID: ' + result.userID)
-                        window.location.href = '/a/users';
-                        break;
-                    }
+                    case 200:
+                        {
+                            alert('User successfully added with userID: ' + result.userID)
+                            window.location.href = '/a/users';
+                            break;
+                        }
                     case 401:
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         }
 
     });
 
-    $('#submitNewManager').click(function () {
+    $('#submitNewManager').click(function() {
         var userID = $('#userID').val();
         var isSysAd = $('#isSysAd').val();
 
@@ -447,27 +549,30 @@ $(document).ready(function () {
             $.post('/newManager', {
                 userID: userID,
                 isSysAd: isSysAd
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('Manager Successfully Added');
-                        window.location.href = '/a/managers';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('Manager Successfully Added');
+                            window.location.href = '/a/managers';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
-    $('#submitNewSupplier').click(function () {
+    $('#submitNewSupplier').click(function() {
         var cName = $('#cName').val();
         var cAddress = $('#cAddress').val();
         var email = $('#email').val();
@@ -490,26 +595,30 @@ $(document).ready(function () {
                 companyAddress: cAddress,
                 email: email,
                 phoneNum: phoneNum
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
-                        window.location.href = '/a/suppliers';
-                        break;
-                    }
-                    case 202: {
-                        alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
-                        window.location.href = '/m/suppliers';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/m/suppliers';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         }
@@ -529,7 +638,7 @@ $(document).ready(function () {
         currentStock = 0\
         productID(get the highest product ID in the database and add 1)
      */
-    $('#submitNewProduct').click(function () {
+    $('#submitNewProduct').click(function() {
         var productName = $('#productName').val();
         var categoryCode = parseInt($('#category').val());
         var supplierID = parseInt($('#supplierID').val());
@@ -586,32 +695,36 @@ $(document).ready(function () {
                 supplierID: supplierID,
                 sellingPrice: sellingPrice,
                 purchasePrice: purchasePrice
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('User successfully added with productID: ' + result.productID);
-                        window.location.href = '/a/products';
-                        break;
-                    }
-                    case 202: {
-                        alert('User successfully added with productID: ' + result.productID);
-                        window.location.href = '/m/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('Error ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('User successfully added with productID: ' + result.productID);
+                            window.location.href = '/a/products';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('User successfully added with productID: ' + result.productID);
+                            window.location.href = '/m/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('Error ' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
-    $('#submitEditProduct').click(function () {
+    $('#submitEditProduct').click(function() {
         // var productName = $('#productName').val();
         // var categoryCode = parseInt($('#category').val());
         // var supplierID = parseInt($('#supplierID').val());
@@ -650,32 +763,36 @@ $(document).ready(function () {
                 productID: productID,
                 purchasePrice: purchasePrice,
                 sellingPrice: sellingPrice
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('Product successfully edited with productID: ' + result.productID);
-                        window.location.href = '/a/products';
-                        break;
-                    }
-                    case 202: {
-                        alert('Product successfully edited with productID: ' + result.productID);
-                        window.location.href = '/m/products';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('Error ' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('Product successfully edited with productID: ' + result.productID);
+                            window.location.href = '/a/products';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Product successfully edited with productID: ' + result.productID);
+                            window.location.href = '/m/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('Error ' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
-    $('#submitEditSupplier').click(function () {
+    $('#submitEditSupplier').click(function() {
         var supplierID = $('#supplierID').val();
         var email = $('#email').val();
         var phoneNum = $('#phoneNum').val();
@@ -695,35 +812,39 @@ $(document).ready(function () {
                 supplierID: supplierID,
                 email: email,
                 phoneNum: phoneNum
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
-                        window.location.href = '/a/suppliers';
-                        break;
-                    }
-                    case 202: {
-                        alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
-                        window.location.href = '/m/suppliers';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/a/suppliers';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/m/suppliers';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         }
     });
 
-    $('#purchase_deliveryID').change(function () {
+    $('#purchase_deliveryID').change(function() {
         var deliveryID = $('#purchase_deliveryID').val();
         if (deliveryID != '0') {
-            $.post('/newPurchase/' + deliveryID, function (result) {
+            $.post('/newPurchase/' + deliveryID, function(result) {
                 console.log(result.amount);
                 $('#purchase_amountPaid').val(convertToPrice(result.amount));
                 $('#purchase_totalCost').val(convertToPrice(result.amount));
@@ -731,7 +852,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#purchase_Submit').click(function () {
+    $('#purchase_Submit').click(function() {
         var deliveryID = $('#purchase_deliveryID').val();
         var datePaid = $('#purchase_datePaid').val();
         var amountPaid = $('#purchase_amountPaid').val();
@@ -742,26 +863,30 @@ $(document).ready(function () {
                 deliveryID: deliveryID,
                 datePaid: datePaid,
                 amountPaid: amountPaid
-            }, function (result) {
+            }, function(result) {
                 switch (result.status) {
-                    case 201: {
-                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
-                        window.location.href = '/a/purchases';
-                        break;
-                    }
-                    case 202: {
-                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
-                        window.location.href = '/m/purchases';
-                        break;
-                    }
-                    case 401: {
-                        alert('case 401: ' + result.msg);
-                        break;
-                    }
-                    case 500: {
-                        alert('case 500' + result.msg);
-                        break;
-                    }
+                    case 201:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                            window.location.href = '/a/purchases';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                            window.location.href = '/m/purchases';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
                 }
             });
         } else {

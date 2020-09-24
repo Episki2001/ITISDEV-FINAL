@@ -52,6 +52,7 @@ router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.post
 router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', controller.postNewPurchase);
 router.post('/newManager', controller.postNewManager);
+router.post('/approvalMDGoods', controller.postApprovalMDGoods);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);
