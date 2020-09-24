@@ -392,7 +392,34 @@ const indexFunctions = {
 
     getAdiscrepancy: async function(req, res) {
         try {
-            var matches = await discrepanciesModel.find({});
+            var matches = await discrepanciesModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'discrepancyID': 1, 
+                    'oldCount': 1, 
+                    'newCount': 1, 
+                    'date': 1, 
+                    'userID': 1, 
+                    'productID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
+            }]).sort({date: -1});
             console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_discrepancy', {
                 title: 'View Discrepancy',
@@ -643,7 +670,34 @@ const indexFunctions = {
 
     getAdeliveries: async function(req, res) {
         try {
-            var matches = await deliveryModel.find({});
+            var matches = await deliveryModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'deliveryID': 1, 
+                    'number_Of_Units_Delivered': 1, 
+                    'number_Of_Damaged': 1, 
+                    'dateDelivered': 1, 
+                    'productID': 1, 
+                    'userID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
+            }]).sort({dateDelivered: -1});
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_delivery', {
                 title: 'View Deliveries',
@@ -699,7 +753,34 @@ const indexFunctions = {
 
     getApurchases: async function(req, res) {
         try {
-            var matches = await purchaseModel.find({});
+            var matches = await purchaseModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'managerID', 
+                    'foreignField': 'userID', 
+                    'as': 'manager'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$manager', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'purchaseID': 1, 
+                    'amountPaid': 1, 
+                    'datePurchased': 1, 
+                    'totalCost': 1, 
+                    'managerID': 1, 
+                    'deliveryID': 1, 
+                    'firstName': '$manager.firstName', 
+                    'lastName': '$manager.lastName'
+                    }
+            }]).sort({datePurchased: -1 });
             console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_purchase', {
                 title: 'View Purchase',
@@ -713,33 +794,33 @@ const indexFunctions = {
     getAsales: async function(req, res) {
         try {
             var matches = await salesModel.aggregate([{
-                      '$lookup': {
-                        'from': 'users', 
-                        'localField': 'userID', 
-                        'foreignField': 'userID', 
-                        'as': 'user'
-                      }
-                    }, {
-                      '$unwind': {
-                        'path': '$user', 
-                        'preserveNullAndEmptyArrays': true
-                      }
-                    }, {
-                      '$sort': {
-                        'dateSold': 1
-                      }
-                    }, {
-                      '$project': {
-                        'salesID': 1, 
-                        'quantity': 1, 
-                        'sellingPrice': 1, 
-                        'total': 1, 
-                        'dateSold': 1, 
-                        'productID': 1, 
-                        'userID': 1, 
-                        'firstName': '$user.firstName', 
-                        'lastName': '$user.lastName'
-                      }
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'dateSold': 1
+                    }
+                }, {
+                    '$project': {
+                    'salesID': 1, 
+                    'quantity': 1, 
+                    'sellingPrice': 1, 
+                    'total': 1, 
+                    'dateSold': 1, 
+                    'productID': 1, 
+                    'userID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
             }]).sort({ dateSold: -1 });
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_sales', {
