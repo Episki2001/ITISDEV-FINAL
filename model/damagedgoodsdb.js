@@ -20,6 +20,12 @@ const damagedgoodsSchema = new mongoose.Schema({
     managerID: { type: Number, required: false }
 }, {collection: "Damagedgoods"});
 
+damagedgoodsSchema.methods.recordNewMDgoods = async function() {
+    var result = damagedgoodsModel.create(this);
+    console.log(JSON.stringify(result));
+    return result;
+};
+
 const damagedgoodsModel = db.model('Damagedgoods', damagedgoodsSchema);
 
 module.exports = damagedgoodsModel;

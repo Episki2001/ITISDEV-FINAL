@@ -12,7 +12,13 @@ var db = mongoose.connection;
 const managerSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     isSysAd: { type: Boolean, required: true }
-}, {collection: "managers"});
+}, { collection: "managers" });
+
+managerSchema.methods.recordNewManager = async function() {
+    var result = await managerModel.create(this);
+    console.log(result);
+    return result;
+};
 
 const managerModel = db.model('managers', managerSchema);
 

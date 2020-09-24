@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>u_navbar}}
+{{>u_sidebar}}
             <div class="col-9">
                     <div class="shadow">
 						<div class="d-flex flex-column mt-2">
@@ -9,61 +9,73 @@
 							<div class="container">
 								<form>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Product ID</label>
-										<input type="number" class="form-control" id="formGroupExampleInput2" placeholder="ID">
+										<label for="newSale_prodID">Product ID</label>
+										<div class="row">
+											<div class="col-9">
+												<!-- newSale_prodID -->
+												<select class="form-control" id="newSale_prodID">
+													<option value="0">Please select a product</option>
+													{{#each product}}
+													<option value="{{this.productID}}">{{this.productName}}</option>
+													{{/each}}
+												</select>
+											</div>
+											<div class="col-3">
+												<button type="button" class="btn btn-outline-dark btn-block"
+													id="newSale_checkID">Check</button>
+											</div>
+										</div>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput">User ID</label>
-										<input type="number" class="form-control" id="formGroupExampleInput" placeholder="ID">
+										<label for="newSale_qty">Quantity</label>
+										<input type="number" class="form-control" id="newSale_qty" placeholder="Quantity Sold"
+											onchange="calculatePrice(this.value)" min="0" required>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Quantity</label>
-										<input type="number" class="form-control" id="formGroupExampleInput2" placeholder="Num">
-									</div>
-								<div class="form-group">
-                                <label for="datePaid">Date Sold</label>
-                                <div class="input-group mb-2">
-                                    <input type="date" class="form-control" id="dateSold">
-                                    <script>
-                                        Date.prototype.toDateInputValue = (function() {
-                                            var local = new Date(this);
-                                            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-                                            return local.toJSON().slice(0, 10);
-                                        });
-                                        document.getElementById('dateSold').value = new Date().toDateInputValue();
-                                    </script>
-                                </div>
-
-                            	</div>
+									<label for="newSale_dateSold">Date Sold</label>
+										<div class="input-group mb-2">
+											<input type="date" class="form-control" id="newSale_dateSold">
+											<script>
+												Date.prototype.toDateInputValue = (function () {
+													var local = new Date(this);
+													local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+													return local.toJSON().slice(0, 10);
+												});
+												document.getElementById('newSale_dateSold').value = new Date().toDateInputValue();
+											</script>
+										</div>
+                            		</div>
 									<div class="form-group">
-										<label for="totalCost">Selling Price</label>
+										<label for="newSale_sellingPrice">Selling Price</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="totalCost" placeholder="0.00">
+											<input type="number" class="form-control" id="newSale_sellingPrice" placeholder="0.00" 
+												min="0" disabled required>
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="totalCost">Total</label>
+										<label for="newSale_total">Total</label>
 										<div class="input-group mb-2">
 											<div class="input-group-prepend">
 												<div class="input-group-text">PHP</div>
 											</div>
-											<input type="number" class="form-control" id="totalCost" placeholder="0.00">
+											<input type="number" class="form-control" id="newSale_total" placeholder="0.00" 
+												min="0" disabled required>
 										</div>
 									</div>
+									<div class="form-group ">
+										<div class="row">
+											<div class="col-6 mb-5 d-flex justify-content-end">
+												<button type="button" class="btn btn-outline-dark" id="submitNewSale">Submit</button>
+											</div>
+											<div class="col-6 mb-5 d-flex justify-content-start">
+												<a href="/u/products" type="button" class="btn btn-outline-secondary" id="cancelNewSale">Cancel</a>
+											</div>
+										</div>
+									</div>	
 								</form>
-                            <div class="form-group ">
-                                <div class="row">
-                                    <div class="col-6 mb-5 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-primary">Submit</button>
-                                    </div>
-                                    <div class="col-6 mb-5 d-flex justify-content-start">
-                                        <a href="/a/sales" class="btn btn-outline-secondary">Cancel</a>
-                                    </div>
-                                </div>
-							</div>	
 						</div>
                     </div>
                 </div>

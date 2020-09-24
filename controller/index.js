@@ -117,7 +117,7 @@ function Purchase(purchaseID, amountPaid, datePurchased, totalCost, managerID, d
     this.deliveryID = deliveryID;
 }
 
-function Damaged_Goods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
+function DamagedGoods(dmgrecordID, dateDamaged, numDamaged, approved, comments, userID, managerID, productID) {
     this.dmgrecordID = dmgrecordID;
     this.dateDamaged = dateDamaged;
     this.numDamaged = numDamaged;
@@ -161,6 +161,21 @@ async function getMinMaxDeliveryID(sortby, offset) {
     }]);
     return highestID[0].deliveryID + offset;
 }
+
+
+function getUserType(type) {
+
+    if (type == "admin") {
+        return 201;
+    } else if (type == "manager") {
+        return 202;
+    } else if (type == "user") {
+        return 203;
+    }
+
+    return 500;
+}
+
 async function getMinMaxUserID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds userad by offset
@@ -217,7 +232,7 @@ async function getMinMaxdiscrepancyID(sortby, offset) {
     //offset - adds productID by offset
     var highestID = await discrepanciesModel.aggregate([{
         '$sort': {
-            'supplierID': sortby
+            'discrepancyID': sortby
         }
     }, {
         '$limit': 1
@@ -227,6 +242,23 @@ async function getMinMaxdiscrepancyID(sortby, offset) {
         }
     }]);
     return highestID[0].discrepancyID + offset;
+}
+
+async function getMinMaxdmgrecordID(sortby, offset) {
+    //sortby - min = 1, max = -1
+    //offset - adds productID by offset
+    var highestID = await damagedgoodsModel.aggregate([{
+        '$sort': {
+            'dmgrecordID': sortby
+        }
+    }, {
+        '$limit': 1
+    }, {
+        '$project': {
+            'dmgrecordID': 1
+        }
+    }]);
+    return highestID[0].dmgrecordID + offset;
 }
 
 async function findUser(userID) {
@@ -386,7 +418,7 @@ const indexFunctions = {
     getAMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.find({});
-            console.log(JSON.parse(JSON.stringify(matches)));
+            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -396,7 +428,21 @@ const indexFunctions = {
         }
     },
 
-    getAnewDelivery: async function (req, res) {
+    
+    getAnewMDgoods: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            // console.log(products);
+            res.render('a_newMDgoods', {
+                title: 'Add Missing/Damaged goods',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAnewDelivery: async function(req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
         // });
@@ -471,7 +517,46 @@ const indexFunctions = {
         });
     },
 
-    getAdeliveries: async function (req, res) {
+   
+    getAnewManager: async function(req, res) {
+        try {
+            var users = await userModel.aggregate([{
+                '$lookup': {
+                    'from': 'managers',
+                    'localField': 'userID',
+                    'foreignField': 'userID',
+                    'as': 'manager'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$manager',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$match': {
+                    'manager.userID': null
+                }
+            }, {
+                '$sort': {
+                    'userID': 1
+                }
+            }, {
+                '$project': {
+                    'userID': 1,
+                    'firstName': 1,
+                    'lastName': 1
+                }
+            }])
+            res.render('a_newManager', {
+                title: 'Add Manager',
+                user: JSON.parse(JSON.stringify(users))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAdeliveries: async function(req, res) {
         try {
             var matches = await deliveryModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -624,18 +709,12 @@ const indexFunctions = {
 
             }])
             console.log(JSON.parse(JSON.stringify(match)));
-            console.log('Database populated \\o/')
             res.render('a_managers', {
                 title: 'View Managers',
                 managers: JSON.parse(JSON.stringify(match))
             });
-        } catch (err) {
-            throw err
-        } finally {
-            mongoose.connection.close(() => {
-                console.log('Disconnected from MongoDB, bye o/')
-                process.exit(0)
-            })
+        } catch (e) {
+            console.log(e);
         }
     },
 
@@ -721,6 +800,7 @@ const indexFunctions = {
             } = req.body;
             var deliveryID = await getMinMaxDeliveryID(-1, 1);
             var userID = req.session.logUser.userID;
+            var userStatus = getUserType(req.session.type);
             //var userID = 101;
 
             //create new sale
@@ -739,10 +819,7 @@ const indexFunctions = {
                 currentStock: newStock
             });
             //send status
-            res.send({
-                status: 200,
-                msg: 'Delivery Recorded'
-            });
+            res.send({ status: userStatus, msg: 'Delivery Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -791,10 +868,9 @@ const indexFunctions = {
                 currentStock: newStock
             });
             //send status
-            res.send({
-                status: 200,
-                msg: 'Sale Recorded'
-            });
+            status = getUserType(req.session.type);
+            console.log(status);
+            res.send({ status: status, msg: 'Sale Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -823,6 +899,7 @@ const indexFunctions = {
             var discrepancyID = await getMinMaxdiscrepancyID(-1, 1);
             var userID = req.session.logUser.userID;
             var date = new Date();
+            var userStatus = getUserType(req.session.type);
             //var userID = 101;
 
             //create new discrepancy
@@ -841,10 +918,7 @@ const indexFunctions = {
                 currentStock: newStock
             });
             //send status
-            res.send({
-                status: 200,
-                msg: 'Discrepancy Recorded'
-            });
+            res.send({ status: userStatus, msg: 'Discrepancy Recorded' });
         } else {
             /**IF SESSION IS NOT VALID */
             //alert user of invalid session
@@ -893,7 +967,25 @@ const indexFunctions = {
         }
     },
 
-    postNewProduct: async function (req, res) {
+    postNewManager: async function(req, res) {
+        var { userID, isSysAd } = req.body;
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        if (req.session.type == 'admin') {
+            try {
+                var manager = new Manager(userID, isSysAd);
+                var newManager = new managerModel(manager);
+                var result = await newManager.recordNewManager();
+                if (result)
+                    res.send({ status: 201, userID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to post a new product' });
+    },
+
+    postNewProduct: async function(req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -918,16 +1010,11 @@ const indexFunctions = {
                 var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
                 var newProduct = new productModel(product);
                 var result = await newProduct.recordNewProduct();
+                var userStatus = getUserType(req.session.type);
                 console.log(result)
                 if (result)
-                    res.send({
-                        status: 200,
-                        productID
-                    });
-                else res.send({
-                    status: 401,
-                    msg: 'Cannot connect to database'
-                });
+                    res.send({ status: userStatus, productID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -959,28 +1046,20 @@ const indexFunctions = {
                 console.log(product);
                 var editProduct = new productModel(product);
                 var result = await editProduct.recordEditProduct();
+                var userStatus = getUserType(req.session.type);
                 console.log(result);
                 if (result)
-                    res.send({
-                        status: 200,
-                        productID
-                    });
-                else res.send({
-                    status: 401,
-                    msg: 'Cannot connect to database'
-                });
+                    res.send({ status: userStatus, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({
                     status: 500,
                     msg: e
                 });
             }
-        } else res.send({
-            status: 500,
-            msg: ': You must be an admin or manager to edit a product'
-        });
-    },
+        } else res.send({ status: 500, msg: ': You must be an admin or manager to edit a new supplier' });
 
+    },
     postNewSupplier: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
@@ -1005,16 +1084,11 @@ const indexFunctions = {
                 var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
                 var newSupplier = new supplierModel(supplier);
                 var result = await newSupplier.recordNewSupplier();
-                console.log(result)
+                var userStatus = getUserType(req.session.type);
+                console.log(result);
                 if (result)
-                    res.send({
-                        status: 200,
-                        supplierID
-                    });
-                else res.send({
-                    status: 401,
-                    msg: 'Cannot connect to database'
-                });
+                    res.send({ status: userStatus, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -1028,7 +1102,50 @@ const indexFunctions = {
 
     },
 
-    postEditSupplier: async function (req, res) {
+    postNewMDgoods: async function(req, res) {
+
+        if (!req.session.logUser)
+            res.send({ status: 500, msg: ': User is not logged in' });
+        else {
+            try {
+                var { productID, numDamaged, comments } = req.body;
+                var dmgrecordID = await getMinMaxdmgrecordID(-1, 1);
+                var date = new Date();
+                var userID = req.session.logUser.userID;
+                var approved = null;
+                var managerID = null;
+                if (req.session.type == 'admin' || req.session.type == 'manager') {
+                    approved = true;
+                    managerID = userID;
+                }
+
+                var MDgoods = new DamagedGoods(dmgrecordID, date, numDamaged, approved, comments, userID, managerID, productID);
+                var newMDgoods = new damagedgoodsModel(MDgoods);
+                var result = await newMDgoods.recordNewMDgoods();
+                var userStatus = getUserType(req.session.type);
+
+                console.log(result);
+
+                if (managerID && result) {
+                    var product = await productModel.findOne({ productID: productID });
+                    var newStock = parseInt(product.currentStock) - parseInt(numDamaged);
+                    var resultUpdate = await productModel.findOneAndUpdate({ productID: productID }, { currentStock: newStock });
+                }
+
+                if (result) {
+                    if (resultUpdate) {
+                        res.send({ status: userStatus, msg: 'Missing/Damaged goods approved' });
+                    } else
+                        res.send({ status: userStatus, msg: 'Missing/Damaged goods recorded' });
+                } else
+                    res.send({ status: 401, msg: 'cannot connect to database' });
+            } catch (e) {
+                res.send({ status: 500, msg: e });
+            }
+        }
+    },
+
+    postEditSupplier: async function(req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -1048,16 +1165,11 @@ const indexFunctions = {
                 // console.log('testing = ' + JSON.stringify(testing));
                 var editSupplier = new supplierModel(supplier);
                 var result = await editSupplier.recordEditSupplier();
+                var userStatus = getUserType(req.session.type);
                 console.log(result)
                 if (result)
-                    res.send({
-                        status: 200,
-                        supplierID
-                    });
-                else res.send({
-                    status: 401,
-                    msg: 'Cannot connect to database'
-                });
+                    res.send({ status: userStatus, supplierID });
+                else res.send({ status: 401, msg: 'Cannot connect to database' });
             } catch (e) {
                 res.send({
                     status: 500,
@@ -1074,7 +1186,7 @@ const indexFunctions = {
         var deliveryID = req.params.deliveryID;
         var result = getDeliveryProdDetails(deliveryID);
         console.log(result);
-        res.send(status:200);
+        res.send({status:200});
     },
     postNewPurchase: async function (req, res) {
         var {
@@ -1085,8 +1197,340 @@ const indexFunctions = {
         var product = await productModel.findOne({
             productID: productID
         });
-        // var amountDue = ;
+    },
+    postPurchaseCheckDelivery: async function(req, res) {
+        var deliveryID = req.body.deliveryID;
+        try {
+            console.log('i am here');
+            var values = await deliveryModel.aggregate([{
+                '$match': {
+                    'deliveryID': 60000201
+                }
+            }, {
+                '$lookup': {
+                    'from': 'products',
+                    'localField': 'productID',
+                    'foreignField': 'productID',
+                    'as': 'product'
+                }
+            }, {
+                '$unwind': {
+                    'path': '$product',
+                    'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$project': {
+                    'purchasePrice': '$product.purchasePrice',
+                    'number_Of_Units_Delivered': 1
+                }
+            }]);
+            console.log(values);
+            var amount = parseFloat(values[0].purchasePrice) * parseFloat(values[0].number_Of_Units_Delivered);
+            console.log(amount);
+            res.send({ amount: amount });
+        } catch (e) {
+            console.log(e)
+        }
+    },
+  
+    //MANAGERS
+    getMproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
 
+    getMoneEditProduct: async function(req, res) {
+        try {
+            var productID = req.params.productID;
+            var match = await productModel.findOne({ productID: productID });
+            console.log(match);
+            if (match) {
+                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
+                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                res.render('m_editProduct', {
+                    title: 'Edit ' + match.productName,
+                    product: JSON.parse(JSON.stringify(match)),
+                    supplier: JSON.parse(JSON.stringify(supplier)),
+                    ref_category: JSON.parse(JSON.stringify(ref_category))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMnewProducts: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            var ref_category = await ref_categoryModel.find({});
+            res.render('m_newProducts', {
+                title: 'Add product',
+                suppliers: JSON.parse(JSON.stringify(matches)),
+                ref_category: JSON.parse(JSON.stringify(ref_category))
+
+            });
+        } catch (e) {
+            console.log(e)
+        }
+    },
+
+    getMsupplier: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            res.render('m_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMoneSupplier: async function(req, res) {
+        try {
+            var supplierID = req.params.supplierID;
+            var match = await supplierModel.findOne({ supplierID: supplierID });
+            console.log(match);
+            if (match) {
+                res.render('m_editSupplier', {
+                    title: match.companyName,
+                    supplier: JSON.parse(JSON.stringify(match))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Supplier does not exist'
+            });
+        } catch (e) {
+            console.log(e)
+        }
+    },
+
+    getMnewSupplier: function(req, res) {
+        res.render('m_newSupplier', {
+            title: 'Add Supplier'
+        });
+    },
+
+    getMpurchases: async function(req, res) {
+        try {
+            var matches = await purchaseModel.find({});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_purchases', {
+                title: 'View Purchase',
+                purchase: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMnewPurchase: async function(req, res) {
+        // res.render('a_newPurchases', {
+        //     title: 'Add Purchase'
+        // });
+        try {
+            var delivery = await getDeliveries();
+            res.render('m_newPurchases', {
+                title: 'Add Purchase',
+                delivery: JSON.parse(JSON.stringify(delivery)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMdeliveries: async function(req, res) {
+        try {
+            var matches = await deliveryModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_delivery', {
+                title: 'View Deliveries',
+                delivery: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMnewDelivery: async function(req, res) {
+        // res.render('a_newDelivery', {
+        //     title: 'Add Delivery Details'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('m_newDelivery', {
+                title: 'Add Delivery Details',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMsales: async function(req, res) {
+        try {
+            var matches = await salesModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_sales', {
+                title: 'View Sales',
+                sales: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMnewSale: async function(req, res) {
+        // res.render('a_newSales', {
+        //     title: 'Add Sale'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('m_newSales', {
+                title: 'Add Sale',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMMDgoods: async function(req, res) {
+        try {
+            var matches = await damagedgoodsModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_MDgoods', {
+                title: 'View Missing and Damaged Goods',
+                MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMnewMDgoods: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            // console.log(products);
+            res.render('m_newMDgoods', {
+                title: 'Add Missing/Damaged goods',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    //USERS
+    getUproducts: async function(req, res) {
+        try {
+            var matches = await productModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('u_products', {
+                title: 'View Products',
+                products: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUoneViewProduct: async function(req, res) {
+        try {
+            var productID = req.params.productID;
+            var match = await productModel.findOne({ productID: productID });
+            console.log(match);
+            if (match) {
+                var supplier = await supplierModel.findOne({ supplierID: match.supplierID });
+                var ref_category = await ref_categoryModel.findOne({ categoryCode: match.categoryCode });
+                res.render('u_productDetails', {
+                    title: 'View ' + match.productName,
+                    product: JSON.parse(JSON.stringify(match)),
+                    supplier: JSON.parse(JSON.stringify(supplier)),
+                    ref_category: JSON.parse(JSON.stringify(ref_category))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'Product does not exist'
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUsuppliers: async function(req, res) {
+        try {
+            var matches = await supplierModel.find({});
+            // console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('u_suppliers', {
+                title: 'View Suppliers',
+                suppliers: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUnewSale: async function(req, res) {
+        // res.render('a_newSales', {
+        //     title: 'Add Sale'
+        // });
+        try {
+            var products = await productModel.find({});
+            res.render('u_newSales', {
+                title: 'Add Sale',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUnewMDgoods: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newMDgoods', {
+                title: 'Add Missing/Damaged goods',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUnewDiscrepancy: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newDiscrepancy', {
+                title: 'Add Discrepancy',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getUnewDelivery: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('u_newDelivery', {
+                title: 'Add delivery details',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
 module.exports = indexFunctions;

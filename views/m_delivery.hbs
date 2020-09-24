@@ -1,12 +1,12 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
                             <div class="container">
                                 <div class="row mt-2">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-danger ">Add Delivery +</button>
+                                        <a href="/m/newDelivery" class="btn btn-danger ">Add Delivery +</a>
                                     </div>
                                     <div class="col-6">
                                         <form class="form-inline justify-content-end">
@@ -33,15 +33,15 @@
                             </div>
                             <div class="mt-2">
                                 <table class="table table-bordered">
-                                    <thead class="thead-danger">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Delivery ID</th>
-                                            <th scope="col">Num Delivered</th>
-                                            <th scope="col">Num Damaged</th>
                                             <th scope="col">Date Delivered</th>
+                                            <th scope="col">Delivery ID</th>
                                             <th scope="col">Product ID</th>
                                             <th scope="col">User ID</th>
-                                            <th></th>
+                                            <th scope="col">Num Delivered</th>
+                                            <th scope="col">Num Damaged</th>  
+                                            <th>add Purchase</th>
                                         </tr>
                                     </thead>
                                     <tbody>

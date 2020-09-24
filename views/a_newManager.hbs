@@ -1,0 +1,45 @@
+{{>a_navbar}}
+{{>a_sidebar}}
+            <div class="col-9">
+                    <div class="shadow">
+						<div class="d-flex flex-column mt-2">
+                            <div class="container">
+								<h1 class="display-4 text-center">New Manager</h1>
+							</div>
+							<div class="container">
+								<form>
+									<div class="form-group">
+										<label for="userID">User</label>
+										<select class="form-control" id="userID">
+											<option value="0">Please Select a User</option>
+											{{#each user}}
+											<option value="{{this.userID}}">{{this.userID}} - {{this.firstName}} {{this.lastName}}</option>
+											{{/each}}
+										</select>
+									</div>
+									<div class="form-group">
+										<label for="isSysAd">Is the user an admin?</label>
+										<select class="form-control" id="isSysAd">
+											<option value="false">No</option>
+											<option value="true">Yes</option>
+										</select>
+									</div>
+								</form>
+                            <div class="form-group ">
+                                <div class="row">
+                                    <div class="col-6 mb-5 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-outline-dark" id ='submitNewManager'>Submit</button>
+                                    </div>
+                                    <div class="col-6 mb-5 d-flex justify-content-start">
+                                        <a href="/a/managers" class="btn btn-outline-secondary">Cancel</a>
+                                    </div>
+                                </div>
+							</div>	
+						</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        </div>
