@@ -847,7 +847,30 @@ const indexFunctions = {
 
     getAproducts: async function(req, res) {
         try {
-            var matches = await productModel.find({});
+            var matches = await productModel.aggregate([{
+                    '$lookup': {
+                    'from': 'Supplier', 
+                    'localField': 'supplierID', 
+                    'foreignField': 'supplierID', 
+                    'as': 'supplier'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$supplier', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$project': {
+                    'productID': 1, 
+                    'productName': 1, 
+                    'currentStock': 1, 
+                    'sellingPrice': 1, 
+                    'purchasePrice': 1, 
+                    'supplierID': 1, 
+                    'categoryCode': 1, 
+                    'supplierName': '$supplier.companyName'
+                    }
+            }]);
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_products', {
                 title: 'View Products',
@@ -1686,7 +1709,30 @@ const indexFunctions = {
     //MANAGERS
     getMproducts: async function(req, res) {
         try {
-            var matches = await productModel.find({});
+            var matches = await productModel.aggregate([{
+                    '$lookup': {
+                    'from': 'Supplier', 
+                    'localField': 'supplierID', 
+                    'foreignField': 'supplierID', 
+                    'as': 'supplier'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$supplier', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$project': {
+                    'productID': 1, 
+                    'productName': 1, 
+                    'currentStock': 1, 
+                    'sellingPrice': 1, 
+                    'purchasePrice': 1, 
+                    'supplierID': 1, 
+                    'categoryCode': 1, 
+                    'supplierName': '$supplier.companyName'
+                    }
+            }]);
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_products', {
                 title: 'View Products',
@@ -1837,7 +1883,34 @@ const indexFunctions = {
 
     getMdeliveries: async function(req, res) {
         try {
-            var matches = await deliveryModel.find({});
+            var matches = await deliveryModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'deliveryID': 1, 
+                    'number_Of_Units_Delivered': 1, 
+                    'number_Of_Damaged': 1, 
+                    'dateDelivered': 1, 
+                    'productID': 1, 
+                    'userID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
+            }]).sort({dateDelivered: -1});
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_delivery', {
                 title: 'View Deliveries',
@@ -1921,7 +1994,16 @@ const indexFunctions = {
 
     getMMDgoods: async function(req, res) {
         try {
-            var matches = await damagedgoodsModel.aggregate([{
+            var matches = await damagedgoodsModel.aggregate([
+                {
+                    '$match': {
+                      'approved': {
+                        '$not': {
+                          '$eq': null
+                        }
+                      }
+                    }
+                  }, {
                     '$lookup': {
                     'from': 'users', 
                     'localField': 'userID', 
@@ -2111,7 +2193,30 @@ const indexFunctions = {
     //USERS
     getUproducts: async function(req, res) {
         try {
-            var matches = await productModel.find({});
+            var matches = await productModel.aggregate([{
+                    '$lookup': {
+                    'from': 'Supplier', 
+                    'localField': 'supplierID', 
+                    'foreignField': 'supplierID', 
+                    'as': 'supplier'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$supplier', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$project': {
+                    'productID': 1, 
+                    'productName': 1, 
+                    'currentStock': 1, 
+                    'sellingPrice': 1, 
+                    'purchasePrice': 1, 
+                    'supplierID': 1, 
+                    'categoryCode': 1, 
+                    'supplierName': '$supplier.companyName'
+                    }
+            }]);
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('u_products', {
                 title: 'View Products',
