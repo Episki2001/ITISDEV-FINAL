@@ -554,6 +554,78 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
+    getAoneMDGoods: async function(req, res) {
+        var dmgrecordID = req.params.dmgrecordID;
+        try {
+            var record = await damagedgoodsModel.aggregate([{
+                '$match': {
+                    'dmgrecordID': parseInt(dmgrecordID)
+                }
+            }, {
+                '$lookup': {
+                'from': 'users', 
+                'localField': 'userID', 
+                'foreignField': 'userID', 
+                'as': 'user'
+                }
+            }, {
+                '$unwind': {
+                'path': '$user', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$lookup': {
+                'from': 'products', 
+                'localField': 'productID', 
+                'foreignField': 'productID', 
+                'as': 'product'
+                }
+            }, {
+                '$unwind': {
+                'path': '$product', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$lookup': {
+                'from': 'users', 
+                'localField': 'managerID', 
+                'foreignField': 'userID', 
+                'as': 'manager'
+                }
+            }, {
+                '$unwind': {
+                'path': '$manager', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$project': {
+                'dmgrecordID': 1, 
+                'dateDamaged': 1, 
+                'numDamaged': 1, 
+                'approved': 1, 
+                'comments': 1, 
+                'userID': 1, 
+                'productID': 1, 
+                'managerID': 1,
+                'productName': '$product.productName', 
+                'u_firstName': '$user.firstName', 
+                'u_lastName': '$user.lastName', 
+                'm_firstName': '$manager.firstName', 
+                'm_lastName': '$manager.lastName'
+                }
+            }])
+            record = record[0];
+            console.log(record);
+            res.render('a_MDgoodsDetails', {
+                title: 'Missing/Damaged details',
+                record: JSON.parse(JSON.stringify(record))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     getAnewDelivery: async function(req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'

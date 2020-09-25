@@ -50,7 +50,7 @@ app.engine('hbs', exphbs.create({
             if (bVal)
                 return 'Yes';
             else return 'No';
-        }
+        },
     }
 }).engine);
 app.set('view engine', 'hbs');
@@ -61,6 +61,7 @@ app.use(bodyParser.json());
 
 // ROUTERS
 const indexRouter = require('./router/indexRouter');
+const { text } = require('body-parser');
 app.use('/', indexRouter)
 
 // log this in console when ran
