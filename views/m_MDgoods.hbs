@@ -33,19 +33,20 @@
                             </div>
                             <div class="mt-2">
                                 <table class="table table-hover">
-                                    <thead class="thead-danger">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">damagerecordID</th>
-                                            <th scope="col">ProductID</th>
-                                            <th scope="col">UserID</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Date</th>
-                                            <th scope="col">numDamaged</th>
+                                            <th scope="col">Record ID</th>
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">User Name</th>
+                                            <th scope="col">Damage QTY</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {{#each MDgoods}}
-                                            {{>MDgoods_row this}}
+                                            {{>MDgoods_row_m this}}
                                         {{/each}}
                                     </tbody>
                                 </table>

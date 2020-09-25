@@ -68,7 +68,9 @@ router.get('/m/newDelivery', controller.getMnewDelivery);
 router.get('/m/sales', controller.getMsales);
 router.get('/m/newSale', controller.getMnewSale);
 router.get('/m/MDgoods', controller.getMMDgoods);
+router.get('/m/MDGoods/:dmgrecordID', controller.getMoneMDGoods);
 router.get('/m/newMDgoods', controller.getMnewMDgoods);
+router.get('/m/discrepancy', controller.getMdiscrepancy);
 
 //USERS
 router.get('/u/products', controller.getUproducts);

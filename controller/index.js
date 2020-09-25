@@ -461,8 +461,72 @@ const indexFunctions = {
     },
 
     getAMDgoods: async function(req, res) {
+        
         try {
-            var matches = await damagedgoodsModel.find({ approved: { $ne: null } }).sort({ dateDamaged: -1 });
+            var matches = await damagedgoodsModel.aggregate([
+                {
+                    '$match': {
+                      'approved': {
+                        '$not': {
+                          '$eq': null
+                        }
+                      }
+                    }
+                  },
+                {
+                
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$lookup': {
+                    'from': 'products', 
+                    'localField': 'productID', 
+                    'foreignField': 'productID', 
+                    'as': 'product'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$product', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'managerID', 
+                    'foreignField': 'userID', 
+                    'as': 'manager'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$manager', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$project': {
+                    'dmgrecordID': 1, 
+                    'dateDamaged': 1, 
+                    'numDamaged': 1, 
+                    'approved': 1, 
+                    'comments': 1, 
+                    'userID': 1, 
+                    'productID': 1, 
+                    'managerID': 1,
+                    'productName': '$product.productName', 
+                    'u_firstName': '$user.firstName', 
+                    'u_lastName': '$user.lastName', 
+                    'm_firstName': '$manager.firstName', 
+                    'm_lastName': '$manager.lastName'
+                }
+                }]).sort({ dateDamaged: -1 });
             console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
@@ -1718,7 +1782,34 @@ const indexFunctions = {
 
     getMpurchases: async function(req, res) {
         try {
-            var matches = await purchaseModel.find({});
+            var matches = await purchaseModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'managerID', 
+                    'foreignField': 'userID', 
+                    'as': 'manager'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$manager', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'purchaseID': 1, 
+                    'amountPaid': 1, 
+                    'datePurchased': 1, 
+                    'totalCost': 1, 
+                    'managerID': 1, 
+                    'deliveryID': 1, 
+                    'firstName': '$manager.firstName', 
+                    'lastName': '$manager.lastName'
+                    }
+            }]).sort({datePurchased: -1 });
             console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_purchases', {
                 title: 'View Purchase',
@@ -1774,7 +1865,35 @@ const indexFunctions = {
 
     getMsales: async function(req, res) {
         try {
-            var matches = await salesModel.find({});
+            var matches = await salesModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'dateSold': 1
+                    }
+                }, {
+                    '$project': {
+                    'salesID': 1, 
+                    'quantity': 1, 
+                    'sellingPrice': 1, 
+                    'total': 1, 
+                    'dateSold': 1, 
+                    'productID': 1, 
+                    'userID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
+            }]).sort({ dateSold: -1 });
             // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_sales', {
                 title: 'View Sales',
@@ -1802,11 +1921,134 @@ const indexFunctions = {
 
     getMMDgoods: async function(req, res) {
         try {
-            var matches = await damagedgoodsModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
+            var matches = await damagedgoodsModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$lookup': {
+                    'from': 'products', 
+                    'localField': 'productID', 
+                    'foreignField': 'productID', 
+                    'as': 'product'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$product', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'managerID', 
+                    'foreignField': 'userID', 
+                    'as': 'manager'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$manager', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$project': {
+                    'dmgrecordID': 1, 
+                    'dateDamaged': 1, 
+                    'numDamaged': 1, 
+                    'approved': 1, 
+                    'comments': 1, 
+                    'userID': 1, 
+                    'productID': 1, 
+                    'managerID': 1,
+                    'productName': '$product.productName', 
+                    'u_firstName': '$user.firstName', 
+                    'u_lastName': '$user.lastName', 
+                    'm_firstName': '$manager.firstName', 
+                    'm_lastName': '$manager.lastName'
+                }
+                }]).sort({ dateDamaged: -1 });
+            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    
+    getMoneMDGoods: async function(req, res) {
+        var dmgrecordID = req.params.dmgrecordID;
+        try {
+            var record = await damagedgoodsModel.aggregate([{
+                '$match': {
+                    'dmgrecordID': parseInt(dmgrecordID)
+                }
+            }, {
+                '$lookup': {
+                'from': 'users', 
+                'localField': 'userID', 
+                'foreignField': 'userID', 
+                'as': 'user'
+                }
+            }, {
+                '$unwind': {
+                'path': '$user', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$lookup': {
+                'from': 'products', 
+                'localField': 'productID', 
+                'foreignField': 'productID', 
+                'as': 'product'
+                }
+            }, {
+                '$unwind': {
+                'path': '$product', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$lookup': {
+                'from': 'users', 
+                'localField': 'managerID', 
+                'foreignField': 'userID', 
+                'as': 'manager'
+                }
+            }, {
+                '$unwind': {
+                'path': '$manager', 
+                'preserveNullAndEmptyArrays': true
+                }
+            }, {
+                '$project': {
+                'dmgrecordID': 1, 
+                'dateDamaged': 1, 
+                'numDamaged': 1, 
+                'approved': 1, 
+                'comments': 1, 
+                'userID': 1, 
+                'productID': 1, 
+                'managerID': 1,
+                'productName': '$product.productName', 
+                'u_firstName': '$user.firstName', 
+                'u_lastName': '$user.lastName', 
+                'm_firstName': '$manager.firstName', 
+                'm_lastName': '$manager.lastName'
+                }
+            }])
+            record = record[0];
+            console.log(record);
+            res.render('m_MDgoodsDetails', {
+                title: 'Missing/Damaged details',
+                record: JSON.parse(JSON.stringify(record))
             });
         } catch (e) {
             console.log(e);
@@ -1820,6 +2062,46 @@ const indexFunctions = {
             res.render('m_newMDgoods', {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMdiscrepancy: async  function(req, res) {
+        try {
+            var matches = await discrepanciesModel.aggregate([{
+                    '$lookup': {
+                    'from': 'users', 
+                    'localField': 'userID', 
+                    'foreignField': 'userID', 
+                    'as': 'user'
+                    }
+                }, {
+                    '$unwind': {
+                    'path': '$user', 
+                    'preserveNullAndEmptyArrays': true
+                    }
+                }, {
+                    '$sort': {
+                    'date': 1
+                    }
+                }, {
+                    '$project': {
+                    'discrepancyID': 1, 
+                    'oldCount': 1, 
+                    'newCount': 1, 
+                    'date': 1, 
+                    'userID': 1, 
+                    'productID': 1, 
+                    'firstName': '$user.firstName', 
+                    'lastName': '$user.lastName'
+                    }
+            }]).sort({date: -1});
+            console.log(JSON.parse(JSON.stringify(matches)));
+            res.render('m_discrepancy', {
+                title: 'View Discrepancy',
+                discs: JSON.parse(JSON.stringify(matches))
             });
         } catch (e) {
             console.log(e);
