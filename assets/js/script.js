@@ -329,7 +329,6 @@ $(document).ready(function() {
         var dmgrecordID = $('#dmgrecordID').val();
         var numDamaged = $('#MDdmg').val();
         var productID = $('#productID').val();
-        console.log('i made it');
         $.post('/approvalMDGoods', {
             dmgrecordID: dmgrecordID,
             approved: true,
@@ -367,7 +366,6 @@ $(document).ready(function() {
         var dmgrecordID = $('#dmgrecordID').val();
         var numDamaged = $('#MDdmg').val();
         var productID = $('#productID').val();
-        console.log('i made it');
         $.post('/approvalMDGoods', {
             dmgrecordID: dmgrecordID,
             approved: false,
