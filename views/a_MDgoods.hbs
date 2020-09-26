@@ -1,70 +1,72 @@
 {{>a_navbar}}
 {{>a_sidebar}}
-            <div class="col-9">
-                    <div class=" shadow">
-                        <div class="d-flex flex-column mt-2">
-                            <div class="container">
-                                <div class="row mt-2">
-                                    <div class="col-6">
-                                        <a href="/a/newMDgoods" type="button" class="btn btn-dark ">Add Missing/Damaged Goods +</a>
-                                    </div>
-                                    <div class="col-6">
-                                        <form class="form-inline justify-content-end">
-                                            <input class="form-control mr-sm-2" type="search" placeholder="Search Missing or Damaged Goods" aria-label="Search">
-                                            <button class="btn btn-outline-dark my-2 my-sm-0" type="button">Search</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="mt-1">
-                                    Show
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                20
-                                            </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">50</a>
-                                            <a class="dropdown-item" href="#">100</a>
-                                            <a class="dropdown-item" href="#">150</a>
-                                        </div>
-                                    </div>
-                                    Entries
-                                </div>
-
-                            </div>
-                            <div class="mt-2">
-                                <table class="table table-bordered">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col">Record ID</th>
-                                            <th scope="col">Product ID</th>
-                                            <th scope="col">User Name</th>
-                                            <th scope="col">Damage QTY</th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each MDgoods}}
-                                            {{>MDgoods_row this}}
-                                        {{/each}}
-                                    </tbody>
-                                </table>
-                                <nav aria-label="Page navigation example">
-                                    <ul class="pagination pagination-sm justify-content-end m-2">
-                                        <li class="page-item"><a class="page-link text-dark" href="#">Previous</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-
+<div class="col-9">
+    <div class=" shadow">
+        <div class="d-flex flex-column mt-2">
+            <div class="container">
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <a href="/a/newMDgoods" type="button" class="btn btn-dark ">Add Missing/Damaged Goods +</a>
+                    </div>
+                    <div class="col-6">
+                        <form class="form-inline justify-content-end">
+                            <input class="form-control mr-sm-2" type="search"
+                                placeholder="Search Missing or Damaged Goods" aria-label="Search">
+                            <button class="btn btn-outline-dark my-2 my-sm-0" type="button">Search</button>
+                        </form>
                     </div>
                 </div>
-
+                <div class="mt-1">
+                    Show
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            20
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">50</a>
+                            <a class="dropdown-item" href="#">100</a>
+                            <a class="dropdown-item" href="#">150</a>
+                        </div>
+                    </div>
+                    Entries
+                </div>
 
             </div>
+            <div class="mt-2">
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Record ID</th>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Damage QTY</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each MDgoods}}
+                        {{>MDgoods_row this}}
+                        {{/each}}
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination pagination-sm justify-content-end m-2">
+                        <li class="page-item"><a class="page-link text-dark" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link text-dark" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
         </div>
+
+    </div>
+</div>
+
+
+</div>
+</div>

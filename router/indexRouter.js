@@ -8,6 +8,7 @@ router.get('/', controller.getLogin);
 
 //ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
+router.get('/a/supplierReport', controller.getSupplierReport)
 // router.get('/a/product/editProduct', controller.getAeditProduct);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);

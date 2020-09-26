@@ -459,6 +459,11 @@ const indexFunctions = {
             title: 'Edit Profile'
         });
     },
+    getSupplierReport: function (req, res) {
+        res.render('a_supplierReport', {
+            title: 'Supplier Report'
+        });
+    },
 
     getAMDgoods: async function(req, res) {
         
