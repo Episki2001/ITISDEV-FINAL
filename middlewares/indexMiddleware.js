@@ -40,10 +40,16 @@ const indexMiddleware = {
         try {
             if (product == null) {
                 /**check if productID is in db */
-                res.send({ status: 401, msg: 'no product with matching productID found' });
+                res.send({
+                    status: 401,
+                    msg: 'no product with matching productID found'
+                });
             } else if (parseInt(quantity) > parseInt(product.currentStock)) {
                 /**check if quantity is less than or equal to stock */
-                res.send({ status: 401, msg: 'quantity cannot be more than the current stock of the product' });
+                res.send({
+                    status: 401,
+                    msg: 'quantity cannot be more than the current stock of the product'
+                });
             } else if (today < saleDate) {
                 /**check if date is valid*/
                 res.send({
@@ -154,6 +160,48 @@ const indexMiddleware = {
                 msg: 'Server error. Could not validate.'
             });
         }
+    },
+
+    validateNewPurchase: async function (req, res, next) {
+        /**get variables */
+        let {
+            deliveryID,
+            datePaid,
+            amountPaid,
+            totalCost
+        } = req.body;
+        var today = new Date();
+        var purchaseDate = new Date(datePaid);
+        console.log(today);
+        console.log(purchaseDate);
+        console.log(today < purchaseDate);
+        console.log(parseInt(amountPaid));
+        console.log(parseInt(totalCost));
+        console.log(parseInt(amountPaid) > parseInt(totalCost));
+        try {
+            if (today < purchaseDate) {
+                /**validate date */
+                res.send({
+                    status: 401,
+                    msg: 'date cannot be after today'
+                });
+            } else if (parseInt(amountPaid) > parseInt(totalCost)) {
+                /**validate amountPaid */
+                res.send({
+                    status: 401,
+                    msg: 'Amount paid is higher than total cost'
+                });
+            } else {
+                return next();
+            }
+
+        } catch (e) {
+            res.send({
+                status: 500,
+                msg: 'Server error. Could not validate.'
+            });
+        }
+
     }
 
 };

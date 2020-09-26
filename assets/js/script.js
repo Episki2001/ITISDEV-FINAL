@@ -726,16 +726,17 @@ $(document).ready(function () {
             $.post('/newPurchase', {
                 deliveryID: deliveryID,
                 datePaid: datePaid,
-                amountPaid: amountPaid
+                amountPaid: amountPaid,
+                totalCost: totalCost
             }, function (result) {
                 switch (result.status) {
                     case 201: {
-                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                        alert('Purchase successfully created with purchase ID: ' + result.purchase.purchaseID);
                         window.location.href = '/a/purchases';
                         break;
                     }
                     case 202: {
-                        alert('Purchase successfully created with purchase ID: ' + result.purchaseID);
+                        alert('Purchase successfully created with purchase ID: ' + result.purchase.purchaseID);
                         window.location.href = '/m/purchases';
                         break;
                     }

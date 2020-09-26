@@ -50,7 +50,7 @@ router.post('/logout', controller.postLogout);
 router.post('/newProduct', controller.postNewProduct);
 router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.postNewDelivery);
 router.post('/editProduct', controller.postEditProduct);
-router.post('/newPurchase', controller.postNewPurchase);
+router.post('/newPurchase', indexMiddleware.validateNewPurchase, controller.postNewPurchase);
 router.post('/newManager', controller.postNewManager);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
