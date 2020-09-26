@@ -12,8 +12,9 @@ router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
 router.get('/a/MDgoods', controller.getAMDgoods);
+router.get('/a/MDGoods/:dmgrecordID', controller.getAoneMDGoods);
 router.get('/a/forApprovalMDgoods', controller.getAForApprovalMDgoods);
-router.get('/a/approveMDGoods/:dmgrecordID', controller.getAoneFAMDGoods)
+router.get('/a/approveMDGoods/:dmgrecordID', controller.getAoneFAMDGoods);
 router.get('/a/thresholds', controller.getAThreshold);
 router.get('/a/newDelivery', controller.getAnewDelivery);
 router.get('/a/newDiscrepancy', controller.getAnewDiscrepancy);
@@ -52,6 +53,7 @@ router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.post
 router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', indexMiddleware.validateNewPurchase, controller.postNewPurchase);
 router.post('/newManager', controller.postNewManager);
+router.post('/approvalMDGoods', controller.postApprovalMDGoods);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);
@@ -66,7 +68,9 @@ router.get('/m/newDelivery', controller.getMnewDelivery);
 router.get('/m/sales', controller.getMsales);
 router.get('/m/newSale', controller.getMnewSale);
 router.get('/m/MDgoods', controller.getMMDgoods);
+router.get('/m/MDGoods/:dmgrecordID', controller.getMoneMDGoods);
 router.get('/m/newMDgoods', controller.getMnewMDgoods);
+router.get('/m/discrepancy', controller.getMdiscrepancy);
 
 //USERS
 router.get('/u/products', controller.getUproducts);

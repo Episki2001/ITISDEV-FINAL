@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
@@ -8,14 +8,14 @@
                                     <div class="col-12">
                                         <form class="form-inline justify-content-end">
                                             <input class="form-control mr-sm-2" type="search" placeholder="Search Discrepancies" aria-label="Search">
-                                            <button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button>
+                                            <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
                                         </form>
                                     </div>
                                 </div>
                                 <div class="mt-1">
                                     Show
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 20
                                             </button>
                                         <div class="dropdown-menu">
@@ -29,52 +29,30 @@
 
                             </div>
                             <div class="mt-2">
-                                <table class="table table-hover">
-                                    <thead class="thead-danger">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
                                         <tr>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Discrepancy ID</th>
                                             <th scope="col">Product ID</th>
-                                            <th scope="col">User ID</th>
+                                            <th scope="col">User Name</th>
                                             <th scope="col">Old Count</th>
                                             <th scope="col">New Count</th>
-                                            <th scope="col">Date</th>
-                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Bizzare Adventures Inc.</td>
-                                            <td>123456789</td>
-                                            <td>@mdo</td>
-                                            <td>Wolololo</td>
-                                            
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Arknights Addicts Co.</td>
-                                            <td>987654321</td>
-                                            <td>@fat</td>
-                                            <td>69420 St.</td>
-                                           
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Dame Da Ne ltd.</td>
-                                            <td>963258741</td>
-                                            <td>@twitter</td>
-                                            <td>bakamitai</td>
-                                            
-                                        </tr>
+                                        {{#each discs}}
+                                            {{>discrepancies_row this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination pagination-sm justify-content-end m-2">
-                                        <li class="page-item"><a class="page-link text-danger" href="#">Previous</a></li>
-                                        <li class="page-item"><a class="page-link text-danger" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link text-danger" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link text-danger" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link text-danger" href="#">Next</a></li>
+                                        <li class="page-item"><a class="page-link text-dark" href="#">Previous</a></li>
+                                        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link text-dark" href="#">Next</a></li>
                                     </ul>
                                 </nav>
                             </div>

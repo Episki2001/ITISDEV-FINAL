@@ -4,7 +4,7 @@
                     <div class="shadow">
 						<div class="d-flex flex-column mt-2">
                             <div class="container">
-								<h1 class="display-5 text-center">Approve Missing/Damaged Goods</h1>
+								<h1 class="display-5 text-center">Missing/Damaged Goods Details</h1>
 							</div>
 							<div class="container">
 								<form>
@@ -22,7 +22,7 @@
                                         <div class="row">
                                             <div class="col-12">
                                                 <!-- newMDgoods_prodID -->
-                                                <input type ="text" class = "form-control" id = "userID" value="{{record.userID}} - {{record.firstName}} {{record.lastName}}" readonly>
+                                                <input type ="text" class = "form-control" id = "userID" value="{{record.userID}} - {{record.u_firstName}} {{record.u_lastName}}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -54,7 +54,14 @@
                                             </div>
                                         </div>
                                     </div>
-
+                                    <div class="form-group">
+                                        <label for="MDmanager">Approved By</label>
+                                        <input type="text" class="form-control" id="MDmanager" value="{{record.managerID}} - {{record.m_firstName}} {{record.m_lastName}}" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="MDstatus">Status</label>
+                                        <input type="text" class="form-control" id="MDstatus" value="{{record.approved}}" readonly>
+                                    </div>
                                     <div class="form-group">
                                         <label for="MDdmg">Number of Damaged</label>
                                         <input type="number" class="form-control" id="MDdmg" value ="{{record.numDamaged}}" min="0" readonly>
@@ -63,16 +70,11 @@
                                         <label for="MDcomment">Comment</label>
                                         <textarea class="form-control" id="MDcomment" placeholder="no comment" rows="3" readonly>{{record.comments}}</textarea>
                                     </div>
+                                    
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="col-4 mb-3 d-flex justify-content-end">
-                                                <button type="button" class="btn btn-outline-success" id="approveMDGoods">Approve</button>
-                                            </div>
-                                            <div class="col-4 mb-3 d-flex justify-content-center">
-                                                <a href="/a/forApprovalMDgoods" class="btn btn-outline-secondary">Cancel</a>
-                                            </div>
-                                            <div class="col-4 mb-3 d-flex justify-content-start">
-                                                <button type="button" class="btn btn-outline-danger" id="rejectMDGoods">Reject</button>
+                                            <div class="col-12 mb-3 d-flex justify-content-center">
+                                                <a href="/a/MDgoods" class="btn btn-outline-secondary">Back</a>
                                             </div>
                                         </div>
                                     </div>
