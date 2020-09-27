@@ -464,7 +464,11 @@ const indexFunctions = {
             title: 'Supplier Report'
         });
     },
-
+    getSupplierReportDetail: function (req, res) {
+        res.render('a_supplierReportDetail', {
+            title: 'Supplier Report'
+        });
+    },
     getAMDgoods: async function(req, res) {
         
         try {
