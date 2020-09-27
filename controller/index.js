@@ -1195,10 +1195,7 @@ const indexFunctions = {
                 msg: ': User is not logged in'
             });
             //send back to login
-            console.log(req.session);
-            req.session.destroy();
-            console.log(req.session);
-            res.redirect("/");
+            
         }
     },
     postNewSale: async function (req, res) {
@@ -1249,10 +1246,7 @@ const indexFunctions = {
                 msg: ': User is not logged in'
             });
             //send back to login
-            console.log(req.session);
-            req.session.destroy();
-            console.log(req.session);
-            res.redirect("/");
+            
         }
     },
     postNewDiscrepancy: async function (req, res) {
@@ -1300,10 +1294,7 @@ const indexFunctions = {
                 msg: ': User is not logged in'
             });
             //send back to login
-            console.log(req.session);
-            req.session.destroy();
-            console.log(req.session);
-            res.redirect("/");
+            
         }
     },
     postNewUser: async function (req, res) {
