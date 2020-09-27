@@ -860,7 +860,8 @@ $(document).ready(function() {
             $.post('/newPurchase', {
                 deliveryID: deliveryID,
                 datePaid: datePaid,
-                amountPaid: amountPaid
+                amountPaid: amountPaid,
+                totalCost: totalCost
             }, function(result) {
                 switch (result.status) {
                     case 201:

@@ -960,7 +960,7 @@ const indexFunctions = {
             }]).sort({
                 datePurchased: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
+            
             res.render('a_purchase', {
                 title: 'View Purchase',
                 purchase: JSON.parse(JSON.stringify(matches))
