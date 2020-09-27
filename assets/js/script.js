@@ -799,7 +799,7 @@ $(document).ready(function() {
 
         if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 11)) {
             valid = false;
-            alert('Please Input atleast one field');
+            alert('Cannot leave empty fields');
         }
 
         if (valid) {
