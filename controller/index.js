@@ -227,6 +227,91 @@ async function getMinMaxsupplierID(sortby, offset) {
     return highestID[0].supplierID + offset;
 }
 
+async function getSupplierReportData(supplierID, fromDate, toDate) {
+    return await supplierModel.aggregate(
+        [{
+            '$lookup': {
+                'from': 'products',
+                'localField': 'supplierID',
+                'foreignField': 'supplierID',
+                'as': 'products'
+            }
+        }, {
+            '$match': {
+                'supplierID': parseInt(supplierID)
+            }
+        }, {
+            '$unwind': {
+                'path': '$products',
+                'includeArrayIndex': 'string',
+                'preserveNullAndEmptyArrays': true
+            }
+        }, {
+            '$lookup': {
+                'from': 'sales',
+                'localField': 'products.productID',
+                'foreignField': 'productID',
+                'as': 'sales'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Delivery',
+                'localField': 'products.productID',
+                'foreignField': 'productID',
+                'as': 'Delivery'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Purchases',
+                'localField': 'Delivery.deliveryID',
+                'foreignField': 'deliveryID',
+                'as': 'Purchases'
+            }
+        }, {
+            '$project': {
+                'supplierID': 1,
+                'companyName': 1,
+                'email': 1,
+                'products': 1,
+                'sales': {
+                    '$filter': {
+                        'input': '$sales',
+                        'as': 'sale',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$sale.dateSold', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$sale.dateSold', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                },
+                'Purchases': {
+                    '$filter': {
+                        'input': '$Purchases',
+                        'as': 'purchase',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$purchase.datePurchased', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$purchase.datePurchased', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                }
+            }
+        }]
+    );
+}
+
 async function getMinMaxdiscrepancyID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -382,6 +467,41 @@ async function getDeliveryProdDetails(deliveryID) {
     return result[0];
 }
 
+async function getTotalSales(sales) {
+    var total = 0;
+    for (var i = 0; i < sales.length; i++) {
+        total = total + sales[i].total;
+    }
+    return total;
+}
+async function getDateDiff(date1, date2) {
+    var date1 = new Date(date1);
+    var date2 = new Date(date2);
+    var dateDiffTime = date2.getTime() - date1.getTime();
+    var dateDiffDays = dateDiffTime / (1000 * 3600 * 24);
+    return dateDiffDays;
+}
+async function getTotalAmtPaid(purchases) {
+    var total = 0;
+    for (var i = 0; i < purchases.length; i++) {
+        total = total + purchases[i].totalCost;
+    }
+    return total;
+}
+async function createSupplierInfo(supplierReportData, dateDiff) {
+    var productID = supplierReportData.products.productID;
+    var productName = supplierReportData.products.productName;
+    var totalSales = (await getTotalSales(supplierReportData.sales)).toFixed(2);
+    var avgDailySales = (totalSales / dateDiff).toFixed(2);
+    var totalAmtPaid = (await getTotalAmtPaid(supplierReportData.Purchases)).toFixed(2);
+    return {
+        productID,
+        productName,
+        totalSales,
+        avgDailySales,
+        totalAmtPaid
+    };
+}
 
 const indexFunctions = {
     getLogin: function (req, res) {
@@ -472,7 +592,32 @@ const indexFunctions = {
             console.log(e);
         }
     },
-   
+
+    getSupplierReportDetails: async function (req, res) {
+        var supplierID = req.params.productID;
+        var fromDate = req.params.fromDate;
+        var toDate = req.params.toDate;
+        var dateDiff = await getDateDiff(fromDate, toDate);
+        console.log(supplierID);
+        console.log(fromDate);
+        console.log(toDate);
+        console.log(dateDiff);
+        var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
+        var supplierReport = [];
+        for (var i = 0; i < supplierReportData.length; i++) {
+            supplierReport.push(await createSupplierInfo(supplierReportData[i], dateDiff));
+        }
+        res.send(supplierReport);
+        // try {
+        //     console.log(JSON.parse(JSON.stringify(supplierReport)));
+        //     res.render('a_supplierReport', {
+        //         supplierReportData: supplierReport
+        //     });
+        // } catch (e) {
+        //     console.log(e);
+        // }
+    },
+
     getAMDgoods: async function (req, res) {
 
         try {

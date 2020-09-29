@@ -22,7 +22,7 @@
 
                             <div class="col-3">
                                 <button type="button" class="btn btn-outline-dark btn-block"
-                                    id="supplierDetail_Search">Search</button>
+                                    id="supplierReport_Search">Search</button>
                             </div>
 
                         </div>
@@ -31,7 +31,7 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="supplierReport_start">From</label>
+                                <label for="supplierReport_start">Date From</label>
                                 <div class="input-group mb-2">
                                     <input type="date" class="form-control" id="supplierReport_start" required>
                                     <script>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="supplierReport_end">To</label>
+                                <label for="supplierReport_end">Date To</label>
                                 <div class="input-group mb-2">
                                     <input type="date" class="form-control" id="supplierReport_end" required>
                                     <script>
@@ -74,16 +74,16 @@
                         <tr>
                             <th scope="col">Product ID</th>
                             <th scope="col">Product Name</th>
-                            <th scope="col">Average Daily Sales</th>
                             <th scope="col">Total Sales</th>
-                            <th scope="col">Amount Paid</th>
+                            <th scope="col">Average Daily Sales</th>
+                            <th scope="col">Total Amount Paid</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{!-- {{#each products}}
-                        {{>supplierReportDetail this}}
-                        {{/each}} --}}
+                        {{#each supplierReportData}}
+                        {{>supplierReportDetail_row this}}
+                        {{/each}}
                     </tbody>
                 </table>
             </div>
