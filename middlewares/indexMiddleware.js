@@ -190,6 +190,12 @@ const indexMiddleware = {
                     status: 401,
                     msg: 'Amount paid is higher than total cost'
                 });
+            } else if (parseInt(amountPaid) < 0 || parseInt(totalCost) < 0) {
+                /**validate amountPaid */
+                res.send({
+                    status: 401,
+                    msg: 'Amount paid or total cost must not be lower than 0'
+                });
             } else {
                 return next();
             }

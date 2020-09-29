@@ -375,14 +375,14 @@ $(document).ready(function () {
     $('#submitNewDelivery').click(function () {
         var productID = $('#productID').val();
         var dateDelivered = $('#dateDelivered').val();
-        var numDamaged = parseInt($('#numDamaged').val());
-        var numDelivered = parseInt($('#numDelivered').val());
+        var numDamaged = parseFloat($('#numDamaged').val());
+        var numDelivered = parseFloat($('#numDelivered').val());
         //  dateDelivered = new Date(dateDelivered.toString());
         console.log(productID);
         console.log(dateDelivered);
         console.log(numDamaged);
         console.log(numDelivered);
-        if (validator.isEmpty(productID)) {
+        if (parseInt(productID)==0) {
             alert('Please input a product ID');
         } else if (validator.isAfter(dateDelivered)) {
             alert('Date is invalid');
@@ -807,8 +807,9 @@ $(document).ready(function () {
             $.post('/newPurchase', {
                 deliveryID: deliveryID,
                 datePaid: datePaid,
-                amountPaid: amountPaid
-            }, function (result) {
+                amountPaid: amountPaid,
+                totalCost: totalCost
+            }, function(result) {
                 switch (result.status) {
                     case 201: {
                         alert('Purchase successfully created with purchase ID: ' + result.purchase.purchaseID);
@@ -847,7 +848,7 @@ $(document).ready(function () {
             console.log(fromDate);
             console.log(toDate);
             $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function (result) {
-                    
+
             });
         } else
             alert('Select a Product ID');
