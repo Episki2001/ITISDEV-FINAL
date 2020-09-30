@@ -9,6 +9,7 @@ router.get('/', controller.getLogin);
 //ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/supplierReport', controller.getSupplierReport);
+router.get('/a/supplierReport1', controller.AupdateSupplierReport);
 // router.get('/a/product/editProduct', controller.getAeditProduct);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
@@ -55,7 +56,7 @@ router.post('/newDelivery', indexMiddleware.validateNewDelivery, controller.post
 router.post('/editProduct', controller.postEditProduct);
 router.post('/newPurchase', indexMiddleware.validateNewPurchase, controller.postNewPurchase);
 router.post('/newManager', controller.postNewManager);
-router.post('/approvalMDGoods',indexMiddleware.validateMDGoods_Approval, controller.postApprovalMDGoods);
+router.post('/approvalMDGoods', indexMiddleware.validateMDGoods_Approval, controller.postApprovalMDGoods);
 //MANAGERS
 router.get('/m/products', controller.getMproducts);
 router.get('/m/products/:productID', controller.getMoneEditProduct);
