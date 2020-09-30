@@ -643,30 +643,17 @@ const indexFunctions = {
                 fromDate: fromDate,
                 toDate: toDate,
                 supplier: JSON.parse(JSON.stringify(suppliers)),
-                supplierReportData: JSON.parse(JSON.stringify(supplierReport))
+                supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
+                totalSales: totalSales,
+                avgSales: avgSales,
+                totalPaid: totalPaid
             });
         } catch (e) {
             console.log(e);
         }
 
     },
-    AupdateSupplierReport: async function(req, res) {
-        var supplierReportData = req.session.report;
-        console.log(supplierReportData);
-        try {
-            var suppliers = await supplierModel.find({});
-            res.render('a_supplierReport', {
-                title: 'Supplier Report',
-                reporttitle: req.session.title,
-                fromDate: req.session.fromDate,
-                toDate: req.session.toDate,
-                supplier: JSON.parse(JSON.stringify(suppliers)),
-                supplierReportData: JSON.parse(JSON.stringify(supplierReportData))
-            });
-        } catch (e) {
-            console.log(e);
-        }
-    },
+
     getAMDgoods: async function(req, res) {
 
         try {

@@ -84,13 +84,21 @@
                             <th scope="col">Total Sales</th>
                             <th scope="col">Average Daily Sales</th>
                             <th scope="col">Total Amount Paid</th>
-                            <th scope="col"></th>
+                            {{!-- <th scope="col"></th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         {{#each supplierReportData}}
                         {{>supplierReportDetail_row this}}
                         {{/each}}
+                        {{#if totalSales}}
+                        <tr>
+                            <th scope="row" colspan = "2" class="text-left">Total</th>
+                            <td class="text-right">{{getPrice totalSales}}</td>
+                            <td class="text-right">{{getPrice avgSales}}</td>
+                            <td class="text-right">{{getPrice totalPaid}}</td>
+                        </tr>
+                        {{/if}}
                     </tbody>
                 </table>
             </div>
