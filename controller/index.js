@@ -311,7 +311,75 @@ async function getSupplierReportData(supplierID, fromDate, toDate) {
         }]
     );
 }
-
+async function getPerformanceReportData(productID, fromDate, toDate) {
+    return await productModel.aggregate(
+        [{
+            '$match': {
+                productID: Number.parseInt(productID)
+            }
+        }, {
+            '$lookup': {
+                'from': 'sales',
+                'localField': 'productID',
+                'foreignField': 'productID',
+                'as': 'sales'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Delivery',
+                'localField': 'productID',
+                'foreignField': 'productID',
+                'as': 'Delivery'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Purchases',
+                'localField': 'Delivery.deliveryID',
+                'foreignField': 'deliveryID',
+                'as': 'Purchases'
+            }
+        }, {
+            '$project': {
+                'productID': 1,
+                'productName': 1,
+                'sales': {
+                    '$filter': {
+                        'input': '$sales',
+                        'as': 'sale',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$sale.dateSold', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$sale.dateSold', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                },
+                'Purchases': {
+                    '$filter': {
+                        'input': '$Purchases',
+                        'as': 'purchase',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$purchase.datePurchased', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$purchase.datePurchased', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                }
+            }
+        }]
+    );
+}
 async function getMinMaxdiscrepancyID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -502,6 +570,20 @@ async function createSupplierInfo(supplierReportData, dateDiff) {
         totalAmtPaid
     };
 }
+async function createPerformanceInfo(productReportData, dateDiff) {
+    var productID = productReportData.productID;
+    var productName = productReportData.productName;
+    var totalSales = (await getTotalSales(productReportData.sales)).toFixed(2);
+    var avgDailySales = (totalSales / dateDiff).toFixed(2);
+    var totalAmtPaid = (await getTotalAmtPaid(productReportData.Purchases)).toFixed(2);
+    return {
+        productID,
+        productName,
+        totalSales,
+        avgDailySales,
+        totalAmtPaid
+    };
+}
 
 const indexFunctions = {
     getLogin: function(req, res) {
@@ -622,19 +704,6 @@ const indexFunctions = {
             console.log(totalSales);
             console.log(avgSales);
             console.log(totalPaid);
-            // console.log(JSON.parse(JSON.stringify(supplierReport)));
-            // res.render('a_supplierReport', {
-            //     title: 'View Supplier Report -' + supplierID,
-            //     supplierReportData: JSON.parse(JSON.stringify(supplierReport))
-            // });
-            // req.session.report = supplierReport;
-            // req.session.title = 'Supplier Report - ' + supplierReportData[0].companyName;
-            // req.session.fromDate = fromDate;
-            // req.session.toDate = toDate;
-            // req.session.avgSales = avgSales;
-            // req.session.totalSales = totalSales;
-            // req.session.totalPaid = totalPaid;
-            // res.render('', { supplierReport, status: getUserType() });
             console.log(supplierReportData);
             var suppliers = await supplierModel.find({});
             res.render('a_supplierReport', {
@@ -663,6 +732,41 @@ const indexFunctions = {
         } catch (e) {
             console.log(e);
         }
+    },
+    getPerformanceReportDetails: async function(req, res) {
+        var productID = req.query.productID;
+        var fromDate = req.query.fromDate;
+        var toDate = req.query.toDate;
+
+        // console.log(supplierReport);
+        // res.send(supplierReport);
+        // res.send({ supplierReport, status: getUserType() });
+        try {
+            var dateDiff = await getDateDiff(fromDate, toDate);
+            // console.log(supplierID);
+            // console.log(fromDate);
+            // console.log(toDate);
+            // console.log(dateDiff);
+            var performanceReportData = await getPerformanceReportData(productID, fromDate, toDate);
+            console.log(performanceReportData);
+            var performanceReport;
+            performanceReport = await createPerformanceInfo(performanceReportData[0], dateDiff);
+
+            console.log(performanceReport);
+
+            var suppliers = await supplierModel.find({});
+            res.render('a_productPerformanceReport', {
+                title: 'Performance Report',
+                reporttitle: 'Performance Report - ' + performanceReport.productName,
+                fromDate: fromDate,
+                toDate: toDate,
+                supplier: JSON.parse(JSON.stringify(suppliers)),
+                performanceReportData: JSON.parse(JSON.stringify(performanceReport))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+
     },
     getAMDgoods: async function(req, res) {
 

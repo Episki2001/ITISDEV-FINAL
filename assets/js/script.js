@@ -915,13 +915,13 @@ $(document).ready(function() {
             alert('Select a Supplier ID');
     });
 
-    $('#supplierReport_Search').click(function() {
+    $('#performanceReport_Search').click(function() {
         var productID = $('#productID').val();
-        var fromDate = $('#supplierReport_start').val();
-        var toDate = $('#supplierReport_end').val();
+        var fromDate = $('#performanceReport_start').val();
+        var toDate = $('#performanceReport_end').val();
 
-        if (supplierID != '0') {
-            console.log(supplierID);
+        if (productID != '0') {
+            console.log(productID);
             console.log(fromDate);
             console.log(toDate);
             // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
@@ -929,10 +929,10 @@ $(document).ready(function() {
             //     console.log(result.supplierReport);
             //     window.location.href = '/a/supplierReport1'
             // });
-            $.get('/supplierReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
+            $.get('/performanceReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });
         } else
-            alert('Select a Supplier ID');
+            alert('Select a Product ID');
     });
 });
