@@ -18,8 +18,17 @@ const damagedgoodsSchema = new mongoose.Schema({
     userID: { type: Number, required: true },
     productID: { type: Number, required: true },
     managerID: { type: Number, required: false }
-}, {collection: "Damagedgoods"});
+}, { collection: "Damagedgoods" });
 
+damagedgoodsSchema.methods.recordNewMDgoods = async function() {
+    var result = damagedgoodsModel.create(this);
+    console.log(JSON.stringify(result));
+    return result;
+};
+damagedgoodsSchema.methods.recordApproval = async function() {
+    var result = damagedgoodsModel.findOneAndUpdate({ dmgrecordID: this.dmgrecordID }, { approved: this.approved, managerID: this.managerID });
+    return result;
+};
 const damagedgoodsModel = db.model('Damagedgoods', damagedgoodsSchema);
 
 module.exports = damagedgoodsModel;

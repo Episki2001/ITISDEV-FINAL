@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>u_navbar}}
+{{>u_sidebar}}
             <div class="col-9">
                     <div class="shadow">
 						<div class="d-flex flex-column mt-2">
@@ -9,45 +9,42 @@
 							<div class="container">
 								<form>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Product ID</label>
-										<input class="form-control" type="text" placeholder="Readonly input here…">
-									</div>
-									<div class="form-group">
-										<label for="formGroupExampleInput">User ID</label>
-										<input class="form-control" type="text" placeholder="Readonly input here…">
-									</div>
-									<div class="form-group">
-										<label for="example-date-input">Old Count</label>
-										<input class="form-control" type="number" placeholder="Readonly input here…">
-									</div>
-									<div class="form-group">
-										<label for="formGroupExampleInput2">New Count</label>
-										<input type="number" class="form-control" id="formGroupExampleInput2" placeholder="Address">
-									</div>
-									<div class="form-group row">
-										<label for="example-date-input" class="col-2 col-form-label">Date</label>
-										<div class="col-10">
-											<input class="form-control" type="date" id="dateSold">
-											<script>
-												Date.prototype.toDateInputValue = (function() {
-													var local = new Date(this);
-													local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
-													return local.toJSON().slice(0, 10);
-												});
-												document.getElementById('dateSold').value = new Date().toDateInputValue();
-											</script>
+										<label for="productID">Product ID</label>
+										<div class="row">
+											<div class="col-9">
+												<!-- newSale_prodID -->
+												<select class="form-control" id="productID">
+													<option value="0">Please select a product</option>
+													{{#each product}}
+													<option value="{{this.productID}}">{{this.productName}}</option>
+													{{/each}}
+												</select>
+											</div>
+											<div class="col-3">
+												<button type="button" class="btn btn-outline-dark btn-block"
+													id="newDiscrepancy_checkID">Check</button>
+											</div>
 										</div>
 									</div>
+									<div class="form-group">
+										<label for="oldCount_qty">Old Count</label>
+										<input type="number" class="form-control" id="oldCount_qty" placeholder="" min="0" required readonly>
+									</div>
+									<div class="form-group">
+										<label for="newCount_qty">New Count</label>
+										<input type="number" class="form-control" id="newCount_qty" placeholder="" min="0" required>
+									</div>
+									<div class="row">
+										<div class="col-6 mb-5 d-flex justify-content-end">
+											<button type="button" class="btn btn-outline-primary" id="submitNewDiscrepancy">Submit</button>
+										</div>
+										<div class="col-6 mb-5 d-flex justify-content-start">
+											<a href="/u/products" class="btn btn-outline-secondary">Cancel</a>
+										</div>
+                                	</div>
 								</form>
                             <div class="form-group ">
-                                <div class="row">
-                                    <div class="col-6 mb-5 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-outline-primary">Submit</button>
-                                    </div>
-                                    <div class="col-6 mb-5 d-flex justify-content-start">
-                                        <button type="button" class="btn btn-outline-secondary">Cancel</button>
-                                    </div>
-                                </div>
+                                
 							</div>	
 						</div>
                     </div>

@@ -1,12 +1,12 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
                             <div class="container">
                                 <div class="row mt-2">
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-danger ">Add Sales +</button>
+                                        <a href="/m/newSale" class="btn btn-danger ">Add Sales +</a>
                                     </div>
                                     <div class="col-6">
                                         <form class="form-inline justify-content-end">
@@ -33,21 +33,21 @@
                             </div>
                             <div class="mt-2">
                                 <table class="table table-bordered">
-                                    <thead class="thead-danger">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">Sales ID</th>
-                                            <th scope="col">Quantity</th>
-                                            <th scope="col">Selling Price</th>
-                                            <th scope="col">Total Cost</th>
                                             <th scope="col">Date Sold</th>
+                                            <th scope="col">Sales ID</th>
                                             <th scope="col">Product ID</th>
                                             <th scope="col">User ID</th>
+                                            <th scope="col">Quantity</th>
+                                            <th scope="col">Price per Unit</th>
+                                            <th scope="col">Total</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{#each purchase}}
-                                            {{>purchase_row this}}
+                                        {{#each sales}}
+                                            {{>sales_row this}}
                                         {{/each}}                                        
                                     </tbody>
                                 </table>

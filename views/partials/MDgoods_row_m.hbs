@@ -1,0 +1,19 @@
+<tr>
+    {{#if approved}}
+        <td class="bg-success"></td>
+    {{else}}
+        <td class="bg-danger"></td>
+    {{/if}}
+
+    {{!-- <td>{{getStatus approved}}</td> --}}
+    <td scope="row" class="text-center">{{getDate dateDamaged}}</td>
+    <th class="text-center">{{dmgrecordID}}</th>
+    <td class="text-center"> {{productID}} </td>
+    <td class="text-left"> {{u_firstName}} {{u_lastName}}</td>
+    <td class="text-right"> {{numDamaged}} </td>
+    <td>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="/m/MDGoods/{{{dmgrecordID}}}" type="button" class="btn btn-outline-primary">View Details</a>
+        </div>
+    </td>
+</tr>

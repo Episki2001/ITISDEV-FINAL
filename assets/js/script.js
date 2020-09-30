@@ -1,12 +1,14 @@
-
-
-
 function calculatePrice(val) {
     var sellingPrice = $('#newSale_sellingPrice').val();
     var totalPrice = val * sellingPrice;
     /*display the result*/
     console.log(totalPrice);
     $('#newSale_total').val(totalPrice.toFixed(2));
+}
+
+function convertToPrice(val) {
+    var value = val;
+    return value.toFixed(2);
 }
 $(document).ready(function() {
 
@@ -27,24 +29,27 @@ $(document).ready(function() {
         }
 
         if (!validator.isEmpty(user) && !validator.isEmpty(pass)) {
-            $.post('/', { user: user, pass: pass }, function(result) {
+            $.post('/', {
+                user: user,
+                pass: pass
+            }, function(result) {
                 switch (result.status) {
                     case 201:
                         {
                             //admin
-                            window.location.href = '/a/users';
+                            window.location.href = '/a/products';
                             break;
                         }
                     case 202:
                         {
                             //manager
-                            window.location.href = '/a/suppliers';
+                            window.location.href = '/m/products';
                             break;
                         }
                     case 203:
                         {
                             //user
-                            window.location.href = '/a/products';
+                            window.location.href = '/u/products';
                             break;
                         }
                     case 401:
@@ -90,9 +95,9 @@ $(document).ready(function() {
         var prodID = $('#productID').val();
         console.log(prodID);
 
-        if(prodID != '0') {
+        if (prodID != '0') {
             $.post('/newDiscrepancy/' + prodID, function(result) {
-                if(result) {
+                if (result) {
                     var currentStock = result.currentStock;
                     console.log(currentStock);
                     $('#oldCount_qty').val(currentStock);
@@ -104,6 +109,23 @@ $(document).ready(function() {
             alert('Please Select a Product');
     });
 
+    $('#newMDgoods_checkID').click(function() {
+        var prodID = $('#MDproductID').val();
+        console.log(prodID);
+
+        if (prodID != '0') {
+            $.post('/newMDgoods/' + prodID, function(result) {
+                if (result) {
+                    var currentStock = result.currentStock;
+                    console.log(currentStock);
+                    $('#MDdmg').attr("placeholder", "Current Stock: " + currentStock);
+                } else {
+                    alert('Product not found');
+                }
+            });
+        }
+    })
+
     $('#submitNewDiscrepancy').click(function() {
         var productID = $('#productID').val();
         var oldCount = $('#oldCount_qty').val();
@@ -111,28 +133,51 @@ $(document).ready(function() {
 
         var fieldsEmpty = false;
         var invalidQty = false;
-        
-        if(validator.isEmpty(newCount)) {
+
+        if (validator.isEmpty(newCount)) {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if(parseInt(newCount) < 0) {
+        if (parseInt(newCount) < 0) {
             invalidQty = true;
             alert('New count cannot be less than zero');
         }
-        if(parseInt(newCount) == parseInt(oldCount)) {
+
+        if (newCount % 1 != 0) {
+            invalidQty = true;
+            alert('New count must be a whole number');
+        }
+
+        if (parseInt(newCount) == parseInt(oldCount)) {
             invalidQty = true;
             alert('New count has to be different from old count');
         }
 
-        if(!fieldsEmpty && !invalidQty) {
-            $.post('/newDiscrepancy', {productID: productID, newCount: newCount, oldCount: oldCount}, function(result) {
+        if (!fieldsEmpty && !invalidQty) {
+            $.post('/newDiscrepancy', {
+                productID: productID,
+                newCount: newCount,
+                oldCount: oldCount
+            }, function(result) {
                 console.log(result);
                 console.log(result.msg);
-                switch(result.status) {
-                    case 200:
+                switch (result.status) {
+                    case 201:
                         {
-                            alert(result.msg); window.location.href = '/a/discrepancy';
+                            alert(result.msg);
+                            window.location.href = '/a/discrepancy';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/discrepancy';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
                             break;
                         }
                     case 401:
@@ -166,17 +211,36 @@ $(document).ready(function() {
             fieldsEmpty = true;
             alert('cannot leave empty fields');
         }
-        if (parseInt(quantity) < 0) {
+        if (parseInt(quantity) <= 0 || quantity % 1 != 0) {
             invalidQty = true;
-            alert('Quantity cannot be less than zero');
+            alert('Quantity must be more than zero and must be a whole number');
         }
 
         if (!fieldsEmpty && !invalidQty) {
-            $.post('/newSale_submit', { quantity: quantity, sellingPrice: sellingPrice, total: total, dateSold: dateSold, productID: productID }, function(result) {
+            $.post('/newSale_submit', {
+                quantity: quantity,
+                sellingPrice: sellingPrice,
+                total: total,
+                dateSold: dateSold,
+                productID: productID
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
                             alert(result.msg);
+                            window.location.href = '/a/sales';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/sales';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
                             break;
                         }
                     case 401:
@@ -197,17 +261,155 @@ $(document).ready(function() {
 
     });
 
+    $('#submitNewMDgoods').click(function() {
+        var productID = $('#MDproductID').val();
+        var numDmg = $('#MDdmg').val();
+        var comment = $('#MDcomment').val();
+
+        var fieldsEmpty = false;
+        var invalidQty = false;
+
+        if (productID == 0 || validator.isEmpty(numDmg) || validator.isEmpty(comment)) {
+            fieldsEmpty = true;
+            alert('cannot leave empty fields');
+        }
+        if (parseInt(numDmg) <= 0) {
+            invalidQty = true;
+            alert('number of damaged must be more than 0');
+        }
+
+        if (numDmg % 1 != 0) {
+            invalidQty = true;
+            alert("number of damaged must be a whole number")
+        }
+
+        if (!fieldsEmpty && !invalidQty) {
+            $.post('/newMDgoods', {
+                productID: productID,
+                numDamaged: numDmg,
+                comments: comment
+            }, function(result) {
+                switch (result.status) {
+                    case 201:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/a/MDgoods';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/MDgoods';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500: ' + result.msg);
+                            break;
+                        }
+                }
+            })
+        } else {
+            alert('No Missing/Damaged Goods recorded');
+        }
+    });
+
+    $('#approveMDGoods').click(function() {
+        var dmgrecordID = $('#dmgrecordID').val();
+        var numDamaged = $('#MDdmg').val();
+        var productID = $('#productID').val();
+        $.post('/approvalMDGoods', {
+            dmgrecordID: dmgrecordID,
+            approved: true,
+            numDamaged: numDamaged,
+            productID: productID
+        }, function(result) {
+            switch (result.status) {
+                case 201:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/a/forApprovalMDgoods';
+                        break;
+                    }
+                case 202:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/m/deliveries';
+                        break;
+                    }
+                case 401:
+                    {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                case 500:
+                    {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
+            }
+        });
+    });
+
+    $('#rejectMDGoods').click(function() {
+        var dmgrecordID = $('#dmgrecordID').val();
+        var numDamaged = $('#MDdmg').val();
+        var productID = $('#productID').val();
+        $.post('/approvalMDGoods', {
+            dmgrecordID: dmgrecordID,
+            approved: false,
+            numDamaged: numDamaged,
+            productID: productID
+        }, function(result) {
+            switch (result.status) {
+                case 201:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/a/forApprovalMDgoods';
+                        break;
+                    }
+                case 202:
+                    {
+                        alert(result.msg);
+                        window.location.href = '/m/deliveries';
+                        break;
+                    }
+                case 401:
+                    {
+                        alert('case 401: ' + result.msg);
+                        break;
+                    }
+                case 500:
+                    {
+                        alert('case 500: ' + result.msg);
+                        break;
+                    }
+            }
+        });
+    });
+
     $('#submitNewDelivery').click(function() {
         var productID = $('#productID').val();
         var dateDelivered = $('#dateDelivered').val();
-        var numDamaged = parseInt($('#numDamaged').val());
-        var numDelivered = parseInt($('#numDelivered').val());
+        var numDamaged = parseFloat($('#numDamaged').val());
+        var numDelivered = parseFloat($('#numDelivered').val());
         //  dateDelivered = new Date(dateDelivered.toString());
         console.log(productID);
         console.log(dateDelivered);
         console.log(numDamaged);
         console.log(numDelivered);
-        if (validator.isEmpty(productID)) {
+        if (parseInt(productID) == 0) {
             alert('Please input a product ID');
         } else if (validator.isAfter(dateDelivered)) {
             alert('Date is invalid');
@@ -215,14 +417,35 @@ $(document).ready(function() {
             alert('Quantities invalid');
         } else if (numDamaged >= numDelivered) {
             alert('Number of Damaged must be less than number delivered');
+        } else if (numDelivered % 1 != 0) {
+            alert('Number of Delivered must be a whole number');
+        } else if (numDamaged % 1 != 0) {
+            alert('Number of Damaged must be a whole number');
         } else {
             console.log('data is valid');
-            $.post('/newDelivery', { productID: productID, dateDelivered: dateDelivered, number_Of_Units_Delivered: numDelivered, number_Of_Damaged: numDamaged }, function(result) {
+            $.post('/newDelivery', {
+                productID: productID,
+                dateDelivered: dateDelivered,
+                number_Of_Units_Delivered: numDelivered,
+                number_Of_Damaged: numDamaged
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
                             alert(result.msg);
                             window.location.href = '/a/deliveries';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/m/deliveries';
+                            break;
+                        }
+                    case 203:
+                        {
+                            alert(result.msg);
+                            window.location.href = '/u/products';
                             break;
                         }
                     case 401:
@@ -253,6 +476,9 @@ $(document).ready(function() {
             gender = 'M';
         } else gender = 'F';
 
+        var today = new Date();
+        var bday = new Date(birthdate);
+
         var valid = true;
 
         if (validator.isEmpty(fName) || validator.isEmpty(lName) || validator.isEmpty(address) || validator.isEmpty(password) || validator.isEmpty(confirm) || validator.isEmpty(phoneNum)) {
@@ -260,9 +486,19 @@ $(document).ready(function() {
             alert('Please Input all fields');
         }
 
+        if (valid && phoneNum.length != 11) {
+            valid = false;
+            alert('Please input a valid phone number')
+        }
+
         if (valid && confirm != password) {
             valid = false;
             alert('Passwords do not match');
+        }
+
+        if (valid && today < bday) {
+            valid = false;
+            alert('Birthdate cannot be after today')
         }
 
         if (valid) {
@@ -273,7 +509,15 @@ $(document).ready(function() {
             console.log('address : ' + address);
             console.log('password : ' + password);
             console.log('confirm : ' + confirm);
-            $.post('/a/newUser', { fName: fName, lName: lName, birthdate: birthdate, gender: gender, address: address, phoneNum: phoneNum, password: password }, function(result) {
+            $.post('/a/newUser', {
+                fName: fName,
+                lName: lName,
+                birthdate: birthdate,
+                gender: gender,
+                address: address,
+                phoneNum: phoneNum,
+                password: password
+            }, function(result) {
                 switch (result.status) {
                     case 200:
                         {
@@ -291,6 +535,39 @@ $(document).ready(function() {
             });
         }
 
+    });
+
+    $('#submitNewManager').click(function() {
+        var userID = $('#userID').val();
+        var isSysAd = $('#isSysAd').val();
+
+        if (userID == 0) {
+            alert('Please select a user');
+        } else {
+            $.post('/newManager', {
+                userID: userID,
+                isSysAd: isSysAd
+            }, function(result) {
+                switch (result.status) {
+                    case 201:
+                        {
+                            alert('Manager Successfully Added');
+                            window.location.href = '/a/managers';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
+            });
+        }
     });
 
     $('#submitNewSupplier').click(function() {
@@ -311,15 +588,30 @@ $(document).ready(function() {
             console.log('companyAddress : ' + cAddress);
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
-            $.post('/newSupplier', { companyName: cName, companyAddress: cAddress, email: email, phoneNum: phoneNum }, function(result) {
+            $.post('/newSupplier', {
+                companyName: cName,
+                companyAddress: cAddress,
+                email: email,
+                phoneNum: phoneNum
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID)
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
                             window.location.href = '/a/suppliers';
                             break;
                         }
+                    case 202:
+                        {
+                            alert('Supplier successfully added with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/m/suppliers';
+                            break;
+                        }
                     case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
                     case 500:
                         {
                             alert('case 500' + result.msg);
@@ -368,8 +660,10 @@ $(document).ready(function() {
         }
         // console.log(valid);
 
-        if (categoryCode < 100 && categoryCode > 299)
+        if (categoryCode == 0) {
+            valid = false;
             alert('Category not selected');
+        }
 
         // console.log(valid + ' ' + type);
 
@@ -385,7 +679,7 @@ $(document).ready(function() {
             alert('Purchase Price is invalid');
         }
 
-        if (valid && purchasePrice > sellingPrice) {
+        if (valid && purchasePrice >= sellingPrice) {
             valid = false;
             alert('Selling price must be greater than purchase price');
         }
@@ -393,15 +687,31 @@ $(document).ready(function() {
 
         if (valid) {
 
-            $.post('/newProduct', { productName: productName, categoryCode: categoryCode, supplierID: supplierID, sellingPrice: sellingPrice, purchasePrice: purchasePrice }, function(result) {
+            $.post('/newProduct', {
+                productName: productName,
+                categoryCode: categoryCode,
+                supplierID: supplierID,
+                sellingPrice: sellingPrice,
+                purchasePrice: purchasePrice
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('User successfully added with productID: ' + result.productID)
-                            window.location.href = '/a/sales';
+                            alert('User successfully added with productID: ' + result.productID);
+                            window.location.href = '/a/products';
+                            break;
                         }
-                        break;
+                    case 202:
+                        {
+                            alert('User successfully added with productID: ' + result.productID);
+                            window.location.href = '/m/products';
+                            break;
+                        }
                     case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
                     case 500:
                         {
                             alert('Error ' + result.msg);
@@ -437,9 +747,9 @@ $(document).ready(function() {
         if (!(purchasePrice > 0)) {
             valid = false;
             alert('Purchase Price is invalid');
-        }   
+        }
 
-        if (valid && purchasePrice > sellingPrice) {
+        if (valid && purchasePrice >= sellingPrice) {
             valid = false;
             alert('Selling price must be greater than purchase price');
         }
@@ -447,15 +757,29 @@ $(document).ready(function() {
 
         if (valid) {
             // alert('valid na');
-            $.post('/editProduct', { productID: productID, purchasePrice: purchasePrice, sellingPrice: sellingPrice }, function(result) {
+            $.post('/editProduct', {
+                productID: productID,
+                purchasePrice: purchasePrice,
+                sellingPrice: sellingPrice
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('Product successfully edited with productID: ' + result.productID)
+                            alert('Product successfully edited with productID: ' + result.productID);
                             window.location.href = '/a/products';
+                            break;
                         }
-                        break;
+                    case 202:
+                        {
+                            alert('Product successfully edited with productID: ' + result.productID);
+                            window.location.href = '/m/products';
+                            break;
+                        }
                     case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
                     case 500:
                         {
                             alert('Error ' + result.msg);
@@ -473,24 +797,38 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 7)) {
+        if (!validator.isEmail(email) || (validator.isEmpty(phoneNum) || phoneNum.length != 11)) {
             valid = false;
-            alert('Please Input atleast one field');
+            alert('Please input valid information');
         }
 
         if (valid) {
             console.log('email : ' + email);
             console.log('phoneNum : ' + phoneNum);
             console.log(supplierID);
-            $.post('/editSuppliers', { supplierID: supplierID, email: email, phoneNum: phoneNum }, function(result) {
+            $.post('/editSuppliers', {
+                supplierID: supplierID,
+                email: email,
+                phoneNum: phoneNum
+            }, function(result) {
                 switch (result.status) {
-                    case 200:
+                    case 201:
                         {
-                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID)
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
                             window.location.href = '/a/suppliers';
                             break;
                         }
+                    case 202:
+                        {
+                            alert('Supplier successfully edited with Supplier ID: ' + result.supplierID);
+                            window.location.href = '/m/suppliers';
+                            break;
+                        }
                     case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
                     case 500:
                         {
                             alert('case 500' + result.msg);
@@ -501,18 +839,80 @@ $(document).ready(function() {
         }
     });
 
-    $('#purchase_Submit').click(function(){
+    $('#purchase_deliveryID').change(function() {
+        var deliveryID = $('#purchase_deliveryID').val();
+        if (deliveryID != '0') {
+            $.post('/newPurchase/' + deliveryID, function(result) {
+                console.log(result.amount);
+                $('#purchase_amountPaid').val(convertToPrice(result.amount));
+                $('#purchase_totalCost').val(convertToPrice(result.amount));
+            });
+        }
+    });
+
+    $('#purchase_Submit').click(function() {
         var deliveryID = $('#purchase_deliveryID').val();
         var datePaid = $('#purchase_datePaid').val();
         var amountPaid = $('#purchase_amountPaid').val();
+        var totalCost = $('#purchase_totalCost').val();
 
-        if(!validator.isEmpty(deliveryID) && !validator.isEmpty(datePaid) && !validator.isEmpty(amountPaid)){
-            $.post('/newPurchase', {deliveryID: deliveryID, datePaid: datePaid, amountPaid: amountPaid}, function(result){
-
+        if (!validator.isEmpty(deliveryID) && !validator.isEmpty(datePaid) && !validator.isEmpty(amountPaid)) {
+            $.post('/newPurchase', {
+                deliveryID: deliveryID,
+                datePaid: datePaid,
+                amountPaid: amountPaid,
+                totalCost: totalCost
+            }, function(result) {
+                switch (result.status) {
+                    case 201:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchase.purchaseID);
+                            window.location.href = '/a/purchases';
+                            break;
+                        }
+                    case 202:
+                        {
+                            alert('Purchase successfully created with purchase ID: ' + result.purchase.purchaseID);
+                            window.location.href = '/m/purchases';
+                            break;
+                        }
+                    case 401:
+                        {
+                            alert('case 401: ' + result.msg);
+                            break;
+                        }
+                    case 500:
+                        {
+                            alert('case 500' + result.msg);
+                            break;
+                        }
+                }
             });
-        }else{
+        } else {
             alert('cannot leave empty fields');
         }
-        
+
+    });
+
+    $('#supplierReport_Search').click(function() {
+        var supplierID = $('#supplierReport_ID').val();
+        var fromDate = $('#supplierReport_start').val();
+        var toDate = $('#supplierReport_end').val();
+        window.location.href = '';
+
+        if (supplierID != '0') {
+            console.log(supplierID);
+            console.log(fromDate);
+            console.log(toDate);
+            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
+            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
+            //     console.log(result.supplierReport);
+            //     window.location.href = '/a/supplierReport1'
+            // });
+            $.get('/supplierReport', { supplierID: supplierID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
+            });
+        } else
+            alert('Select a Supplier ID');
     });
 });

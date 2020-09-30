@@ -1,5 +1,5 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>u_navbar}}
+{{>u_sidebar}}
             <div class="col-9">
                     <div class="shadow">
 						<div class="d-flex flex-column mt-2">
@@ -9,34 +9,56 @@
 							<div class="container">
 								<form>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Product Name</label>
-										<p class="text-center text-capitalize">jojo's</p>
+										<input type="hidden" class="form-control" id="UproductID" value="{{product.productID}}">
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput">Product Type</label>
-										<p class="text-center text-capitalize">bizzare adventure</p>
+										<label for="UproductName">Product Name</label>
+										<input type="text" class="form-control" id="UproductName" value="{{product.productName}}" readonly>
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Suppllier ID</label>
-										<p class="text-center text-capitalize">9/11</p>
+										<input type="hidden" class="form-control" id="UsupplierID" value="{{product.supplierID}}">
+										<label for="UsupplierName">Supplier Name</label>
+										<input type="text" class="form-control" id ="UsupplierName" value="{{supplier.companyName}}" readonly>
+										{{!-- <select class="form-control" id="supplierID">
+											<option value = "{{product.supplierID}}">Please select a supplier</option>
+											{{!-- {{#each suppliers}}
+												<option value ="{{this.supplierID}}">{{this.companyName}}</option>
+											{{/each}} --}}
+										{{!-- </select> --}}
 									</div>
 									<div class="form-group">
-										<label for="formGroupExampleInput2">Category Code</label>
-										<p class="text-center text-capitalize">420</p>
+										<label for="Ucategory">Category</label>
+										<input type="text" class="form-control" id="Ucategory" value ="{{ref_category.categoryName}}" readonly>
+										{{!-- <select class="form-control" id="category" read>
+											<option value = "{{product.supplierID}}">Please select a category</option> --}}
+											{{!-- {{#each ref_category}}
+												<option value ="{{this.categoryCode}}">{{this.categoryName}}</option>
+											{{/each}} --}}
+										</select>
 									</div>
 									<div class="form-group">
-										<label for="totalCost">Selling Price</label>
-										<p class="text-center text-capitalize">618</p>
+										<label for="UsellingPrice">Selling Price</label>
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+												<div class="input-group-text">PHP</div>
+											</div>
+											<input type="number" class="form-control" id="UsellingPrice" value="{{product.sellingPrice}}" min = '0.00' readonly>
+										</div>
 									</div>
 									<div class="form-group">
-										<label for="totalCost">Purchase Price</label>
-										<p class="text-center text-capitalize">69</p>
+										<label for="UpurchasePrice">Purchase Price</label>
+										<div class="input-group mb-2">
+											<div class="input-group-prepend">
+												<div class="input-group-text">PHP</div>
+											</div>
+											<input type="number" class="form-control" id="UpurchasePrice" value="{{product.purchasePrice}}" min= '0.0' readonly>
+										</div>
 									</div>
 								</form>
                             <div class="form-group ">
                                 <div class="row">
                                     <div class="col-12 mb-5 d-flex justify-content-center">
-                                        <button type="button" class="btn btn-outline-primary">Back</button>
+                                        <a href="/u/products" class="btn btn-outline-primary">Back</a>
                                     </div>
                                 </div>
 							</div>	

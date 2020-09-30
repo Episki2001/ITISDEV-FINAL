@@ -1,11 +1,14 @@
-{{>a_navbar}}
-{{>a_sidebar}}
+{{>m_navbar}}
+{{>m_sidebar}}
             <div class="col-9">
                     <div class=" shadow">
                         <div class="d-flex flex-column mt-2">
                             <div class="container">
                                 <div class="row mt-2">
-                                    <div class="col-12">
+                                    <div class="col-6">
+                                        <a href="/m/newMDgoods" type="button" class="btn btn-danger ">Add Missing/Damaged Goods +</a>
+                                    </div>
+                                    <div class="col-6">
                                         <form class="form-inline justify-content-end">
                                             <input class="form-control mr-sm-2" type="search" placeholder="Search Missing or Damaged Goods" aria-label="Search">
                                             <button class="btn btn-outline-danger my-2 my-sm-0" type="button">Search</button>
@@ -29,65 +32,22 @@
 
                             </div>
                             <div class="mt-2">
-                                <table class="table table-hover">
-                                    <thead class="thead-danger">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th scope="col">ProductID</th>
-                                            <th scope="col">UserID</th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Number</th>
+                                            <th scope="col">Status</th>
                                             <th scope="col">Date</th>
-                                            <th scope="col"></th>
+                                            <th scope="col">Record ID</th>
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">User Name</th>
+                                            <th scope="col">Damage QTY</th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">123456</th>
-                                            <td>Jonathan</td>
-                                            <td>Joestar</td>
-                                            <td>@mdo</td>
-                                            <td>123456789</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-success" disabled>Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger" disabled>Reject</button>
-                                                </div>
-                                            </td>
-
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">234567</th>
-                                            <td>Joseph</td>
-                                            <td>Joestar</td>
-                                            <td>@fat</td>
-                                            <td>987654321</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-success">Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger">Reject</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">345678</th>
-                                            <td>Jotaro</td>
-                                            <td>Kujo</td>
-                                            <td>@twitter</td>
-                                            <td>963258741</td>
-                                            <td></td>
-                                            <td>
-                                                <div class="btn-group" role="group" aria-label="Basic example">
-                                                    <button type="button" class="btn btn-outline-success">Approve</button>
-                                                    <button type="button" class="btn btn-outline-primary">View Details</button>
-                                                    <button type="button" class="btn btn-outline-danger">Reject</button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {{#each MDgoods}}
+                                            {{>MDgoods_row_m this}}
+                                        {{/each}}
                                     </tbody>
                                 </table>
                                 <nav aria-label="Page navigation example">

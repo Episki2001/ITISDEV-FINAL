@@ -1,14 +1,19 @@
 <tr>
-    <th scope="row" class="text-center">{{dmgrecordID}}</th>
-    <td class="text-center">{{productID}}</td>
-    <td class="text-center"> {{userID}} </td>
-    <td class="text-center"> {{getDate dateDamaged}} </td>
+    {{#if approved}}
+        <td class="bg-success"></td>
+    {{else}}
+        <td class="bg-danger"></td>
+    {{/if}}
+
+    {{!-- <td>{{getStatus approved}}</td> --}}
+    <td scope="row" class="text-center">{{getDate dateDamaged}}</td>
+    <th class="text-center">{{dmgrecordID}}</th>
+    <td class="text-center"> {{productID}} </td>
+    <td class="text-left"> {{u_firstName}} {{u_lastName}}</td>
     <td class="text-right"> {{numDamaged}} </td>
     <td>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="" type="button" class="btn btn-outline-success" disabled>Approve</a>
-            <a href="" type="button" class="btn btn-outline-primary">View Details</a>
-            <a href="" type="button" class="btn btn-outline-danger" disabled>Reject</a>
+            <a href="/a/MDGoods/{{{dmgrecordID}}}" type="button" class="btn btn-outline-primary">View Details</a>
         </div>
     </td>
 </tr>
