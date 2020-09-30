@@ -88,9 +88,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each performanceReportData}}
-                        {{>supplierReportDetail_row this}}
-                        {{/each}}
+                       <th scope="row" class="text-center">{{performanceReportData.productID}}</th>
+                        <td class="text-left">{{performanceReportData.productName}}</td>
+                        <td class="text-right">{{performanceReportData.totalSales}}</td>
+                        <td class="text-right">{{performanceReportData.avgDailySales}}</td>
+                        <td class="text-right">{{performanceReportData.totalAmtPaid}}</td>
                     </tbody>
                 </table>
             </div>
