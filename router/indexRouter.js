@@ -37,6 +37,7 @@ router.get('/a/suppliers/:supplierID', controller.getAoneSupplier);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 router.get('/a/newManager', controller.getAnewManager);
+router.get('/a/productPerformanceReport', controller.getAPerformanceReport);
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);

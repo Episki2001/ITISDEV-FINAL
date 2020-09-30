@@ -653,7 +653,17 @@ const indexFunctions = {
         }
 
     },
-
+    getAPerformanceReport: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('a_productPerformanceReport', {
+                title: 'Product Performance Report',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getAMDgoods: async function(req, res) {
 
         try {

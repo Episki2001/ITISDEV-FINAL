@@ -914,4 +914,25 @@ $(document).ready(function() {
         } else
             alert('Select a Supplier ID');
     });
+
+    $('#supplierReport_Search').click(function() {
+        var productID = $('#productID').val();
+        var fromDate = $('#supplierReport_start').val();
+        var toDate = $('#supplierReport_end').val();
+
+        if (supplierID != '0') {
+            console.log(supplierID);
+            console.log(fromDate);
+            console.log(toDate);
+            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
+            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
+            //     console.log(result.supplierReport);
+            //     window.location.href = '/a/supplierReport1'
+            // });
+            $.get('/supplierReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
+            });
+        } else
+            alert('Select a Supplier ID');
+    });
 });
