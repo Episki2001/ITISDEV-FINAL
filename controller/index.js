@@ -705,13 +705,12 @@ const indexFunctions = {
             console.log(avgSales);
             console.log(totalPaid);
             console.log(supplierReportData);
-            var suppliers = await supplierModel.find({});
-            res.render('a_supplierReport', {
+            res.render('a_supplierReportTable', {
                 title: 'Supplier Report',
                 reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                supplierID: supplierID,
                 fromDate: fromDate,
                 toDate: toDate,
-                supplier: JSON.parse(JSON.stringify(suppliers)),
                 supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
                 totalSales: totalSales,
                 avgSales: avgSales,
