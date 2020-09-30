@@ -230,15 +230,15 @@ async function getMinMaxsupplierID(sortby, offset) {
 async function getSupplierReportData(supplierID, fromDate, toDate) {
     return await supplierModel.aggregate(
         [{
+            '$match': {
+                supplierID: Number.parseInt(supplierID)
+            }
+        }, {
             '$lookup': {
                 'from': 'products',
                 'localField': 'supplierID',
                 'foreignField': 'supplierID',
                 'as': 'products'
-            }
-        }, {
-            '$match': {
-                'supplierID': parseInt(supplierID)
             }
         }, {
             '$unwind': {
@@ -594,9 +594,9 @@ const indexFunctions = {
     },
 
     getSupplierReportDetails: async function(req, res) {
-        var supplierID = req.params.productID;
-        var fromDate = req.params.fromDate;
-        var toDate = req.params.toDate;
+        var supplierID = req.query.supplierID;
+        var fromDate = req.query.fromDate;
+        var toDate = req.query.toDate;
 
         // console.log(supplierReport);
         // res.send(supplierReport);
@@ -608,20 +608,43 @@ const indexFunctions = {
             // console.log(toDate);
             // console.log(dateDiff);
             var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
+            console.log(supplierReportData);
             var supplierReport = [];
+            var totalSales = 0;
+            var totalPaid = 0;
+            var avgSales = 0;
             for (var i = 0; i < supplierReportData.length; i++) {
                 supplierReport.push(await createSupplierInfo(supplierReportData[i], dateDiff));
+                totalSales = parseFloat(totalSales) + parseFloat(supplierReport[i].totalSales);
+                avgSales = parseFloat(avgSales) + parseFloat(supplierReport[i].avgDailySales);
+                totalPaid = parseFloat(totalPaid) + parseFloat(supplierReport[i].totalAmtPaid);
             }
+            console.log(totalSales);
+            console.log(avgSales);
+            console.log(totalPaid);
             // console.log(JSON.parse(JSON.stringify(supplierReport)));
             // res.render('a_supplierReport', {
             //     title: 'View Supplier Report -' + supplierID,
             //     supplierReportData: JSON.parse(JSON.stringify(supplierReport))
             // });
-            req.session.report = supplierReport;
-            req.session.title = 'Supplier Report - ' + supplierReportData[0].companyName;
-            req.session.fromDate = fromDate;
-            req.session.toDate = toDate;
-            res.send({ supplierReport, status: getUserType() });
+            // req.session.report = supplierReport;
+            // req.session.title = 'Supplier Report - ' + supplierReportData[0].companyName;
+            // req.session.fromDate = fromDate;
+            // req.session.toDate = toDate;
+            // req.session.avgSales = avgSales;
+            // req.session.totalSales = totalSales;
+            // req.session.totalPaid = totalPaid;
+            // res.render('', { supplierReport, status: getUserType() });
+            console.log(supplierReportData);
+            var suppliers = await supplierModel.find({});
+            res.render('a_supplierReport', {
+                title: 'Supplier Report',
+                reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                fromDate: fromDate,
+                toDate: toDate,
+                supplier: JSON.parse(JSON.stringify(suppliers)),
+                supplierReportData: JSON.parse(JSON.stringify(supplierReport))
+            });
         } catch (e) {
             console.log(e);
         }

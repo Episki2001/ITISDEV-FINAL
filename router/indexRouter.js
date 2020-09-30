@@ -9,7 +9,8 @@ router.get('/', controller.getLogin);
 //ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/supplierReport', controller.getSupplierReport);
-router.get('/a/supplierReport1', controller.AupdateSupplierReport);
+// router.get('/a/supplierReport*', controller.AupdateSupplierReport);
+router.get('/supplierReport*', controller.getSupplierReportDetails);
 // router.get('/a/product/editProduct', controller.getAeditProduct);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
@@ -41,7 +42,7 @@ router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
 router.post('/newPurchase/:deliveryID', controller.calculateTotalCost);
 router.post('/newMDgoods/:checkProdID', controller.getProductDetails);
-router.post('/supplierReport/:productID/:fromDate/:toDate', controller.getSupplierReportDetails);
+
 // POSTS
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);

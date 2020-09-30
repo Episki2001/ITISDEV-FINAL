@@ -898,16 +898,19 @@ $(document).ready(function() {
         var supplierID = $('#supplierReport_ID').val();
         var fromDate = $('#supplierReport_start').val();
         var toDate = $('#supplierReport_end').val();
-
+        window.location.href = '';
 
         if (supplierID != '0') {
             console.log(supplierID);
             console.log(fromDate);
             console.log(toDate);
             // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
-            $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
-                console.log(result.supplierReport);
-                window.location.href = '/a/supplierReport1'
+            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
+            //     console.log(result.supplierReport);
+            //     window.location.href = '/a/supplierReport1'
+            // });
+            $.get('/supplierReport', { supplierID: supplierID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
             });
         } else
             alert('Select a Supplier ID');
