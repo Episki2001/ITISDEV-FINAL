@@ -898,7 +898,6 @@ $(document).ready(function() {
         var supplierID = $('#supplierReport_ID').val();
         var fromDate = $('#supplierReport_start').val();
         var toDate = $('#supplierReport_end').val();
-        window.location.href = '';
 
         if (supplierID != '0') {
             console.log(supplierID);
