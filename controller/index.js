@@ -878,13 +878,16 @@ const indexFunctions = {
             if (breakdown) {
                 res.render('a_viewBreakdown', {
                     title: 'View Breakdown',
+                    reporttitle: 'View Breakdown - ' + supplierReportData[0].companyName,
+                    fromDate: fromDate,
+                    toDate: toDate,
                     breakdown: JSON.parse(JSON.stringify(breakdown))
                 });
             } else res.render('error', {
                 title: 'Error',
                 msg: 'something went wrong'
             });
-            
+
         } catch (e) {
             console.log(e)
         }
