@@ -765,6 +765,7 @@ async function getSalesBreakdown(supplierReportIDs, fromDate, toDate) {
             'productID': 1,
             'productName': 1,
             'amount': '$sales.total',
+            'quantity': '$sales.quantity',
             'userID': '$sales.userID',
             'transaction': 'Sale'
         }
@@ -817,7 +818,7 @@ async function getDamagedGoodsBreakdown(productIDs, fromDate, toDate) {
         '$project': {
             'date': '$damagedGoods.dateDamaged',
             'productID': 1,
-            'amount': '$damagedGoods.numDamaged',
+            'quantity': '$damagedGoods.numDamaged',
             'userID': '$damagedGoods.userID',
             'transaction': 'Damaged Goods'
         }
@@ -866,7 +867,7 @@ async function getDeliveryBreakdown(productIDs, fromDate, toDate) {
         '$project': {
             'date': '$delivery.dateDelivered',
             'productID': 1,
-            'amount': {
+            'quantity': {
                 '$subtract': [
                     '$delivery.number_Of_Units_Delivered', '$delivery.number_Of_Damaged'
                 ]
