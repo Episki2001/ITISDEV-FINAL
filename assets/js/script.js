@@ -903,7 +903,7 @@ $(document).ready(function() {
             console.log(supplierID);
             console.log(fromDate);
             console.log(toDate);
-           
+
             $.get('/supplierReport', { supplierID: supplierID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });
@@ -920,7 +920,7 @@ $(document).ready(function() {
             console.log(productID);
             console.log(fromDate);
             console.log(toDate);
-           
+
             $.get('/performanceReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });

@@ -5,7 +5,7 @@
             <div class="container">
                 <h1 class="display-6 text-center">{{reporttitle}}</h1>
                 {{#if fromDate}}
-                <h3 class="display-6 text-center">{{getDate fromDate}} - {{getDate toDate}}</h3>
+                <h3 class="display-5 text-center">{{getDate fromDate}} - {{getDate toDate}}</h3>
                 {{/if}}
             </div>
             <div class="d-flex flex-column">
@@ -14,8 +14,6 @@
                         <tr>
                             <th scope="col" class ="text-center">Date</th>
                             <th scope="col" class ="text-center">Transaction Type</th>
-                            <th scope="col" class ="text-center">ProductID</th>
-                            <th scope="col" class ="text-center">Product Name</th>
                             <th scope="col" class ="text-center">User ID</th>
                             <th scope="col" class ="text-center">Amount</th>
                             {{!-- <th scope="col"></th> --}}
@@ -23,7 +21,7 @@
                     </thead>
                     <tbody>
                         {{#each breakdown}}
-                        {{>viewBreakdown_row this}}
+                        {{>viewBreakdownPerformance_row this}}
                         {{/each}}
                         {{!-- {{#if totalSales}}
                         <tr>
