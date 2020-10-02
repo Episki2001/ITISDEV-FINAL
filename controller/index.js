@@ -710,7 +710,7 @@ async function createSupplierInfo(supplierReportData, dateDiff) {
 }
 async function createPerformanceInfo(productReportData, dateDiff) {
     var productID = productReportData.productID;
-
+    var productName = productReportData.productName;
     var totalSales = (await getTotalSales(productReportData.sales)).toFixed(2);
     var avgDailySales = (totalSales / dateDiff).toFixed(2);
     var totalAmtPaid = (await getTotalAmtPaid(productReportData.Purchases)).toFixed(2);
