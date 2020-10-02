@@ -251,6 +251,43 @@ const indexMiddleware = {
         } else {
             return next();
         }
+    },
+
+    validateNewProduct: async function (req, res, next) {
+        var productName = req.body.productName;
+        var matches = await productModel.findOne({
+            productName: productName
+        });
+
+        console.log(matches);
+        console.log('1234');
+        try {
+            if(matches) {
+                res.send({
+                    status: 401,
+                    msg: 'Product already exists in the system'
+                })
+            } else {
+                return next();
+            }
+        } catch (e) {
+            res.send({
+                status: 500,
+                msg: 'Server error. Could not validate.'
+            })
+        }
+    },
+
+    validateNewSupplier: async function (req, res, next) {
+        let {
+            companyName
+        } = req.body;
+        var matches = await supplierModel.findOne({
+            companyName: companyName
+        });
+
+        console.log('1234');
+
     }
 
 };
