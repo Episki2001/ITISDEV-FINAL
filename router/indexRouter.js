@@ -9,6 +9,7 @@ router.get('/', controller.getLogin);
 //ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
 router.get('/a/supplierReport', controller.getSupplierReport);
+router.get('/a/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getBreakdown);
 // router.get('/a/supplierReport*', controller.AupdateSupplierReport);
 router.get('/supplierReport*', controller.getSupplierReportDetails);
 router.get('/performanceReport*', controller.getPerformanceReportDetails);
