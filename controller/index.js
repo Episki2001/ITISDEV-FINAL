@@ -368,6 +368,98 @@ async function getPerformanceReportData(productID, fromDate, toDate) {
         }]
     );
 }
+
+async function getInvSummaryReport(productID, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': productID
+        }
+    }, {
+        '$lookup': {
+            'from': 'sales',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'sales'
+        }
+    }, {
+        '$lookup': {
+            'from': 'Delivery',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'Delivery'
+        }
+    }, {
+        '$lookup': {
+            'from': 'Damagedgoods',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'damagedGoods'
+        }
+    }, {
+        '$project': {
+            'productID': 1,
+            'productName': 1,
+            'sales': {
+                '$filter': {
+                    'input': '$sales',
+                    'as': 'sale',
+                    'cond': {
+                        '$and': [{
+                            '$gte': [
+                                '$$sale.dateSold', new Date(fromDate)
+                            ]
+                        }, {
+                            '$lte': [
+                                '$$sale.dateSold', new Date(toDate)
+                            ]
+                        }]
+                    }
+                }
+            },
+            'Delivery': {
+                '$filter': {
+                    'input': '$Delivery',
+                    'as': 'delivery',
+                    'cond': {
+                        '$and': [{
+                            '$gte': [
+                                '$$delivery.dateDelivered', new Date(fromDate)
+                            ]
+                        }, {
+                            '$lte': [
+                                '$$delivery.dateDelivered', new Date(toDate)
+                            ]
+                        }]
+                    }
+                }
+            },
+            'damagedGoods': {
+                '$filter': {
+                    'input': '$damagedGoods',
+                    'as': 'damagedGoods',
+                    'cond': {
+                        '$and': [{
+                            '$and': [{
+                                '$gte': [
+                                    '$$damagedGoods.dateDamaged', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$damagedGoods.dateDamaged', new Date(toDate)
+                                ]
+                            }]
+                        }, {
+                            '$eq': [
+                                '$$damagedGoods.approved', true
+                            ]
+                        }]
+                    }
+                }
+            }
+        }
+    }]);
+}
+
 async function getMinMaxdiscrepancyID(sortby, offset) {
     //sortby - min = 1, max = -1
     //offset - adds productID by offset
@@ -522,7 +614,64 @@ async function getDeliveryProdDetails(deliveryID) {
     }]);
     return result[0];
 }
+async function getDiscrepancyCount(productID) {
+    var result = await discrepanciesModel.aggregate([{
+        '$match': {
+            'productID': productID
+        }
+    }, {
+        '$count': 'discrepancyCount'
+    }]);
+    return result[0];
+}
 
+function getTotalUnitsSold(sales) {
+    var total = 0;
+    for (var i = 0; i < sales.length; i++) {
+        total = total + sales[i].quantity;
+    }
+    return total;
+}
+
+function getTotalUnitsDelivered(delivery) {
+    var total = 0;
+    for (var i = 0; i < delivery.length; i++) {
+        total = total + delivery[i].number_Of_Units_Delivered;
+    }
+    return total;
+}
+
+function getTotalUnitsDamagedDelivery(delivery) {
+    var total = 0;
+    for (var i = 0; i < delivery.length; i++) {
+        total = total + delivery[i].number_Of_Damaged;
+    }
+    return total;
+}
+
+function getTotalUnitsDamagedMDGoods(damagedGoods) {
+    var total = 0;
+    for (var i = 0; i < damagedGoods.length; i++) {
+        total = total + damagedGoods[i].numDamaged;
+    }
+    return total;
+}
+async function createInvSummaryReport(invSummaryData) {
+    var productName = invSummaryData.productName;
+    var totalUnitsSold = getTotalUnitsSold(invSummaryData.sales);
+    var totalUnitsDelivered = getTotalUnitsDelivered(invSummaryData.delivery);
+    var totalUnitsDamagedInDelivery = getTotalUnitsDamagedDelivery(invSummaryData.delivery);
+    var totalUnitsDamaged = getTotalUnitsDamagedMDGoods(invSummaryData.damagedGoods);
+    var numDiscrepancyReports = getDiscrepancyCount(invSummaryData.productID);
+    return {
+        productName,
+        totalUnitsSold,
+        totalUnitsDelivered,
+        totalUnitsDamagedInDelivery,
+        totalUnitsDamaged,
+        numDiscrepancyReports
+    };
+}
 async function getTotalSales(sales) {
     var total = 0;
     for (var i = 0; i < sales.length; i++) {
@@ -530,6 +679,7 @@ async function getTotalSales(sales) {
     }
     return total;
 }
+
 async function getDateDiff(date1, date2) {
     var date1 = new Date(date1);
     var date2 = new Date(date2);
@@ -620,6 +770,7 @@ async function getSalesBreakdown(supplierReportIDs, fromDate, toDate) {
         }
     }]);
 }
+
 async function getPurchasesBreakdown(supplierReportIDs, fromDate, toDate) {
     return await productModel.aggregate([{
         '$match': {
@@ -712,13 +863,13 @@ function mergeBreakdowns(data1, data2) {
 
 
 const indexFunctions = {
-    getLogin: function(req, res) {
+    getLogin: function (req, res) {
         res.render('login', {
             title: 'Login'
         });
     },
 
-    getAdiscrepancy: async function(req, res) {
+    getAdiscrepancy: async function (req, res) {
         try {
             var matches = await discrepanciesModel.aggregate([{
                 '$lookup': {
@@ -759,7 +910,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAnewDiscrepancy: async function(req, res) {
+    getAnewDiscrepancy: async function (req, res) {
         // res.render('a_newDiscrepancy', {
         //     title: 'New Discrepancy'
         // });
@@ -774,22 +925,22 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAeditProduct: function(req, res) {
+    getAeditProduct: function (req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
-    getAThreshold: function(req, res) {
+    getAThreshold: function (req, res) {
         res.render('a_threshold', {
             title: 'Threshold'
         });
     },
-    getAeditProfile: function(req, res) {
+    getAeditProfile: function (req, res) {
         res.render('a_editProfile', {
             title: 'Edit Profile'
         });
     },
-    getASupplierReport: async function(req, res) {
+    getASupplierReport: async function (req, res) {
         try {
             var suppliers = await supplierModel.find({});
             res.render('a_supplierReport', {
@@ -801,7 +952,7 @@ const indexFunctions = {
         }
     },
 
-    getSupplierReportDetails: async function(req, res) {
+    getSupplierReportDetails: async function (req, res) {
         var supplierID = req.query.supplierID;
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
@@ -861,14 +1012,14 @@ const indexFunctions = {
                     msg: 'please log in as either an admin or a manager'
                 });
             }
-            
+
         } catch (e) {
             console.log(e);
         }
 
     },
 
-    getABreakdown: async function(req, res) {
+    getABreakdown: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -901,7 +1052,7 @@ const indexFunctions = {
         }
     },
 
-    getAPerformanceReport: async function(req, res) {
+    getAPerformanceReport: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('a_productPerformanceReport', {
@@ -913,7 +1064,7 @@ const indexFunctions = {
         }
     },
 
-    getPerformanceReportDetails: async function(req, res) {
+    getPerformanceReportDetails: async function (req, res) {
         var productID = req.query.productID;
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
@@ -933,7 +1084,7 @@ const indexFunctions = {
             performanceReport = await createPerformanceInfo(performanceReportData[0], dateDiff);
 
             console.log(performanceReport);
-            if(req.session.type == "admin") {
+            if (req.session.type == "admin") {
                 res.render('a_productPerformanceReportTable', {
                     title: 'Performance Report',
                     reporttitle: 'Performance Report - ' + performanceReport.productName,
@@ -941,7 +1092,7 @@ const indexFunctions = {
                     toDate: toDate,
                     performanceReportData: JSON.parse(JSON.stringify(performanceReport))
                 });
-            } else if(req.session.type == "manager") {
+            } else if (req.session.type == "manager") {
                 res.render('m_productPerformanceReportTable', {
                     title: 'Performance Report',
                     reporttitle: 'Performance Report - ' + performanceReport.productName,
@@ -955,14 +1106,14 @@ const indexFunctions = {
                     msg: 'please log in as either an admin or a manager'
                 });
             }
-            
+
         } catch (e) {
             console.log(e);
         }
 
     },
 
-    getABreakdownPerformance: async function(req, res) {
+    getABreakdownPerformance: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -970,7 +1121,9 @@ const indexFunctions = {
             var productID = req.params.productID;
             var fromDate = req.params.fromDate;
             var toDate = req.params.toDate;
-            var match = await productModel.findOne({ productID: productID });
+            var match = await productModel.findOne({
+                productID: productID
+            });
             var productIDs = [];
             productIDs.push(parseInt(productID));
             console.log(productIDs);
@@ -997,7 +1150,7 @@ const indexFunctions = {
         }
     },
 
-    getAMDgoods: async function(req, res) {
+    getAMDgoods: async function (req, res) {
 
         try {
             var matches = await damagedgoodsModel.aggregate([{
@@ -1077,7 +1230,7 @@ const indexFunctions = {
     },
 
 
-    getAnewMDgoods: async function(req, res) {
+    getAnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             // console.log(products);
@@ -1090,7 +1243,7 @@ const indexFunctions = {
         }
     },
 
-    getAForApprovalMDgoods: async function(req, res) {
+    getAForApprovalMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.find({
                 approved: null
@@ -1105,7 +1258,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneFAMDGoods: async function(req, res) {
+    getAoneFAMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -1160,7 +1313,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneMDGoods: async function(req, res) {
+    getAoneMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -1231,7 +1384,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewDelivery: async function(req, res) {
+    getAnewDelivery: async function (req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
         // });
@@ -1246,7 +1399,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewProducts: async function(req, res) {
+    getAnewProducts: async function (req, res) {
         // res.render('a_newProducts', {
         //     title: 'Add Product'
         // });
@@ -1264,7 +1417,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewPurchase: async function(req, res) {
+    getAnewPurchase: async function (req, res) {
         // res.render('a_newPurchases', {
         //     title: 'Add Purchase'
         // });
@@ -1279,7 +1432,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewSale: async function(req, res) {
+    getAnewSale: async function (req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -1294,20 +1447,20 @@ const indexFunctions = {
         }
     },
 
-    getAnewSupplier: function(req, res) {
+    getAnewSupplier: function (req, res) {
         res.render('a_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getAnewUser: function(req, res) {
+    getAnewUser: function (req, res) {
         res.render('a_newUser', {
             title: 'Add User'
         });
     },
 
 
-    getAnewManager: async function(req, res) {
+    getAnewManager: async function (req, res) {
         try {
             var users = await userModel.aggregate([{
                 '$lookup': {
@@ -1345,7 +1498,7 @@ const indexFunctions = {
         }
     },
 
-    getAdeliveries: async function(req, res) {
+    getAdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.aggregate([{
                 '$lookup': {
@@ -1387,7 +1540,7 @@ const indexFunctions = {
         }
     },
 
-    getAproducts: async function(req, res) {
+    getAproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -1423,7 +1576,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneEditProduct: async function(req, res) {
+    getAoneEditProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
@@ -1452,7 +1605,7 @@ const indexFunctions = {
         }
     },
 
-    getApurchases: async function(req, res) {
+    getApurchases: async function (req, res) {
         try {
             var matches = await purchaseModel.aggregate([{
                 '$lookup': {
@@ -1494,7 +1647,7 @@ const indexFunctions = {
         }
     },
 
-    getAsales: async function(req, res) {
+    getAsales: async function (req, res) {
         try {
             var matches = await salesModel.aggregate([{
                 '$lookup': {
@@ -1537,7 +1690,7 @@ const indexFunctions = {
         }
     },
 
-    getAsuppliers: async function(req, res) {
+    getAsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1550,7 +1703,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneSupplier: async function(req, res) {
+    getAoneSupplier: async function (req, res) {
         try {
             var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({
@@ -1571,7 +1724,7 @@ const indexFunctions = {
         }
     },
 
-    getAusers: async function(req, res) {
+    getAusers: async function (req, res) {
         try {
             var matches = await userModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -1584,7 +1737,7 @@ const indexFunctions = {
         }
     },
 
-    getAmanagers: async function(req, res) {
+    getAmanagers: async function (req, res) {
         try {
             var match = await managerModel.aggregate([{
                 '$lookup': {
@@ -1617,7 +1770,7 @@ const indexFunctions = {
         }
     },
 
-    postLogin: async function(req, res) {
+    postLogin: async function (req, res) {
         var {
             user,
             pass
@@ -1625,7 +1778,7 @@ const indexFunctions = {
         try {
             var match = await findUser(parseInt(user));
             if (match) {
-                bcrypt.compare(pass, match.password, function(err, result) {
+                bcrypt.compare(pass, match.password, function (err, result) {
                     if (result) {
                         if (match.managerID && match.isSysAd) {
                             //send 201 admin
@@ -1672,7 +1825,7 @@ const indexFunctions = {
         }
     },
 
-    getProductDetails: async function(req, res) {
+    getProductDetails: async function (req, res) {
         var prodID = req.params.checkProdID;
         var match = await productModel.findOne({
             productID: prodID
@@ -1680,13 +1833,13 @@ const indexFunctions = {
         res.send(match);
     },
 
-    postLogout: function(req, res) {
+    postLogout: function (req, res) {
         console.log(req.session);
         req.session.destroy();
         console.log(req.session);
         res.redirect("/");
     },
-    postNewDelivery: async function(req, res) {
+    postNewDelivery: async function (req, res) {
 
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
@@ -1733,7 +1886,7 @@ const indexFunctions = {
 
         }
     },
-    postNewSale: async function(req, res) {
+    postNewSale: async function (req, res) {
         console.log('postNewSale');
         //validate session
 
@@ -1784,7 +1937,7 @@ const indexFunctions = {
 
         }
     },
-    postNewDiscrepancy: async function(req, res) {
+    postNewDiscrepancy: async function (req, res) {
         console.log('postNewDiscrepancy');
 
         if ( /**session valid */ req.session.logUser /**true */ ) {
@@ -1832,7 +1985,7 @@ const indexFunctions = {
 
         }
     },
-    postNewUser: async function(req, res) {
+    postNewUser: async function (req, res) {
         var {
             fName,
             lName,
@@ -1872,7 +2025,7 @@ const indexFunctions = {
         }
     },
 
-    postNewManager: async function(req, res) {
+    postNewManager: async function (req, res) {
         var {
             userID,
             isSysAd
@@ -1908,7 +2061,7 @@ const indexFunctions = {
         });
     },
 
-    postNewProduct: async function(req, res) {
+    postNewProduct: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -1957,7 +2110,7 @@ const indexFunctions = {
 
     },
 
-    postEditProduct: async function(req, res) {
+    postEditProduct: async function (req, res) {
         console.log('i am in posteditproduct');
         if (!req.session.logUser)
             res.send({
@@ -1998,7 +2151,7 @@ const indexFunctions = {
         });
 
     },
-    postNewSupplier: async function(req, res) {
+    postNewSupplier: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -2046,7 +2199,7 @@ const indexFunctions = {
 
     },
 
-    postNewMDgoods: async function(req, res) {
+    postNewMDgoods: async function (req, res) {
 
         if (!req.session.logUser)
             res.send({
@@ -2113,7 +2266,7 @@ const indexFunctions = {
             }
         }
     },
-    postApprovalMDGoods: async function(req, res) {
+    postApprovalMDGoods: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -2171,7 +2324,7 @@ const indexFunctions = {
             msg: ': You must be an admin or manager to approve'
         });
     },
-    postEditSupplier: async function(req, res) {
+    postEditSupplier: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -2214,7 +2367,7 @@ const indexFunctions = {
         });
 
     },
-    calculateTotalCost: async function(req, res) {
+    calculateTotalCost: async function (req, res) {
         var deliveryID = req.params.deliveryID;
         var result = await getDeliveryProdDetails(parseInt(deliveryID));
         var totalCost = result.purchasePrice * result.number_Of_Units_Delivered
@@ -2223,7 +2376,7 @@ const indexFunctions = {
             amount: totalCost
         });
     },
-    postNewPurchase: async function(req, res) {
+    postNewPurchase: async function (req, res) {
         /**VERIFY SESSION ID IF MANAGER */
         if (!req.session.logUser) {
             res.send({
@@ -2264,7 +2417,7 @@ const indexFunctions = {
     },
 
     //MANAGERS
-    getMproducts: async function(req, res) {
+    getMproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -2300,7 +2453,7 @@ const indexFunctions = {
         }
     },
 
-    getMoneEditProduct: async function(req, res) {
+    getMoneEditProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
@@ -2329,7 +2482,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewProducts: async function(req, res) {
+    getMnewProducts: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             var ref_category = await ref_categoryModel.find({});
@@ -2344,7 +2497,7 @@ const indexFunctions = {
         }
     },
 
-    getMsupplier: async function(req, res) {
+    getMsupplier: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             res.render('m_suppliers', {
@@ -2356,7 +2509,7 @@ const indexFunctions = {
         }
     },
 
-    getMoneSupplier: async function(req, res) {
+    getMoneSupplier: async function (req, res) {
         try {
             var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({
@@ -2377,13 +2530,13 @@ const indexFunctions = {
         }
     },
 
-    getMnewSupplier: function(req, res) {
+    getMnewSupplier: function (req, res) {
         res.render('m_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getMpurchases: async function(req, res) {
+    getMpurchases: async function (req, res) {
         try {
             var matches = await purchaseModel.aggregate([{
                 '$lookup': {
@@ -2425,7 +2578,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewPurchase: async function(req, res) {
+    getMnewPurchase: async function (req, res) {
         // res.render('a_newPurchases', {
         //     title: 'Add Purchase'
         // });
@@ -2440,7 +2593,7 @@ const indexFunctions = {
         }
     },
 
-    getMdeliveries: async function(req, res) {
+    getMdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.aggregate([{
                 '$lookup': {
@@ -2482,7 +2635,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewDelivery: async function(req, res) {
+    getMnewDelivery: async function (req, res) {
         // res.render('a_newDelivery', {
         //     title: 'Add Delivery Details'
         // });
@@ -2497,7 +2650,7 @@ const indexFunctions = {
         }
     },
 
-    getMsales: async function(req, res) {
+    getMsales: async function (req, res) {
         try {
             var matches = await salesModel.aggregate([{
                 '$lookup': {
@@ -2540,7 +2693,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewSale: async function(req, res) {
+    getMnewSale: async function (req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -2555,7 +2708,7 @@ const indexFunctions = {
         }
     },
 
-    getMMDgoods: async function(req, res) {
+    getMMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.aggregate([{
                 '$match': {
@@ -2630,7 +2783,7 @@ const indexFunctions = {
         }
     },
 
-    getMoneMDGoods: async function(req, res) {
+    getMoneMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -2701,7 +2854,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewMDgoods: async function(req, res) {
+    getMnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             // console.log(products);
@@ -2714,7 +2867,7 @@ const indexFunctions = {
         }
     },
 
-    getMdiscrepancy: async function(req, res) {
+    getMdiscrepancy: async function (req, res) {
         try {
             var matches = await discrepanciesModel.aggregate([{
                 '$lookup': {
@@ -2756,7 +2909,7 @@ const indexFunctions = {
         }
     },
 
-    getMSupplierReport: async function(req, res) {
+    getMSupplierReport: async function (req, res) {
         try {
             var suppliers = await supplierModel.find({});
             res.render('m_supplierReport', {
@@ -2768,7 +2921,7 @@ const indexFunctions = {
         }
     },
 
-    getMBreakdown: async function(req, res) {
+    getMBreakdown: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -2801,7 +2954,7 @@ const indexFunctions = {
         }
     },
 
-    getMPerformanceReport: async function(req, res) {
+    getMPerformanceReport: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('m_productPerformanceReport', {
@@ -2813,7 +2966,7 @@ const indexFunctions = {
         }
     },
 
-    getMBreakdownPerformance: async function(req, res) {
+    getMBreakdownPerformance: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -2821,7 +2974,9 @@ const indexFunctions = {
             var productID = req.params.productID;
             var fromDate = req.params.fromDate;
             var toDate = req.params.toDate;
-            var match = await productModel.findOne({ productID: productID });
+            var match = await productModel.findOne({
+                productID: productID
+            });
             var productIDs = [];
             productIDs.push(parseInt(productID));
             console.log(productIDs);
@@ -2849,7 +3004,7 @@ const indexFunctions = {
     },
 
     //USERS
-    getUproducts: async function(req, res) {
+    getUproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -2885,7 +3040,7 @@ const indexFunctions = {
         }
     },
 
-    getUoneViewProduct: async function(req, res) {
+    getUoneViewProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
@@ -2914,7 +3069,7 @@ const indexFunctions = {
         }
     },
 
-    getUsuppliers: async function(req, res) {
+    getUsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             // console.log(JSON.parse(JSON.stringify(matches)));
@@ -2927,7 +3082,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewSale: async function(req, res) {
+    getUnewSale: async function (req, res) {
         // res.render('a_newSales', {
         //     title: 'Add Sale'
         // });
@@ -2942,7 +3097,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewMDgoods: async function(req, res) {
+    getUnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newMDgoods', {
@@ -2954,7 +3109,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDiscrepancy: async function(req, res) {
+    getUnewDiscrepancy: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDiscrepancy', {
@@ -2966,7 +3121,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDelivery: async function(req, res) {
+    getUnewDelivery: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDelivery', {
