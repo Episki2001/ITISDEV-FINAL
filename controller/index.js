@@ -717,9 +717,6 @@ function mergeBreakdowns(data1, data2) {
             array.push(data1[j]);
         }
     }
-
-    // breakdowns.push(salesBreakdown);
-    // breakdowns.push(purchasesBreakdown);
     return array;
 }
 
@@ -878,11 +875,6 @@ const indexFunctions = {
             var salesBreakdown = await getSalesBreakdown(supplierReportIDs, fromDate, toDate);
             var purchasesBreakdown = await getPurchasesBreakdown(supplierReportIDs, fromDate, toDate);
             var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
-            console.log(breakdown);
-            console.log(salesBreakdown.length);
-            console.log(purchasesBreakdown.length);
-            console.log(breakdown.length);
-
             if (breakdown) {
                 res.render('a_viewBreakdown', {
                     title: 'View Breakdown',
