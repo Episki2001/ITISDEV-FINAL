@@ -381,10 +381,10 @@ async function getPerformanceReportData(productID, fromDate, toDate) {
     );
 }
 
-async function getInvSummaryReport(productID, fromDate, toDate) {
+async function getInvReportData(productID, fromDate, toDate) {
     return await productModel.aggregate([{
         '$match': {
-            'productID': productID
+            'productID': parseInt(productID)
         }
     }, {
         '$lookup': {
@@ -634,7 +634,7 @@ async function getDiscrepancyCount(productID) {
     }, {
         '$count': 'discrepancyCount'
     }]);
-    return result[0];
+    return result[0].discrepancyCount;
 }
 
 function getTotalUnitsSold(sales) {
@@ -668,13 +668,13 @@ function getTotalUnitsDamagedMDGoods(damagedGoods) {
     }
     return total;
 }
-async function createInvSummaryReport(invSummaryData) {
+async function createInvInfo(invSummaryData) {
     var productName = invSummaryData.productName;
     var totalUnitsSold = getTotalUnitsSold(invSummaryData.sales);
-    var totalUnitsDelivered = getTotalUnitsDelivered(invSummaryData.delivery);
-    var totalUnitsDamagedInDelivery = getTotalUnitsDamagedDelivery(invSummaryData.delivery);
+    var totalUnitsDelivered = getTotalUnitsDelivered(invSummaryData.Delivery);
+    var totalUnitsDamagedInDelivery = getTotalUnitsDamagedDelivery(invSummaryData.Delivery);
     var totalUnitsDamaged = getTotalUnitsDamagedMDGoods(invSummaryData.damagedGoods);
-    var numDiscrepancyReports = getDiscrepancyCount(invSummaryData.productID);
+    var numDiscrepancyReports = await getDiscrepancyCount(invSummaryData.productID);
     return {
         productName,
         totalUnitsSold,
@@ -722,7 +722,7 @@ async function createSupplierInfo(supplierReportData, dateDiff) {
 }
 async function createPerformanceInfo(productReportData, dateDiff) {
     var productID = productReportData.productID;
-    var productName = productReportData.productName;
+    
     var totalSales = (await getTotalSales(productReportData.sales)).toFixed(2);
     var avgDailySales = (totalSales / dateDiff).toFixed(2);
     var totalAmtPaid = (await getTotalAmtPaid(productReportData.Purchases)).toFixed(2);
@@ -1030,7 +1030,6 @@ const indexFunctions = {
         }
 
     },
-
     getABreakdown: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
@@ -1075,7 +1074,17 @@ const indexFunctions = {
             console.log(e);
         }
     },
-
+    getAInventoryReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('a_inventoryReport', {
+                title: 'Inventory Reprt',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getPerformanceReportDetails: async function (req, res) {
         var productID = req.query.productID;
         var fromDate = req.query.fromDate;
@@ -1124,7 +1133,45 @@ const indexFunctions = {
         }
 
     },
+    getInventoryReportDetails: async function(req, res){
+        var productID = req.query.productID;
+        var fromDate = req.query.fromDate;
+        var toDate = req.query.toDate;
 
+        try {
+            var inventoryReportData = await getInvReportData(productID, fromDate, toDate);
+            var inventoryReport;
+            inventoryReport = await createInvInfo(inventoryReportData[0]);
+
+            if (req.session.type == "admin") {
+                res.render('a_inventoryReportTable', {
+                    title: 'Inventory Report',
+                    reporttitle: 'Inventory Report - ' + inventoryReport.productName,
+                    productID: productID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    inventoryReportData: JSON.parse(JSON.stringify(inventoryReport))
+                });
+            } else if (req.session.type == "manager") {
+                res.render('m_inventoryReportTable', {
+                    title: 'Inventory Report',
+                    reporttitle: 'Inventory Report - ' + inventoryReport.productName,
+                    productID: productID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    inventoryReportData: JSON.parse(JSON.stringify(inventoryReport))
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getABreakdownPerformance: async function (req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
@@ -1781,7 +1828,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
-
+    
     postLogin: async function (req, res) {
         var {
             user,
@@ -2069,7 +2116,7 @@ const indexFunctions = {
             }
         } else res.send({
             status: 500,
-            msg: ': You must be an admin or manager to post a new product'
+            msg: ': You must be an admin or manager to post a new manager'
         });
     },
 

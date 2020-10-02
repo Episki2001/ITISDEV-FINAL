@@ -15,9 +15,11 @@ router.get('/a/performanceReportBreakdown/:productID/:fromDate/:toDate', control
 // router.get('/a/supplierReport*', controller.AupdateSupplierReport);
 router.get('/supplierReport*', controller.getSupplierReportDetails);
 router.get('/performanceReport*', controller.getPerformanceReportDetails);
+router.get('/inventoryReport*', controller.getInventoryReportDetails);
 // router.get('/a/product/editProduct', controller.getAeditProduct);
 router.get('/a/user/editProfile/*', controller.getAeditProfile);
 // router.get('/a/editSupplier', controller.getAeditSupplier);
+router.get('/a/inventoryReport', controller.getAInventoryReport);
 router.get('/a/MDgoods', controller.getAMDgoods);
 router.get('/a/MDGoods/:dmgrecordID', controller.getAoneMDGoods);
 router.get('/a/forApprovalMDgoods', controller.getAForApprovalMDgoods);

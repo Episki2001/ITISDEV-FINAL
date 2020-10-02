@@ -932,4 +932,21 @@ $(document).ready(function() {
         } else
             alert('Select a Product ID');
     });
+
+    $('#inventoryReport_Search').click(function() {
+        var productID = $('#productID').val();
+        var fromDate = $('#inventoryReport_start').val();
+        var toDate = $('#inventoryReport_end').val();
+
+        if (productID != '0') {
+            console.log(productID);
+            console.log(fromDate);
+            console.log(toDate);
+
+            $.get('/inventoryReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
+            });
+        } else
+            alert('Select a Product ID');
+    });
 });
