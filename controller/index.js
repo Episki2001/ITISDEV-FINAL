@@ -1003,7 +1003,6 @@ const indexFunctions = {
             }]).sort({
                 date: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_discrepancy', {
                 title: 'View Discrepancy',
                 discs: JSON.parse(JSON.stringify(matches))
@@ -1013,12 +1012,8 @@ const indexFunctions = {
         }
     },
     getAnewDiscrepancy: async function (req, res) {
-        // res.render('a_newDiscrepancy', {
-        //     title: 'New Discrepancy'
-        // });
         try {
-            var products = await productModel.find({});
-            // console.log(products);
+            var products = await productModel.find({});          
             res.render('a_newDiscrepancy', {
                 title: 'New Discrepancy',
                 product: JSON.parse(JSON.stringify(products)),
@@ -1059,17 +1054,9 @@ const indexFunctions = {
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
 
-        // console.log(supplierReport);
-        // res.send(supplierReport);
-        // res.send({ supplierReport, status: getUserType() });
         try {
             var dateDiff = await getDateDiff(fromDate, toDate);
-            // console.log(supplierID);
-            // console.log(fromDate);
-            // console.log(toDate);
-            // console.log(dateDiff);
             var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
-            // console.log(supplierReportData);
             var supplierReport = [];
             var totalSales = 0;
             var totalPaid = 0;
@@ -1080,10 +1067,7 @@ const indexFunctions = {
                 avgSales = parseFloat(avgSales) + parseFloat(supplierReport[i].avgDailySales);
                 totalPaid = parseFloat(totalPaid) + parseFloat(supplierReport[i].totalAmtPaid);
             }
-            // console.log(totalSales);
-            // console.log(avgSales);
-            // console.log(totalPaid);
-            // console.log(supplierReportData);
+
             if (req.session.type == "admin") {
                 res.render('a_supplierReportTable', {
                     title: 'Supplier Report',
@@ -1149,7 +1133,7 @@ const indexFunctions = {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
@@ -1192,21 +1176,12 @@ const indexFunctions = {
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
 
-        // console.log(supplierReport);
-        // res.send(supplierReport);
-        // res.send({ supplierReport, status: getUserType() });
         try {
             var dateDiff = await getDateDiff(fromDate, toDate);
-            // console.log(supplierID);
-            // console.log(fromDate);
-            // console.log(toDate);
-            // console.log(dateDiff);
             var performanceReportData = await getPerformanceReportData(productID, fromDate, toDate);
-            console.log(performanceReportData);
             var performanceReport;
             performanceReport = await createPerformanceInfo(performanceReportData[0], dateDiff);
 
-            console.log(performanceReport);
             if (req.session.type == "admin") {
                 res.render('a_productPerformanceReportTable', {
                     title: 'Performance Report',
@@ -1275,10 +1250,7 @@ const indexFunctions = {
         }
     },
     getABreakdownPerformance: async function (req, res) {
-        // do supplier report stuff again to get array
-        // do the new stuff 
         try {
-            console.log('testing');
             var productID = req.params.productID;
             var fromDate = req.params.fromDate;
             var toDate = req.params.toDate;
@@ -1287,11 +1259,8 @@ const indexFunctions = {
             });
             var productIDs = [];
             productIDs.push(parseInt(productID));
-            console.log(productIDs);
             var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
-            console.log(salesBreakdown);
             var purchasesBreakdown = await getPurchasesBreakdown(productIDs, fromDate, toDate);
-            console.log(purchasesBreakdown);
             var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
             if (breakdown) {
                 res.render('a_viewBreakdownPerformance', {
@@ -1307,7 +1276,7 @@ const indexFunctions = {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
     getBreakdownInv: async function (req, res) {
@@ -1356,7 +1325,7 @@ const indexFunctions = {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
     getAMDgoods: async function (req, res) {
@@ -1428,7 +1397,6 @@ const indexFunctions = {
             ]).sort({
                 dateDamaged: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -1442,7 +1410,6 @@ const indexFunctions = {
     getAnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
-            // console.log(products);
             res.render('a_newMDgoods', {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
@@ -1457,7 +1424,6 @@ const indexFunctions = {
             var matches = await damagedgoodsModel.find({
                 approved: null
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_FAMDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -1512,7 +1478,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('a_approveMDgoods', {
                 title: 'Approve Damaged Record',
                 record: JSON.parse(JSON.stringify(record))
@@ -1583,7 +1548,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('a_MDgoodsDetails', {
                 title: 'Missing/Damaged details',
                 record: JSON.parse(JSON.stringify(record))
@@ -1594,9 +1558,6 @@ const indexFunctions = {
     },
 
     getAnewDelivery: async function (req, res) {
-        // res.render('a_newDelivery', {
-        //     title: 'Add Delivery Details'
-        // });
         try {
             var products = await productModel.find({});
             res.render('a_newDelivery', {
@@ -1609,13 +1570,9 @@ const indexFunctions = {
     },
 
     getAnewProducts: async function (req, res) {
-        // res.render('a_newProducts', {
-        //     title: 'Add Product'
-        // });
         try {
             var matches = await supplierModel.find({});
             var categories = await ref_categoryModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_newProducts', {
                 title: 'Add Product',
                 suppliers: JSON.parse(JSON.stringify(matches)),
@@ -1627,9 +1584,6 @@ const indexFunctions = {
     },
 
     getAnewPurchase: async function (req, res) {
-        // res.render('a_newPurchases', {
-        //     title: 'Add Purchase'
-        // });
         try {
             var delivery = await getDeliveries();
             res.render('a_newPurchases', {
@@ -1642,9 +1596,6 @@ const indexFunctions = {
     },
 
     getAnewSale: async function (req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
         try {
             var products = await productModel.find({});
             res.render('a_newSales', {
@@ -1739,7 +1690,6 @@ const indexFunctions = {
             }]).sort({
                 dateDelivered: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_delivery', {
                 title: 'View Deliveries',
                 delivery: JSON.parse(JSON.stringify(matches))
@@ -1775,7 +1725,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -1791,7 +1740,6 @@ const indexFunctions = {
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -1889,7 +1837,6 @@ const indexFunctions = {
             }]).sort({
                 dateSold: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_sales', {
                 title: 'View Sales',
                 sales: JSON.parse(JSON.stringify(matches))
@@ -1902,7 +1849,6 @@ const indexFunctions = {
     getAsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_suppliers', {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
@@ -1918,7 +1864,6 @@ const indexFunctions = {
             var match = await supplierModel.findOne({
                 supplierID: supplierID
             });
-            console.log(match);
             if (match) {
                 res.render('a_editSupplier', {
                     title: match.companyName,
@@ -1929,14 +1874,13 @@ const indexFunctions = {
                 msg: 'Supplier does not exist'
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
     getAusers: async function (req, res) {
         try {
             var matches = await userModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_users', {
                 title: 'View users',
                 users: JSON.parse(JSON.stringify(matches))
@@ -1968,8 +1912,7 @@ const indexFunctions = {
                     'phoneNumber': '$string.phoneNumber'
                 }
 
-            }])
-            console.log(JSON.parse(JSON.stringify(match)));
+            }]);
             res.render('a_managers', {
                 title: 'View Managers',
                 managers: JSON.parse(JSON.stringify(match))
@@ -1993,8 +1936,6 @@ const indexFunctions = {
                             //send 201 admin
                             req.session.logUser = match;
                             req.session.type = 'admin';
-                            console.log('sending 201' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 201
                             });
@@ -2002,8 +1943,6 @@ const indexFunctions = {
                             //send 202 manager
                             req.session.logUser = match;
                             req.session.type = 'manager';
-                            console.log('sending 202' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 202
                             });
@@ -2011,8 +1950,6 @@ const indexFunctions = {
                             //send 203 user
                             req.session.logUser = match;
                             req.session.type = 'user';
-                            console.log('sending 203' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 203
                             });
@@ -2043,9 +1980,7 @@ const indexFunctions = {
     },
 
     postLogout: function (req, res) {
-        console.log(req.session);
         req.session.destroy();
-        console.log(req.session);
         res.redirect("/");
     },
     postNewDelivery: async function (req, res) {
@@ -2096,9 +2031,7 @@ const indexFunctions = {
         }
     },
     postNewSale: async function (req, res) {
-        console.log('postNewSale');
         //validate session
-
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
             //get variables
@@ -2130,7 +2063,6 @@ const indexFunctions = {
             });
             //send status
             status = getUserType(req.session.type);
-            console.log(status);
             res.send({
                 status: status,
                 msg: 'Sale Recorded'
@@ -2147,8 +2079,6 @@ const indexFunctions = {
         }
     },
     postNewDiscrepancy: async function (req, res) {
-        console.log('postNewDiscrepancy');
-
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
             //get variables
@@ -2286,17 +2216,12 @@ const indexFunctions = {
                     sellingPrice,
                     purchasePrice
                 } = req.body;
-                // supplierID = parseInt(supplierID);
-                // sellingPrice = parseFloat(sellingPrice);
-                // purchasePrice = parseFloat(purchasePrice);
-                //get productID of the new Product
                 var currentStock = 0;
                 var productID = await getMinMaxproductID(-1, 1);
                 var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
                 var newProduct = new productModel(product);
                 var result = await newProduct.recordNewProduct();
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -2320,7 +2245,6 @@ const indexFunctions = {
     },
 
     postEditProduct: async function (req, res) {
-        console.log('i am in posteditproduct');
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -2334,11 +2258,9 @@ const indexFunctions = {
                     purchasePrice
                 } = req.body;
                 var product = new Product(productID, '', 0, sellingPrice, purchasePrice, 0, 0);
-                console.log(product);
                 var editProduct = new productModel(product);
                 var result = await editProduct.recordEditProduct();
                 var userStatus = getUserType(req.session.type);
-                console.log(result);
                 if (result)
                     res.send({
                         status: userStatus,
@@ -2376,16 +2298,10 @@ const indexFunctions = {
                     phoneNum
                 } = req.body;
                 var supplierID = await getMinMaxsupplierID(-1, 1);
-                // console.log(supplierID);
-                // console.log(companyName);
-                // console.log(companyAddress);
-                // console.log(email);
-                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
                 var newSupplier = new supplierModel(supplier);
                 var result = await newSupplier.recordNewSupplier();
                 var userStatus = getUserType(req.session.type);
-                console.log(result);
                 if (result)
                     res.send({
                         status: userStatus,
@@ -2436,8 +2352,6 @@ const indexFunctions = {
                 var newMDgoods = new damagedgoodsModel(MDgoods);
                 var result = await newMDgoods.recordNewMDgoods();
                 var userStatus = getUserType(req.session.type);
-
-                console.log(result);
 
                 if (managerID && result) {
                     var product = await productModel.findOne({
@@ -2491,11 +2405,9 @@ const indexFunctions = {
                 } = req.body;
                 var userID = req.session.logUser.userID;
                 var dmgrecord = new DamagedGoods(dmgrecordID, null, null, approved, null, null, userID, null);
-                // console.log('testing = ' + JSON.stringify(testing));
                 var approveMDGoods = new damagedgoodsModel(dmgrecord);
                 var result = await approveMDGoods.recordApproval();
                 var msg = 'Damaged Goods successfully rejected';
-                console.log(result);
                 if (approved == 'true') {
                     var product = await productModel.findOne({
                         productID: productID
@@ -2507,12 +2419,10 @@ const indexFunctions = {
                         currentStock: newStock
                     });
                     msg = 'Damaged Goods succesfully Approved';
-                    console.log(result);
                 }
 
 
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -2546,15 +2456,10 @@ const indexFunctions = {
                     email,
                     phoneNum
                 } = req.body;
-                // console.log(supplierID);
-                // console.log(email);
-                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, "", "", phoneNum, email);
-                // console.log('testing = ' + JSON.stringify(testing));
                 var editSupplier = new supplierModel(supplier);
                 var result = await editSupplier.recordEditSupplier();
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -2595,7 +2500,6 @@ const indexFunctions = {
         } else {
             var userID = req.session.logUser.userID;
             var userStatus = getUserType(req.session.type);
-            console.log(userID);
         }
 
         if (req.session.type == 'manager' || req.session.type == 'admin') {
@@ -2612,7 +2516,6 @@ const indexFunctions = {
             var purchase = new Purchase(purchaseID, amountPaid, datePaid, totalCost, userID, deliveryID);
             var newPurchase = new purchaseModel(purchase);
             await newPurchase.recordNewPurchase();
-            console.log('result: ' + newPurchase);
             res.send({
                 status: userStatus,
                 purchase: newPurchase
@@ -2652,7 +2555,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -2668,7 +2570,6 @@ const indexFunctions = {
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -2702,7 +2603,7 @@ const indexFunctions = {
 
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
@@ -2724,7 +2625,6 @@ const indexFunctions = {
             var match = await supplierModel.findOne({
                 supplierID: supplierID
             });
-            console.log(match);
             if (match) {
                 res.render('m_editSupplier', {
                     title: match.companyName,
@@ -2735,7 +2635,7 @@ const indexFunctions = {
                 msg: 'Supplier does not exist'
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
@@ -2777,7 +2677,6 @@ const indexFunctions = {
             }]).sort({
                 datePurchased: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_purchases', {
                 title: 'View Purchase',
                 purchase: JSON.parse(JSON.stringify(matches))
@@ -2788,9 +2687,6 @@ const indexFunctions = {
     },
 
     getMnewPurchase: async function (req, res) {
-        // res.render('a_newPurchases', {
-        //     title: 'Add Purchase'
-        // });
         try {
             var delivery = await getDeliveries();
             res.render('m_newPurchases', {
@@ -2834,7 +2730,6 @@ const indexFunctions = {
             }]).sort({
                 dateDelivered: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_delivery', {
                 title: 'View Deliveries',
                 delivery: JSON.parse(JSON.stringify(matches))
@@ -2845,9 +2740,6 @@ const indexFunctions = {
     },
 
     getMnewDelivery: async function (req, res) {
-        // res.render('a_newDelivery', {
-        //     title: 'Add Delivery Details'
-        // });
         try {
             var products = await productModel.find({});
             res.render('m_newDelivery', {
@@ -2892,7 +2784,6 @@ const indexFunctions = {
             }]).sort({
                 dateSold: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_sales', {
                 title: 'View Sales',
                 sales: JSON.parse(JSON.stringify(matches))
@@ -2903,9 +2794,6 @@ const indexFunctions = {
     },
 
     getMnewSale: async function (req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
         try {
             var products = await productModel.find({});
             res.render('m_newSales', {
@@ -2982,7 +2870,6 @@ const indexFunctions = {
             }]).sort({
                 dateDamaged: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -3053,7 +2940,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('m_MDgoodsDetails', {
                 title: 'Missing/Damaged details',
                 record: JSON.parse(JSON.stringify(record))
@@ -3066,7 +2952,6 @@ const indexFunctions = {
     getMnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
-            // console.log(products);
             res.render('m_newMDgoods', {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
@@ -3108,7 +2993,6 @@ const indexFunctions = {
             }]).sort({
                 date: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_discrepancy', {
                 title: 'View Discrepancy',
                 discs: JSON.parse(JSON.stringify(matches))
@@ -3131,8 +3015,6 @@ const indexFunctions = {
     },
 
     getMBreakdown: async function (req, res) {
-        // do supplier report stuff again to get array
-        // do the new stuff 
         try {
             var supplierID = req.params.supplierID;
             var fromDate = req.params.fromDate;
@@ -3159,7 +3041,7 @@ const indexFunctions = {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
@@ -3176,10 +3058,7 @@ const indexFunctions = {
     },
 
     getMBreakdownPerformance: async function (req, res) {
-        // do supplier report stuff again to get array
-        // do the new stuff 
         try {
-            console.log('testing');
             var productID = req.params.productID;
             var fromDate = req.params.fromDate;
             var toDate = req.params.toDate;
@@ -3188,11 +3067,8 @@ const indexFunctions = {
             });
             var productIDs = [];
             productIDs.push(parseInt(productID));
-            console.log(productIDs);
             var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
-            console.log(salesBreakdown);
             var purchasesBreakdown = await getPurchasesBreakdown(productIDs, fromDate, toDate);
-            console.log(purchasesBreakdown);
             var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
             if (breakdown) {
                 res.render('m_viewBreakdownPerformance', {
@@ -3208,7 +3084,7 @@ const indexFunctions = {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
@@ -3239,7 +3115,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('u_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -3255,7 +3130,6 @@ const indexFunctions = {
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -3281,7 +3155,6 @@ const indexFunctions = {
     getUsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('u_suppliers', {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
@@ -3292,9 +3165,6 @@ const indexFunctions = {
     },
 
     getUnewSale: async function (req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
         try {
             var products = await productModel.find({});
             res.render('u_newSales', {
