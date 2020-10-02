@@ -10,7 +10,6 @@ const ref_categoryModel = require('../model/ref_categorydb');
 const thresholdModel = require('../model/thresholddb');
 const salesModel = require('../model/salesdb');
 const supplierModel = require('../model/supplierdb');
-const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
@@ -75,17 +74,6 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
     this.sellingPrice = sellingPrice;
     this.total = total;
     this.dateSold = new Date(dateSold);
-    this.productID = productID;
-    this.userID = userID;
-}
-
-function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
-    this.discountID = discountID;
-    this.quantity = quantity;
-    this.sellingPrice = sellingPrice;
-    this.discount = discount;
-    this.total = total;
-    this.dateSold = dateSold;
     this.productID = productID;
     this.userID = userID;
 }
