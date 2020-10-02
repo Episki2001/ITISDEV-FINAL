@@ -873,7 +873,7 @@ async function getDeliveryBreakdown(productIDs, fromDate, toDate) {
                 ]
             },
             'userID': '$delivery.userID',
-            'transaction': 'delivery'
+            'transaction': 'Delivery'
         }
     }]);
 }
@@ -1175,6 +1175,18 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
+    getMInventoryReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('m_inventoryReport', {
+                title: 'Inventory Reprt',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
     getPerformanceReportDetails: async function (req, res) {
         var productID = req.query.productID;
         var fromDate = req.query.fromDate;
@@ -1298,7 +1310,7 @@ const indexFunctions = {
             console.log(e)
         }
     },
-    getABreakdownInv: async function (req, res) { 
+    getBreakdownInv: async function (req, res) {
         try {
             var productID = req.params.productID;
             var fromDate = req.params.fromDate;
@@ -1313,15 +1325,31 @@ const indexFunctions = {
             var damagedGoodsBreakdown = await getDamagedGoodsBreakdown(productIDs, fromDate, toDate);
 
             var mergeA = mergeBreakdowns(salesBreakdown, deliveryBreakdown);
-            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown); 
+            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown);
+
             if (breakdown) {
-                res.render('a_viewBreakdownInventory', {
-                    title: 'View Breakdown Inventory',
-                    reporttitle: 'View Breakdown Inventory - ' + match.productName,
-                    fromDate: fromDate,
-                    toDate: toDate,
-                    breakdown: JSON.parse(JSON.stringify(breakdown))
-                });
+                if (req.session.type == "admin") {
+                    res.render('a_viewBreakdownInventory', {
+                        title: 'View Breakdown Inventory',
+                        reporttitle: 'View Breakdown Inventory - ' + match.productName,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        breakdown: JSON.parse(JSON.stringify(breakdown))
+                    });
+                } else if (req.session.type == "manager") {
+                    res.render('m_viewBreakdownInventory', {
+                        title: 'View Breakdown Inventory',
+                        reporttitle: 'View Breakdown Inventory - ' + match.productName,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        breakdown: JSON.parse(JSON.stringify(breakdown))
+                    });
+                } else {
+                    res.render('error', {
+                        title: 'Error',
+                        msg: 'please log in as either an admin or a manager'
+                    });
+                }
             } else res.render('error', {
                 title: 'Error',
                 msg: 'something went wrong'

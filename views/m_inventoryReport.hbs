@@ -3,7 +3,7 @@
     <div class="shadow">
         <div class="d-flex flex-column mt-2">
             <div class="container">
-                <h1 class="display-5 text-center">Product Performance Report</h1>
+                <h1 class="display-5 text-center">Inventory Report</h1>
             </div>
             <div class="container">
                 <form>
@@ -22,7 +22,7 @@
 
                             <div class="col-3">
                                 <button type="button" class="btn btn-outline-dark btn-block"
-                                    id="performanceReport_Search">Search</button>
+                                    id="inventoryReport_Search">Search</button>
                             </div>
 
                         </div>
@@ -31,9 +31,9 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="performanceReport_start">Date From</label>
+                                <label for="inventoryReport_start">Date From</label>
                                 <div class="input-group mb-2">
-                                    <input type="date" class="form-control" id="performanceReport_start" required>
+                                    <input type="date" class="form-control" id="inventoryReport_start" required>
                                     <script>
                                         Date.prototype.toDateInputValue = (function () {
                                             var local = new Date(this);
@@ -41,7 +41,7 @@
                                             local.setFullYear(local.getFullYear() - 1);
                                             return local.toJSON().slice(0, 10);
                                         });
-                                        document.getElementById('performanceReport_start').value = new Date()
+                                        document.getElementById('inventoryReport_start').value = new Date()
                                             .toDateInputValue();
                                     </script>
                                 </div>
@@ -49,16 +49,16 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="performanceReport_end">Date To</label>
+                                <label for="inventoryReport_end">Date To</label>
                                 <div class="input-group mb-2">
-                                    <input type="date" class="form-control" id="performanceReport_end" required>
+                                    <input type="date" class="form-control" id="inventoryReport_end" required>
                                     <script>
                                         Date.prototype.toDateInputValue = (function () {
                                             var local = new Date(this);
                                             local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
                                             return local.toJSON().slice(0, 10);
                                         });
-                                        document.getElementById('performanceReport_end').value = new Date()
+                                        document.getElementById('inventoryReport_end').value = new Date()
                                             .toDateInputValue();
                                     </script>
                                 </div>

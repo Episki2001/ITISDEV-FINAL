@@ -12,7 +12,7 @@ router.get('/a/supplierReport', controller.getASupplierReport);
 router.get('/a/productPerformanceReport', controller.getAPerformanceReport);
 router.get('/a/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getABreakdown);
 router.get('/a/performanceReportBreakdown/:productID/:fromDate/:toDate', controller.getABreakdownPerformance);
-router.get('/a/inventoryReportBreakdown/:productID/:fromDate/:toDate', controller.getABreakdownInv);
+router.get('/a/inventoryReportBreakdown/:productID/:fromDate/:toDate', controller.getBreakdownInv);
 // router.get('/a/supplierReport*', controller.AupdateSupplierReport);
 router.get('/supplierReport*', controller.getSupplierReportDetails);
 router.get('/performanceReport*', controller.getPerformanceReportDetails);
@@ -83,6 +83,8 @@ router.get('/m/MDgoods', controller.getMMDgoods);
 router.get('/m/MDGoods/:dmgrecordID', controller.getMoneMDGoods);
 router.get('/m/newMDgoods', controller.getMnewMDgoods);
 router.get('/m/discrepancy', controller.getMdiscrepancy);
+router.get('/m/inventoryReport', controller.getMInventoryReport);
+router.get('/m/inventoryReportBreakdown/:productID/:fromDate/:toDate', controller.getBreakdownInv);
 
 router.get('/m/supplierReport', controller.getMSupplierReport);
 router.get('/m/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getMBreakdown);
