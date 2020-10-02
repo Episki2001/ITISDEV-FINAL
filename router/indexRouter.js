@@ -8,9 +8,10 @@ router.get('/', controller.getLogin);
 
 //ADMINS
 router.get('/a/discrepancy', controller.getAdiscrepancy);
-router.get('/a/supplierReport', controller.getSupplierReport);
-router.get('/a/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getBreakdown);
-router.get('/a/performanceReportBreakdown/:productID/:fromDate/:toDate', controller.getBreakdownPerformance);
+router.get('/a/supplierReport', controller.getASupplierReport);
+router.get('/a/productPerformanceReport', controller.getAPerformanceReport);
+router.get('/a/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getABreakdown);
+router.get('/a/performanceReportBreakdown/:productID/:fromDate/:toDate', controller.getABreakdownPerformance);
 // router.get('/a/supplierReport*', controller.AupdateSupplierReport);
 router.get('/supplierReport*', controller.getSupplierReportDetails);
 router.get('/performanceReport*', controller.getPerformanceReportDetails);
@@ -40,7 +41,7 @@ router.get('/a/suppliers/:supplierID', controller.getAoneSupplier);
 router.get('/a/users', controller.getAusers);
 router.get('/a/managers', controller.getAmanagers);
 router.get('/a/newManager', controller.getAnewManager);
-router.get('/a/productPerformanceReport', controller.getAPerformanceReport);
+
 // ACTIONS
 router.post('/newSale/:checkProdID', controller.getProductDetails);
 router.post('/newDiscrepancy/:checkProdID', controller.getProductDetails);
@@ -79,6 +80,12 @@ router.get('/m/MDgoods', controller.getMMDgoods);
 router.get('/m/MDGoods/:dmgrecordID', controller.getMoneMDGoods);
 router.get('/m/newMDgoods', controller.getMnewMDgoods);
 router.get('/m/discrepancy', controller.getMdiscrepancy);
+
+router.get('/m/supplierReport', controller.getMSupplierReport);
+router.get('/m/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getMBreakdown);
+router.get('/m/productPerformanceReport', controller.getMPerformanceReport);
+router.get('/m/performanceReportBreakdown/:productID/:fromDate/:toDate', controller.getMBreakdownPerformance);
+
 
 //USERS
 router.get('/u/products', controller.getUproducts);

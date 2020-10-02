@@ -32,7 +32,7 @@
                     For Approval
                 </p>
                 <a href="#" class="list-group-item list-group-item-action">Damage Goods Request <span class="badge badge-secondary">4</span></a>
-                <a href="#" class="list-group-item list-group-item-action">Below Tresholds <span class="badge badge-secondary">4</span></a>
+                {{!-- <a href="#" class="list-group-item list-group-item-action">Below Tresholds <span class="badge badge-secondary">4</span></a> --}}
             </div>
 
             <div class="list-group mt-2 shadow">
@@ -40,14 +40,15 @@
                     Reports
                 </p>
                 <a href="#" class="list-group-item list-group-item-action">View Inventory Report</a>
-                <a href="#" class="list-group-item list-group-item-action">Product Performance Report</a>
+                <a href="/m/supplierReport" class="list-group-item list-group-item-action">View Supplier Report</a>
+                <a href="/m/productPerformanceReport" class="list-group-item list-group-item-action">Product Performance Report</a>
             </div>
 
             <div class="list-group mt-2 shadow">
                 <p class="list-group-item list-group-item-action bg-danger text-white">
                     Settings
                 </p>
-                <a href="#" class="list-group-item list-group-item-action">Edit Profile</a>
+                {{!-- <a href="#" class="list-group-item list-group-item-action">Edit Profile</a> --}}
                 <form action="/logout" method="post"><a class="nav-link text-black" onclick="this.parentNode.submit();">Logout</a></form>
             </div>
 

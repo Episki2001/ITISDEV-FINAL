@@ -578,9 +578,14 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 7) {
+        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum)) {
             valid = false;
             alert('Please Input all fields');
+        }
+
+        if(valid && (phoneNum.length != 7 && phoneNum.length != 11 && phoneNum.length != 8)) {
+            valid = false;
+            alert('Please input a valid contact number');
         }
 
         if (valid) {

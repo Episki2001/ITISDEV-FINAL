@@ -801,7 +801,7 @@ const indexFunctions = {
             title: 'Edit Profile'
         });
     },
-    getSupplierReport: async function(req, res) {
+    getASupplierReport: async function(req, res) {
         try {
             var suppliers = await supplierModel.find({});
             res.render('a_supplierReport', {
@@ -843,24 +843,44 @@ const indexFunctions = {
             // console.log(avgSales);
             // console.log(totalPaid);
             // console.log(supplierReportData);
-            res.render('a_supplierReportTable', {
-                title: 'Supplier Report',
-                reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
-                supplierID: supplierID,
-                fromDate: fromDate,
-                toDate: toDate,
-                supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
-                totalSales: totalSales,
-                avgSales: avgSales,
-                totalPaid: totalPaid
-            });
+            if (req.session.type == "admin") {
+                res.render('a_supplierReportTable', {
+                    title: 'Supplier Report',
+                    reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                    supplierID: supplierID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
+                    totalSales: totalSales,
+                    avgSales: avgSales,
+                    totalPaid: totalPaid
+                });
+            } else if (req.session.type == "manager") {
+                res.render('m_supplierReportTable', {
+                    title: 'Supplier Report',
+                    reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                    supplierID: supplierID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
+                    totalSales: totalSales,
+                    avgSales: avgSales,
+                    totalPaid: totalPaid
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+            
         } catch (e) {
             console.log(e);
         }
 
     },
 
-    getBreakdown: async function(req, res) {
+    getABreakdown: async function(req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -892,6 +912,7 @@ const indexFunctions = {
             console.log(e)
         }
     },
+
     getAPerformanceReport: async function(req, res) {
         try {
             var products = await productModel.find({});
@@ -903,6 +924,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
+
     getPerformanceReportDetails: async function(req, res) {
         var productID = req.query.productID;
         var fromDate = req.query.fromDate;
@@ -923,20 +945,36 @@ const indexFunctions = {
             performanceReport = await createPerformanceInfo(performanceReportData[0], dateDiff);
 
             console.log(performanceReport);
-
-            res.render('a_productPerformanceReportTable', {
-                title: 'Performance Report',
-                reporttitle: 'Performance Report - ' + performanceReport.productName,
-                fromDate: fromDate,
-                toDate: toDate,
-                performanceReportData: JSON.parse(JSON.stringify(performanceReport))
-            });
+            if(req.session.type == "admin") {
+                res.render('a_productPerformanceReportTable', {
+                    title: 'Performance Report',
+                    reporttitle: 'Performance Report - ' + performanceReport.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    performanceReportData: JSON.parse(JSON.stringify(performanceReport))
+                });
+            } else if(req.session.type == "manager") {
+                res.render('m_productPerformanceReportTable', {
+                    title: 'Performance Report',
+                    reporttitle: 'Performance Report - ' + performanceReport.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    performanceReportData: JSON.parse(JSON.stringify(performanceReport))
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+            
         } catch (e) {
             console.log(e);
         }
 
     },
-    getBreakdownPerformance: async function(req, res) {
+
+    getABreakdownPerformance: async function(req, res) {
         // do supplier report stuff again to get array
         // do the new stuff 
         try {
@@ -970,6 +1008,7 @@ const indexFunctions = {
             console.log(e)
         }
     },
+
     getAMDgoods: async function(req, res) {
 
         try {
@@ -2726,6 +2765,98 @@ const indexFunctions = {
             });
         } catch (e) {
             console.log(e);
+        }
+    },
+
+    getMSupplierReport: async function(req, res) {
+        try {
+            var suppliers = await supplierModel.find({});
+            res.render('m_supplierReport', {
+                title: 'Supplier Report',
+                supplier: JSON.parse(JSON.stringify(suppliers)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMBreakdown: async function(req, res) {
+        // do supplier report stuff again to get array
+        // do the new stuff 
+        try {
+            var supplierID = req.params.supplierID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
+            var supplierReportIDs = [];
+            for (var i = 0; i < supplierReportData.length; i++) {
+                supplierReportIDs.push(supplierReportData[i].products.productID);
+            }
+            var salesBreakdown = await getSalesBreakdown(supplierReportIDs, fromDate, toDate);
+            var purchasesBreakdown = await getPurchasesBreakdown(supplierReportIDs, fromDate, toDate);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('m_viewBreakdown', {
+                    title: 'View Breakdown',
+                    reporttitle: 'View Breakdown - ' + supplierReportData[0].companyName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e)
+        }
+    },
+
+    getMPerformanceReport: async function(req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('m_productPerformanceReport', {
+                title: 'Product Performance Report',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMBreakdownPerformance: async function(req, res) {
+        // do supplier report stuff again to get array
+        // do the new stuff 
+        try {
+            console.log('testing');
+            var productID = req.params.productID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var match = await productModel.findOne({ productID: productID });
+            var productIDs = [];
+            productIDs.push(parseInt(productID));
+            console.log(productIDs);
+            var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
+            console.log(salesBreakdown);
+            var purchasesBreakdown = await getPurchasesBreakdown(productIDs, fromDate, toDate);
+            console.log(purchasesBreakdown);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('m_viewBreakdownPerformance', {
+                    title: 'View Breakdown Performance',
+                    reporttitle: 'View Breakdown Performance - ' + match.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e)
         }
     },
 

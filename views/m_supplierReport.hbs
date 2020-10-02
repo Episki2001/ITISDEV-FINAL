@@ -1,0 +1,76 @@
+{{>m_navbar}} {{>m_sidebar}}
+<div class="col-9">
+    <div class="shadow">
+        <div class="d-flex flex-column mt-2">
+            <div class="container">
+                <h1 class="display-4 text-center">Supplier Report</h1>
+            </div>
+            <div class="container">
+                <form>
+                    <div class="form-group">
+                        <label for="supplierReport_ID">Supplier ID</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <!-- newSale_prodID -->
+                                <select class="form-control" id="supplierReport_ID">
+                                    <option value="0">Please select a supplier</option>
+                                    {{#each supplier}}
+                                    <option value="{{this.supplierID}}">{{this.companyName}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-3">
+                                <button type="button" class="btn btn-outline-dark btn-block"
+                                    id="supplierReport_Search">Search</button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="supplierReport_start">Date From</label>
+                                <div class="input-group mb-2">
+                                    <input type="date" class="form-control" id="supplierReport_start" required>
+                                    <script>
+                                        Date.prototype.toDateInputValue = (function () {
+                                            var local = new Date(this);
+                                            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                                            local.setFullYear(local.getFullYear() - 1);
+                                            return local.toJSON().slice(0, 10);
+                                        });
+                                        document.getElementById('supplierReport_start').value = new Date()
+                                            .toDateInputValue();
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="supplierReport_end">Date To</label>
+                                <div class="input-group mb-2">
+                                    <input type="date" class="form-control" id="supplierReport_end" required>
+                                    <script>
+                                        Date.prototype.toDateInputValue = (function () {
+                                            var local = new Date(this);
+                                            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+                                            return local.toJSON().slice(0, 10);
+                                        });
+                                        document.getElementById('supplierReport_end').value = new Date()
+                                            .toDateInputValue();
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
