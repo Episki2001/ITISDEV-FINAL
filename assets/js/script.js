@@ -903,11 +903,7 @@ $(document).ready(function() {
             console.log(supplierID);
             console.log(fromDate);
             console.log(toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
-            //     console.log(result.supplierReport);
-            //     window.location.href = '/a/supplierReport1'
-            // });
+           
             $.get('/supplierReport', { supplierID: supplierID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });
@@ -924,11 +920,7 @@ $(document).ready(function() {
             console.log(productID);
             console.log(fromDate);
             console.log(toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
-            //     console.log(result.supplierReport);
-            //     window.location.href = '/a/supplierReport1'
-            // });
+           
             $.get('/performanceReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });
