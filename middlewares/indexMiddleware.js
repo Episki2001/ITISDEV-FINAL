@@ -216,13 +216,7 @@ const indexMiddleware = {
             numDamaged,
             productID
         } = req.body;
-        /**if(approved)
-            {check everything
-                …
-                next()
-            }else
-            next
-        */
+
         if (approved) {
             let product = await productModel.findOne({
                 productID: productID
@@ -259,8 +253,6 @@ const indexMiddleware = {
             productName: productName
         });
 
-        console.log(matches);
-        console.log('1234');
         try {
             if(matches) {
                 res.send({
@@ -279,14 +271,26 @@ const indexMiddleware = {
     },
 
     validateNewSupplier: async function (req, res, next) {
-        let {
-            companyName
-        } = req.body;
+        var companyName = req.body.companyName;
         var matches = await supplierModel.findOne({
             companyName: companyName
         });
 
-        console.log('1234');
+        try {
+            if(matches) {
+                res.send({
+                    status: 401,
+                    msg: 'Supplier already exists in the system'
+                })
+            } else {
+                return next();
+            }
+        } catch (e) {
+            res.send({
+                status: 500,
+                msg: 'Server error. Could not validate.'
+            })
+        }
 
     }
 

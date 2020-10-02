@@ -51,7 +51,7 @@ router.post('/newMDgoods/:checkProdID', controller.getProductDetails);
 router.post('/', controller.postLogin);
 router.post('/newSale_submit', indexMiddleware.validateNewSale, controller.postNewSale);
 router.post('/a/newUser', controller.postNewUser);
-router.post('/newSupplier', controller.postNewSupplier);
+router.post('/newSupplier', indexMiddleware.validateNewSupplier, controller.postNewSupplier);
 router.post('/editSuppliers', controller.postEditSupplier);
 router.post('/newDiscrepancy', indexMiddleware.validateNewDiscrepancy, controller.postNewDiscrepancy);
 router.post('/newMDgoods', indexMiddleware.validateNewMDgoods, controller.postNewMDgoods);
