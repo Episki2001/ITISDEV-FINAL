@@ -936,8 +936,6 @@ function mergeBreakdowns(data1, data2) {
     var i = 0,
         j = 0;
     while (i < data1.length && j < data2.length) {
-        console.log(i + ' date: ' + data1[i].date);
-        console.log(j + ' date: ' + data2[j].date);
         if (data1[i].date < data2[j].date) {
             array.push(data1[i]);
             i++;
@@ -1310,16 +1308,11 @@ const indexFunctions = {
             var productIDs = [];
             productIDs.push(parseInt(productID));
             var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
-            // console.log(salesBreakdown);
             var deliveryBreakdown = await getDeliveryBreakdown(productIDs, fromDate, toDate);
-            console.log(deliveryBreakdown);
             var damagedGoodsBreakdown = await getDamagedGoodsBreakdown(productIDs, fromDate, toDate);
-            // console.log(damagedGoodsBreakdown);
 
             var mergeA = mergeBreakdowns(salesBreakdown, deliveryBreakdown);
-            // console.log(mergeA);
-            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown);
-            // console.log(breakdown);
+            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown); 
             if (breakdown) {
                 res.render('a_viewBreakdownInventory', {
                     title: 'View Breakdown Inventory',
