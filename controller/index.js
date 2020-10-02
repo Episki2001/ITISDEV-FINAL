@@ -710,7 +710,7 @@ async function createSupplierInfo(supplierReportData, dateDiff) {
 }
 async function createPerformanceInfo(productReportData, dateDiff) {
     var productID = productReportData.productID;
-    
+
     var totalSales = (await getTotalSales(productReportData.sales)).toFixed(2);
     var avgDailySales = (totalSales / dateDiff).toFixed(2);
     var totalAmtPaid = (await getTotalAmtPaid(productReportData.Purchases)).toFixed(2);
@@ -771,6 +771,111 @@ async function getSalesBreakdown(supplierReportIDs, fromDate, toDate) {
     }]);
 }
 
+async function getDamagedGoodsBreakdown(productIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': [
+                    parseInt(productIDs)
+                ]
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'Damagedgoods',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'damagedGoods'
+        }
+    }, {
+        '$unwind': {
+            'path': '$damagedGoods',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'damagedGoods.dateDamaged': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'damagedGoods.dateDamaged': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'damagedGoods.dateDamaged': 1
+        }
+    }, {
+        '$match': {
+            'damagedGoods.approved': true
+        }
+    }, {
+        '$project': {
+            'date': '$damagedGoods.dateDamaged',
+            'productID': 1,
+            'amount': '$damagedGoods.numDamaged',
+            'userID': '$damagedGoods.userID',
+            'transaction': 'Damaged Goods'
+        }
+    }]);
+}
+
+async function getDeliveryBreakdown(productIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': [
+                    parseInt(productIDs)
+                ]
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'Delivery',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'delivery'
+        }
+    }, {
+        '$unwind': {
+            'path': '$delivery',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'delivery.dateDelivered': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'delivery.dateDelivered': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'delivery.dateDelivered': 1
+        }
+    }, {
+        '$project': {
+            'date': '$delivery.dateDelivered',
+            'productID': 1,
+            'amount': {
+                '$subtract': [
+                    '$delivery.number_Of_Units_Delivered', '$delivery.number_Of_Damaged'
+                ]
+            },
+            'userID': '$delivery.userID',
+            'transaction': 'delivery'
+        }
+    }]);
+}
 async function getPurchasesBreakdown(supplierReportIDs, fromDate, toDate) {
     return await productModel.aggregate([{
         '$match': {
@@ -830,8 +935,6 @@ function mergeBreakdowns(data1, data2) {
     var array = [];
     var i = 0,
         j = 0;
-    console.log(i < data1.length);
-    console.log(j < data2.length);
     while (i < data1.length && j < data2.length) {
         console.log(i + ' date: ' + data1[i].date);
         console.log(j + ' date: ' + data2[j].date);
@@ -1121,7 +1224,7 @@ const indexFunctions = {
         }
 
     },
-    getInventoryReportDetails: async function(req, res){
+    getInventoryReportDetails: async function (req, res) {
         var productID = req.query.productID;
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
@@ -1196,7 +1299,44 @@ const indexFunctions = {
             console.log(e)
         }
     },
+    getABreakdownInv: async function (req, res) { 
+        try {
+            var productID = req.params.productID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var match = await productModel.findOne({
+                productID: productID
+            });
+            var productIDs = [];
+            productIDs.push(parseInt(productID));
+            var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
+            // console.log(salesBreakdown);
+            var deliveryBreakdown = await getDeliveryBreakdown(productIDs, fromDate, toDate);
+            console.log(deliveryBreakdown);
+            var damagedGoodsBreakdown = await getDamagedGoodsBreakdown(productIDs, fromDate, toDate);
+            // console.log(damagedGoodsBreakdown);
 
+            var mergeA = mergeBreakdowns(salesBreakdown, deliveryBreakdown);
+            // console.log(mergeA);
+            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown);
+            // console.log(breakdown);
+            if (breakdown) {
+                res.render('a_viewBreakdownInventory', {
+                    title: 'View Breakdown Inventory',
+                    reporttitle: 'View Breakdown Inventory - ' + match.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e)
+        }
+    },
     getAMDgoods: async function (req, res) {
 
         try {
@@ -1816,7 +1956,7 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    
+
     postLogin: async function (req, res) {
         var {
             user,

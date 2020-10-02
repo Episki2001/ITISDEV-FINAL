@@ -12,6 +12,7 @@ router.get('/a/supplierReport', controller.getASupplierReport);
 router.get('/a/productPerformanceReport', controller.getAPerformanceReport);
 router.get('/a/viewBreakdown/:supplierID/:fromDate/:toDate', controller.getABreakdown);
 router.get('/a/performanceReportBreakdown/:productID/:fromDate/:toDate', controller.getABreakdownPerformance);
+router.get('/a/inventoryReportBreakdown/:productID/:fromDate/:toDate', controller.getABreakdownInv);
 // router.get('/a/supplierReport*', controller.AupdateSupplierReport);
 router.get('/supplierReport*', controller.getSupplierReportDetails);
 router.get('/performanceReport*', controller.getPerformanceReportDetails);
