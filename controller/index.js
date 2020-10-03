@@ -10,7 +10,6 @@ const ref_categoryModel = require('../model/ref_categorydb');
 const thresholdModel = require('../model/thresholddb');
 const salesModel = require('../model/salesdb');
 const supplierModel = require('../model/supplierdb');
-const discountModel = require('../model/discountdb');
 const deliveryModel = require('../model/deliverydb');
 const purchaseModel = require('../model/purchasedb');
 const discrepanciesModel = require('../model/discrepanciesdb');
@@ -75,17 +74,6 @@ function Sales(salesID, quantity, sellingPrice, total, dateSold, productID, user
     this.sellingPrice = sellingPrice;
     this.total = total;
     this.dateSold = new Date(dateSold);
-    this.productID = productID;
-    this.userID = userID;
-}
-
-function Discounts(discountID, quantity, sellingPrice, discount, total, dateSold, productID, userID) {
-    this.discountID = discountID;
-    this.quantity = quantity;
-    this.sellingPrice = sellingPrice;
-    this.discount = discount;
-    this.total = total;
-    this.dateSold = dateSold;
     this.productID = productID;
     this.userID = userID;
 }
@@ -311,6 +299,166 @@ async function getSupplierReportData(supplierID, fromDate, toDate) {
         }]
     );
 }
+async function getPerformanceReportData(productID, fromDate, toDate) {
+    return await productModel.aggregate(
+        [{
+            '$match': {
+                productID: Number.parseInt(productID)
+            }
+        }, {
+            '$lookup': {
+                'from': 'sales',
+                'localField': 'productID',
+                'foreignField': 'productID',
+                'as': 'sales'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Delivery',
+                'localField': 'productID',
+                'foreignField': 'productID',
+                'as': 'Delivery'
+            }
+        }, {
+            '$lookup': {
+                'from': 'Purchases',
+                'localField': 'Delivery.deliveryID',
+                'foreignField': 'deliveryID',
+                'as': 'Purchases'
+            }
+        }, {
+            '$project': {
+                'productID': 1,
+                'productName': 1,
+                'sales': {
+                    '$filter': {
+                        'input': '$sales',
+                        'as': 'sale',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$sale.dateSold', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$sale.dateSold', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                },
+                'Purchases': {
+                    '$filter': {
+                        'input': '$Purchases',
+                        'as': 'purchase',
+                        'cond': {
+                            '$and': [{
+                                '$gte': [
+                                    '$$purchase.datePurchased', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$purchase.datePurchased', new Date(toDate)
+                                ]
+                            }]
+                        }
+                    }
+                }
+            }
+        }]
+    );
+}
+
+async function getInvReportData(productID, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': parseInt(productID)
+        }
+    }, {
+        '$lookup': {
+            'from': 'sales',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'sales'
+        }
+    }, {
+        '$lookup': {
+            'from': 'Delivery',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'Delivery'
+        }
+    }, {
+        '$lookup': {
+            'from': 'Damagedgoods',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'damagedGoods'
+        }
+    }, {
+        '$project': {
+            'productID': 1,
+            'productName': 1,
+            'sales': {
+                '$filter': {
+                    'input': '$sales',
+                    'as': 'sale',
+                    'cond': {
+                        '$and': [{
+                            '$gte': [
+                                '$$sale.dateSold', new Date(fromDate)
+                            ]
+                        }, {
+                            '$lte': [
+                                '$$sale.dateSold', new Date(toDate)
+                            ]
+                        }]
+                    }
+                }
+            },
+            'Delivery': {
+                '$filter': {
+                    'input': '$Delivery',
+                    'as': 'delivery',
+                    'cond': {
+                        '$and': [{
+                            '$gte': [
+                                '$$delivery.dateDelivered', new Date(fromDate)
+                            ]
+                        }, {
+                            '$lte': [
+                                '$$delivery.dateDelivered', new Date(toDate)
+                            ]
+                        }]
+                    }
+                }
+            },
+            'damagedGoods': {
+                '$filter': {
+                    'input': '$damagedGoods',
+                    'as': 'damagedGoods',
+                    'cond': {
+                        '$and': [{
+                            '$and': [{
+                                '$gte': [
+                                    '$$damagedGoods.dateDamaged', new Date(fromDate)
+                                ]
+                            }, {
+                                '$lte': [
+                                    '$$damagedGoods.dateDamaged', new Date(toDate)
+                                ]
+                            }]
+                        }, {
+                            '$eq': [
+                                '$$damagedGoods.approved', true
+                            ]
+                        }]
+                    }
+                }
+            }
+        }
+    }]);
+}
 
 async function getMinMaxdiscrepancyID(sortby, offset) {
     //sortby - min = 1, max = -1
@@ -466,7 +614,64 @@ async function getDeliveryProdDetails(deliveryID) {
     }]);
     return result[0];
 }
+async function getDiscrepancyCount(productID) {
+    var result = await discrepanciesModel.aggregate([{
+        '$match': {
+            'productID': productID
+        }
+    }, {
+        '$count': 'discrepancyCount'
+    }]);
+    return result[0].discrepancyCount;
+}
 
+function getTotalUnitsSold(sales) {
+    var total = 0;
+    for (var i = 0; i < sales.length; i++) {
+        total = total + sales[i].quantity;
+    }
+    return total;
+}
+
+function getTotalUnitsDelivered(delivery) {
+    var total = 0;
+    for (var i = 0; i < delivery.length; i++) {
+        total = total + delivery[i].number_Of_Units_Delivered;
+    }
+    return total;
+}
+
+function getTotalUnitsDamagedDelivery(delivery) {
+    var total = 0;
+    for (var i = 0; i < delivery.length; i++) {
+        total = total + delivery[i].number_Of_Damaged;
+    }
+    return total;
+}
+
+function getTotalUnitsDamagedMDGoods(damagedGoods) {
+    var total = 0;
+    for (var i = 0; i < damagedGoods.length; i++) {
+        total = total + damagedGoods[i].numDamaged;
+    }
+    return total;
+}
+async function createInvInfo(invSummaryData) {
+    var productName = invSummaryData.productName;
+    var totalUnitsSold = getTotalUnitsSold(invSummaryData.sales);
+    var totalUnitsDelivered = getTotalUnitsDelivered(invSummaryData.Delivery);
+    var totalUnitsDamagedInDelivery = getTotalUnitsDamagedDelivery(invSummaryData.Delivery);
+    var totalUnitsDamaged = getTotalUnitsDamagedMDGoods(invSummaryData.damagedGoods);
+    var numDiscrepancyReports = await getDiscrepancyCount(invSummaryData.productID);
+    return {
+        productName,
+        totalUnitsSold,
+        totalUnitsDelivered,
+        totalUnitsDamagedInDelivery,
+        totalUnitsDamaged,
+        numDiscrepancyReports
+    };
+}
 async function getTotalSales(sales) {
     var total = 0;
     for (var i = 0; i < sales.length; i++) {
@@ -474,6 +679,7 @@ async function getTotalSales(sales) {
     }
     return total;
 }
+
 async function getDateDiff(date1, date2) {
     var date1 = new Date(date1);
     var date2 = new Date(date2);
@@ -502,15 +708,270 @@ async function createSupplierInfo(supplierReportData, dateDiff) {
         totalAmtPaid
     };
 }
+async function createPerformanceInfo(productReportData, dateDiff) {
+    var productID = productReportData.productID;
+    var productName = productReportData.productName;
+    var totalSales = (await getTotalSales(productReportData.sales)).toFixed(2);
+    var avgDailySales = (totalSales / dateDiff).toFixed(2);
+    var totalAmtPaid = (await getTotalAmtPaid(productReportData.Purchases)).toFixed(2);
+    return {
+        productID,
+        productName,
+        totalSales,
+        avgDailySales,
+        totalAmtPaid
+    };
+}
+
+async function getSalesBreakdown(supplierReportIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': supplierReportIDs
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'sales',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'sales'
+        }
+    }, {
+        '$unwind': {
+            'path': '$sales',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'sales.dateSold': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'sales.dateSold': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'sales.dateSold': 1
+        }
+    }, {
+        '$project': {
+            'date': '$sales.dateSold',
+            'productID': 1,
+            'productName': 1,
+            'amount': '$sales.total',
+            'quantity': '$sales.quantity',
+            'userID': '$sales.userID',
+            'transaction': 'Sale'
+        }
+    }]);
+}
+
+async function getDamagedGoodsBreakdown(productIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': [
+                    parseInt(productIDs)
+                ]
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'Damagedgoods',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'damagedGoods'
+        }
+    }, {
+        '$unwind': {
+            'path': '$damagedGoods',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'damagedGoods.dateDamaged': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'damagedGoods.dateDamaged': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'damagedGoods.dateDamaged': 1
+        }
+    }, {
+        '$match': {
+            'damagedGoods.approved': true
+        }
+    }, {
+        '$project': {
+            'date': '$damagedGoods.dateDamaged',
+            'productID': 1,
+            'quantity': '$damagedGoods.numDamaged',
+            'userID': '$damagedGoods.userID',
+            'transaction': 'Damaged Goods'
+        }
+    }]);
+}
+
+async function getDeliveryBreakdown(productIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': [
+                    parseInt(productIDs)
+                ]
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'Delivery',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'delivery'
+        }
+    }, {
+        '$unwind': {
+            'path': '$delivery',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'delivery.dateDelivered': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'delivery.dateDelivered': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'delivery.dateDelivered': 1
+        }
+    }, {
+        '$project': {
+            'date': '$delivery.dateDelivered',
+            'productID': 1,
+            'quantity': {
+                '$subtract': [
+                    '$delivery.number_Of_Units_Delivered', '$delivery.number_Of_Damaged'
+                ]
+            },
+            'userID': '$delivery.userID',
+            'transaction': 'Delivery'
+        }
+    }]);
+}
+async function getPurchasesBreakdown(supplierReportIDs, fromDate, toDate) {
+    return await productModel.aggregate([{
+        '$match': {
+            'productID': {
+                '$in': supplierReportIDs
+            }
+        }
+    }, {
+        '$lookup': {
+            'from': 'Delivery',
+            'localField': 'productID',
+            'foreignField': 'productID',
+            'as': 'delivery'
+        }
+    }, {
+        '$lookup': {
+            'from': 'Purchases',
+            'localField': 'delivery.deliveryID',
+            'foreignField': 'deliveryID',
+            'as': 'purchases'
+        }
+    }, {
+        '$unwind': {
+            'path': '$purchases',
+            'includeArrayIndex': 'string',
+            'preserveNullAndEmptyArrays': true
+        }
+    }, {
+        '$match': {
+            '$and': [{
+                'purchases.datePurchased': {
+                    '$gte': new Date(fromDate)
+                }
+            }, {
+                'purchases.datePurchased': {
+                    '$lte': new Date(toDate)
+                }
+            }]
+        }
+    }, {
+        '$sort': {
+            'purchases.datePurchased': 1
+        }
+    }, {
+        '$project': {
+            'date': '$purchases.datePurchased',
+            'productID': 1,
+            'productName': 1,
+            'amount': '$purchases.amountPaid',
+            'userID': '$purchases.managerID',
+            'transaction': 'Purchase'
+        }
+    }]);
+}
+
+function mergeBreakdowns(data1, data2) {
+    var array = [];
+    var i = 0,
+        j = 0;
+    while (i < data1.length && j < data2.length) {
+        if (data1[i].date < data2[j].date) {
+            array.push(data1[i]);
+            i++;
+        } else if (data1[i].date > data2[j].date) {
+            array.push(data2[j]);
+            j++;
+        } else {
+            array.push(data1[i]);
+            i++;
+        }
+    }
+    if (i < data1.length) {
+        for (i; i < data1.length; i++) {
+            array.push(data1[i]);
+        }
+    }
+    if (j < data2.length) {
+        for (j; j < data2.length; j++) {
+            array.push(data1[j]);
+        }
+    }
+    return array;
+}
+
+
+
 
 const indexFunctions = {
-    getLogin: function(req, res) {
+    getLogin: function (req, res) {
         res.render('login', {
             title: 'Login'
         });
     },
 
-    getAdiscrepancy: async function(req, res) {
+    getAdiscrepancy: async function (req, res) {
         try {
             var matches = await discrepanciesModel.aggregate([{
                 '$lookup': {
@@ -542,7 +1003,6 @@ const indexFunctions = {
             }]).sort({
                 date: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_discrepancy', {
                 title: 'View Discrepancy',
                 discs: JSON.parse(JSON.stringify(matches))
@@ -551,13 +1011,9 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAnewDiscrepancy: async function(req, res) {
-        // res.render('a_newDiscrepancy', {
-        //     title: 'New Discrepancy'
-        // });
+    getAnewDiscrepancy: async function (req, res) {
         try {
-            var products = await productModel.find({});
-            // console.log(products);
+            var products = await productModel.find({});          
             res.render('a_newDiscrepancy', {
                 title: 'New Discrepancy',
                 product: JSON.parse(JSON.stringify(products)),
@@ -566,22 +1022,22 @@ const indexFunctions = {
             console.log(e);
         }
     },
-    getAeditProduct: function(req, res) {
+    getAeditProduct: function (req, res) {
         res.render('a_editProduct', {
             title: 'Edit Product'
         });
     },
-    getAThreshold: function(req, res) {
+    getAThreshold: function (req, res) {
         res.render('a_threshold', {
             title: 'Threshold'
         });
     },
-    getAeditProfile: function(req, res) {
+    getAeditProfile: function (req, res) {
         res.render('a_editProfile', {
             title: 'Edit Profile'
         });
     },
-    getSupplierReport: async function(req, res) {
+    getASupplierReport: async function (req, res) {
         try {
             var suppliers = await supplierModel.find({});
             res.render('a_supplierReport', {
@@ -593,22 +1049,14 @@ const indexFunctions = {
         }
     },
 
-    getSupplierReportDetails: async function(req, res) {
+    getSupplierReportDetails: async function (req, res) {
         var supplierID = req.query.supplierID;
         var fromDate = req.query.fromDate;
         var toDate = req.query.toDate;
 
-        // console.log(supplierReport);
-        // res.send(supplierReport);
-        // res.send({ supplierReport, status: getUserType() });
         try {
             var dateDiff = await getDateDiff(fromDate, toDate);
-            // console.log(supplierID);
-            // console.log(fromDate);
-            // console.log(toDate);
-            // console.log(dateDiff);
             var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
-            console.log(supplierReportData);
             var supplierReport = [];
             var totalSales = 0;
             var totalPaid = 0;
@@ -619,55 +1067,268 @@ const indexFunctions = {
                 avgSales = parseFloat(avgSales) + parseFloat(supplierReport[i].avgDailySales);
                 totalPaid = parseFloat(totalPaid) + parseFloat(supplierReport[i].totalAmtPaid);
             }
-            console.log(totalSales);
-            console.log(avgSales);
-            console.log(totalPaid);
-            // console.log(JSON.parse(JSON.stringify(supplierReport)));
-            // res.render('a_supplierReport', {
-            //     title: 'View Supplier Report -' + supplierID,
-            //     supplierReportData: JSON.parse(JSON.stringify(supplierReport))
-            // });
-            // req.session.report = supplierReport;
-            // req.session.title = 'Supplier Report - ' + supplierReportData[0].companyName;
-            // req.session.fromDate = fromDate;
-            // req.session.toDate = toDate;
-            // req.session.avgSales = avgSales;
-            // req.session.totalSales = totalSales;
-            // req.session.totalPaid = totalPaid;
-            // res.render('', { supplierReport, status: getUserType() });
-            console.log(supplierReportData);
-            var suppliers = await supplierModel.find({});
-            res.render('a_supplierReport', {
-                title: 'Supplier Report',
-                reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
-                fromDate: fromDate,
-                toDate: toDate,
-                supplier: JSON.parse(JSON.stringify(suppliers)),
-                supplierReportData: JSON.parse(JSON.stringify(supplierReport))
-            });
+
+            if (req.session.type == "admin") {
+                res.render('a_supplierReportTable', {
+                    title: 'Supplier Report',
+                    reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                    supplierID: supplierID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
+                    totalSales: totalSales,
+                    avgSales: avgSales,
+                    totalPaid: totalPaid
+                });
+            } else if (req.session.type == "manager") {
+                res.render('m_supplierReportTable', {
+                    title: 'Supplier Report',
+                    reporttitle: 'Supplier Report - ' + supplierReportData[0].companyName,
+                    supplierID: supplierID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    supplierReportData: JSON.parse(JSON.stringify(supplierReport)),
+                    totalSales: totalSales,
+                    avgSales: avgSales,
+                    totalPaid: totalPaid
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+
         } catch (e) {
             console.log(e);
         }
 
     },
-    AupdateSupplierReport: async function(req, res) {
-        var supplierReportData = req.session.report;
-        console.log(supplierReportData);
+    getABreakdown: async function (req, res) {
+        // do supplier report stuff again to get array
+        // do the new stuff 
         try {
-            var suppliers = await supplierModel.find({});
-            res.render('a_supplierReport', {
-                title: 'Supplier Report',
-                reporttitle: req.session.title,
-                fromDate: req.session.fromDate,
-                toDate: req.session.toDate,
-                supplier: JSON.parse(JSON.stringify(suppliers)),
-                supplierReportData: JSON.parse(JSON.stringify(supplierReportData))
+            var supplierID = req.params.supplierID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
+            var supplierReportIDs = [];
+            for (var i = 0; i < supplierReportData.length; i++) {
+                supplierReportIDs.push(supplierReportData[i].products.productID);
+            }
+            var salesBreakdown = await getSalesBreakdown(supplierReportIDs, fromDate, toDate);
+            var purchasesBreakdown = await getPurchasesBreakdown(supplierReportIDs, fromDate, toDate);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('a_viewBreakdown', {
+                    title: 'View Breakdown',
+                    reporttitle: 'View Breakdown - ' + supplierReportData[0].companyName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getAPerformanceReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('a_productPerformanceReport', {
+                title: 'Product Performance Report',
+                product: JSON.parse(JSON.stringify(products)),
             });
         } catch (e) {
             console.log(e);
         }
     },
-    getAMDgoods: async function(req, res) {
+    getAInventoryReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('a_inventoryReport', {
+                title: 'Inventory Reprt',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMInventoryReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('m_inventoryReport', {
+                title: 'Inventory Reprt',
+                product: JSON.parse(JSON.stringify(products))
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    getPerformanceReportDetails: async function (req, res) {
+        var productID = req.query.productID;
+        var fromDate = req.query.fromDate;
+        var toDate = req.query.toDate;
+
+        try {
+            var dateDiff = await getDateDiff(fromDate, toDate);
+            var performanceReportData = await getPerformanceReportData(productID, fromDate, toDate);
+            var performanceReport;
+            performanceReport = await createPerformanceInfo(performanceReportData[0], dateDiff);
+
+            if (req.session.type == "admin") {
+                res.render('a_productPerformanceReportTable', {
+                    title: 'Performance Report',
+                    reporttitle: 'Performance Report - ' + performanceReport.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    performanceReportData: JSON.parse(JSON.stringify(performanceReport))
+                });
+            } else if (req.session.type == "manager") {
+                res.render('m_productPerformanceReportTable', {
+                    title: 'Performance Report',
+                    reporttitle: 'Performance Report - ' + performanceReport.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    performanceReportData: JSON.parse(JSON.stringify(performanceReport))
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+
+    },
+    getInventoryReportDetails: async function (req, res) {
+        var productID = req.query.productID;
+        var fromDate = req.query.fromDate;
+        var toDate = req.query.toDate;
+
+        try {
+            var inventoryReportData = await getInvReportData(productID, fromDate, toDate);
+            var inventoryReport;
+            inventoryReport = await createInvInfo(inventoryReportData[0]);
+
+            if (req.session.type == "admin") {
+                res.render('a_inventoryReportTable', {
+                    title: 'Inventory Report',
+                    reporttitle: 'Inventory Report - ' + inventoryReport.productName,
+                    productID: productID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    inventoryReportData: JSON.parse(JSON.stringify(inventoryReport))
+                });
+            } else if (req.session.type == "manager") {
+                res.render('m_inventoryReportTable', {
+                    title: 'Inventory Report',
+                    reporttitle: 'Inventory Report - ' + inventoryReport.productName,
+                    productID: productID,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    inventoryReportData: JSON.parse(JSON.stringify(inventoryReport))
+                });
+            } else {
+                res.render('error', {
+                    title: 'Error',
+                    msg: 'please log in as either an admin or a manager'
+                });
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    getABreakdownPerformance: async function (req, res) {
+        try {
+            var productID = req.params.productID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var match = await productModel.findOne({
+                productID: productID
+            });
+            var productIDs = [];
+            productIDs.push(parseInt(productID));
+            var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
+            var purchasesBreakdown = await getPurchasesBreakdown(productIDs, fromDate, toDate);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('a_viewBreakdownPerformance', {
+                    title: 'View Breakdown Performance',
+                    reporttitle: 'View Breakdown Performance - ' + match.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    getBreakdownInv: async function (req, res) {
+        try {
+            var productID = req.params.productID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var match = await productModel.findOne({
+                productID: productID
+            });
+            var productIDs = [];
+            productIDs.push(parseInt(productID));
+            var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
+            var deliveryBreakdown = await getDeliveryBreakdown(productIDs, fromDate, toDate);
+            var damagedGoodsBreakdown = await getDamagedGoodsBreakdown(productIDs, fromDate, toDate);
+
+            var mergeA = mergeBreakdowns(salesBreakdown, deliveryBreakdown);
+            var breakdown = mergeBreakdowns(mergeA, damagedGoodsBreakdown);
+
+            if (breakdown) {
+                if (req.session.type == "admin") {
+                    res.render('a_viewBreakdownInventory', {
+                        title: 'View Breakdown Inventory',
+                        reporttitle: 'View Breakdown Inventory - ' + match.productName,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        breakdown: JSON.parse(JSON.stringify(breakdown))
+                    });
+                } else if (req.session.type == "manager") {
+                    res.render('m_viewBreakdownInventory', {
+                        title: 'View Breakdown Inventory',
+                        reporttitle: 'View Breakdown Inventory - ' + match.productName,
+                        fromDate: fromDate,
+                        toDate: toDate,
+                        breakdown: JSON.parse(JSON.stringify(breakdown))
+                    });
+                } else {
+                    res.render('error', {
+                        title: 'Error',
+                        msg: 'please log in as either an admin or a manager'
+                    });
+                }
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    getAMDgoods: async function (req, res) {
 
         try {
             var matches = await damagedgoodsModel.aggregate([{
@@ -736,7 +1397,6 @@ const indexFunctions = {
             ]).sort({
                 dateDamaged: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -747,10 +1407,9 @@ const indexFunctions = {
     },
 
 
-    getAnewMDgoods: async function(req, res) {
+    getAnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
-            // console.log(products);
             res.render('a_newMDgoods', {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
@@ -760,12 +1419,11 @@ const indexFunctions = {
         }
     },
 
-    getAForApprovalMDgoods: async function(req, res) {
+    getAForApprovalMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.find({
                 approved: null
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_FAMDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -775,7 +1433,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneFAMDGoods: async function(req, res) {
+    getAoneFAMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -820,7 +1478,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('a_approveMDgoods', {
                 title: 'Approve Damaged Record',
                 record: JSON.parse(JSON.stringify(record))
@@ -830,7 +1487,7 @@ const indexFunctions = {
         }
     },
 
-    getAoneMDGoods: async function(req, res) {
+    getAoneMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -891,7 +1548,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('a_MDgoodsDetails', {
                 title: 'Missing/Damaged details',
                 record: JSON.parse(JSON.stringify(record))
@@ -901,10 +1557,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewDelivery: async function(req, res) {
-        // res.render('a_newDelivery', {
-        //     title: 'Add Delivery Details'
-        // });
+    getAnewDelivery: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('a_newDelivery', {
@@ -916,14 +1569,10 @@ const indexFunctions = {
         }
     },
 
-    getAnewProducts: async function(req, res) {
-        // res.render('a_newProducts', {
-        //     title: 'Add Product'
-        // });
+    getAnewProducts: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             var categories = await ref_categoryModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_newProducts', {
                 title: 'Add Product',
                 suppliers: JSON.parse(JSON.stringify(matches)),
@@ -934,10 +1583,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewPurchase: async function(req, res) {
-        // res.render('a_newPurchases', {
-        //     title: 'Add Purchase'
-        // });
+    getAnewPurchase: async function (req, res) {
         try {
             var delivery = await getDeliveries();
             res.render('a_newPurchases', {
@@ -949,10 +1595,7 @@ const indexFunctions = {
         }
     },
 
-    getAnewSale: async function(req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
+    getAnewSale: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('a_newSales', {
@@ -964,20 +1607,20 @@ const indexFunctions = {
         }
     },
 
-    getAnewSupplier: function(req, res) {
+    getAnewSupplier: function (req, res) {
         res.render('a_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getAnewUser: function(req, res) {
+    getAnewUser: function (req, res) {
         res.render('a_newUser', {
             title: 'Add User'
         });
     },
 
 
-    getAnewManager: async function(req, res) {
+    getAnewManager: async function (req, res) {
         try {
             var users = await userModel.aggregate([{
                 '$lookup': {
@@ -1015,7 +1658,7 @@ const indexFunctions = {
         }
     },
 
-    getAdeliveries: async function(req, res) {
+    getAdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.aggregate([{
                 '$lookup': {
@@ -1047,7 +1690,6 @@ const indexFunctions = {
             }]).sort({
                 dateDelivered: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_delivery', {
                 title: 'View Deliveries',
                 delivery: JSON.parse(JSON.stringify(matches))
@@ -1057,7 +1699,7 @@ const indexFunctions = {
         }
     },
 
-    getAproducts: async function(req, res) {
+    getAproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -1083,7 +1725,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -1093,13 +1734,12 @@ const indexFunctions = {
         }
     },
 
-    getAoneEditProduct: async function(req, res) {
+    getAoneEditProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -1122,7 +1762,7 @@ const indexFunctions = {
         }
     },
 
-    getApurchases: async function(req, res) {
+    getApurchases: async function (req, res) {
         try {
             var matches = await purchaseModel.aggregate([{
                 '$lookup': {
@@ -1164,7 +1804,7 @@ const indexFunctions = {
         }
     },
 
-    getAsales: async function(req, res) {
+    getAsales: async function (req, res) {
         try {
             var matches = await salesModel.aggregate([{
                 '$lookup': {
@@ -1197,7 +1837,6 @@ const indexFunctions = {
             }]).sort({
                 dateSold: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_sales', {
                 title: 'View Sales',
                 sales: JSON.parse(JSON.stringify(matches))
@@ -1207,10 +1846,9 @@ const indexFunctions = {
         }
     },
 
-    getAsuppliers: async function(req, res) {
+    getAsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_suppliers', {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
@@ -1220,13 +1858,12 @@ const indexFunctions = {
         }
     },
 
-    getAoneSupplier: async function(req, res) {
+    getAoneSupplier: async function (req, res) {
         try {
             var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({
                 supplierID: supplierID
             });
-            console.log(match);
             if (match) {
                 res.render('a_editSupplier', {
                     title: match.companyName,
@@ -1237,14 +1874,13 @@ const indexFunctions = {
                 msg: 'Supplier does not exist'
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
-    getAusers: async function(req, res) {
+    getAusers: async function (req, res) {
         try {
             var matches = await userModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('a_users', {
                 title: 'View users',
                 users: JSON.parse(JSON.stringify(matches))
@@ -1254,7 +1890,7 @@ const indexFunctions = {
         }
     },
 
-    getAmanagers: async function(req, res) {
+    getAmanagers: async function (req, res) {
         try {
             var match = await managerModel.aggregate([{
                 '$lookup': {
@@ -1276,8 +1912,7 @@ const indexFunctions = {
                     'phoneNumber': '$string.phoneNumber'
                 }
 
-            }])
-            console.log(JSON.parse(JSON.stringify(match)));
+            }]);
             res.render('a_managers', {
                 title: 'View Managers',
                 managers: JSON.parse(JSON.stringify(match))
@@ -1287,7 +1922,7 @@ const indexFunctions = {
         }
     },
 
-    postLogin: async function(req, res) {
+    postLogin: async function (req, res) {
         var {
             user,
             pass
@@ -1295,14 +1930,12 @@ const indexFunctions = {
         try {
             var match = await findUser(parseInt(user));
             if (match) {
-                bcrypt.compare(pass, match.password, function(err, result) {
+                bcrypt.compare(pass, match.password, function (err, result) {
                     if (result) {
                         if (match.managerID && match.isSysAd) {
                             //send 201 admin
                             req.session.logUser = match;
                             req.session.type = 'admin';
-                            console.log('sending 201' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 201
                             });
@@ -1310,8 +1943,6 @@ const indexFunctions = {
                             //send 202 manager
                             req.session.logUser = match;
                             req.session.type = 'manager';
-                            console.log('sending 202' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 202
                             });
@@ -1319,8 +1950,6 @@ const indexFunctions = {
                             //send 203 user
                             req.session.logUser = match;
                             req.session.type = 'user';
-                            console.log('sending 203' + '. session data: ');
-                            console.log(req.session);
                             res.send({
                                 status: 203
                             });
@@ -1342,7 +1971,7 @@ const indexFunctions = {
         }
     },
 
-    getProductDetails: async function(req, res) {
+    getProductDetails: async function (req, res) {
         var prodID = req.params.checkProdID;
         var match = await productModel.findOne({
             productID: prodID
@@ -1350,13 +1979,11 @@ const indexFunctions = {
         res.send(match);
     },
 
-    postLogout: function(req, res) {
-        console.log(req.session);
+    postLogout: function (req, res) {
         req.session.destroy();
-        console.log(req.session);
         res.redirect("/");
     },
-    postNewDelivery: async function(req, res) {
+    postNewDelivery: async function (req, res) {
 
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
@@ -1403,10 +2030,8 @@ const indexFunctions = {
 
         }
     },
-    postNewSale: async function(req, res) {
-        console.log('postNewSale');
+    postNewSale: async function (req, res) {
         //validate session
-
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
             //get variables
@@ -1438,7 +2063,6 @@ const indexFunctions = {
             });
             //send status
             status = getUserType(req.session.type);
-            console.log(status);
             res.send({
                 status: status,
                 msg: 'Sale Recorded'
@@ -1454,9 +2078,7 @@ const indexFunctions = {
 
         }
     },
-    postNewDiscrepancy: async function(req, res) {
-        console.log('postNewDiscrepancy');
-
+    postNewDiscrepancy: async function (req, res) {
         if ( /**session valid */ req.session.logUser /**true */ ) {
             /**IF SESSION IS VALID */
             //get variables
@@ -1502,7 +2124,7 @@ const indexFunctions = {
 
         }
     },
-    postNewUser: async function(req, res) {
+    postNewUser: async function (req, res) {
         var {
             fName,
             lName,
@@ -1542,7 +2164,7 @@ const indexFunctions = {
         }
     },
 
-    postNewManager: async function(req, res) {
+    postNewManager: async function (req, res) {
         var {
             userID,
             isSysAd
@@ -1574,11 +2196,11 @@ const indexFunctions = {
             }
         } else res.send({
             status: 500,
-            msg: ': You must be an admin or manager to post a new product'
+            msg: ': You must be an admin or manager to post a new manager'
         });
     },
 
-    postNewProduct: async function(req, res) {
+    postNewProduct: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -1594,17 +2216,12 @@ const indexFunctions = {
                     sellingPrice,
                     purchasePrice
                 } = req.body;
-                // supplierID = parseInt(supplierID);
-                // sellingPrice = parseFloat(sellingPrice);
-                // purchasePrice = parseFloat(purchasePrice);
-                //get productID of the new Product
                 var currentStock = 0;
                 var productID = await getMinMaxproductID(-1, 1);
                 var product = new Product(productID, productName, currentStock, sellingPrice, purchasePrice, supplierID, categoryCode);
                 var newProduct = new productModel(product);
                 var result = await newProduct.recordNewProduct();
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -1627,8 +2244,7 @@ const indexFunctions = {
 
     },
 
-    postEditProduct: async function(req, res) {
-        console.log('i am in posteditproduct');
+    postEditProduct: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -1642,11 +2258,9 @@ const indexFunctions = {
                     purchasePrice
                 } = req.body;
                 var product = new Product(productID, '', 0, sellingPrice, purchasePrice, 0, 0);
-                console.log(product);
                 var editProduct = new productModel(product);
                 var result = await editProduct.recordEditProduct();
                 var userStatus = getUserType(req.session.type);
-                console.log(result);
                 if (result)
                     res.send({
                         status: userStatus,
@@ -1668,7 +2282,7 @@ const indexFunctions = {
         });
 
     },
-    postNewSupplier: async function(req, res) {
+    postNewSupplier: async function (req, res) {
         //check if user is manager or admin
         if (!req.session.logUser)
             res.send({
@@ -1684,16 +2298,10 @@ const indexFunctions = {
                     phoneNum
                 } = req.body;
                 var supplierID = await getMinMaxsupplierID(-1, 1);
-                // console.log(supplierID);
-                // console.log(companyName);
-                // console.log(companyAddress);
-                // console.log(email);
-                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, companyName, companyAddress, phoneNum, email);
                 var newSupplier = new supplierModel(supplier);
                 var result = await newSupplier.recordNewSupplier();
                 var userStatus = getUserType(req.session.type);
-                console.log(result);
                 if (result)
                     res.send({
                         status: userStatus,
@@ -1716,7 +2324,7 @@ const indexFunctions = {
 
     },
 
-    postNewMDgoods: async function(req, res) {
+    postNewMDgoods: async function (req, res) {
 
         if (!req.session.logUser)
             res.send({
@@ -1744,8 +2352,6 @@ const indexFunctions = {
                 var newMDgoods = new damagedgoodsModel(MDgoods);
                 var result = await newMDgoods.recordNewMDgoods();
                 var userStatus = getUserType(req.session.type);
-
-                console.log(result);
 
                 if (managerID && result) {
                     var product = await productModel.findOne({
@@ -1783,7 +2389,7 @@ const indexFunctions = {
             }
         }
     },
-    postApprovalMDGoods: async function(req, res) {
+    postApprovalMDGoods: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -1799,11 +2405,9 @@ const indexFunctions = {
                 } = req.body;
                 var userID = req.session.logUser.userID;
                 var dmgrecord = new DamagedGoods(dmgrecordID, null, null, approved, null, null, userID, null);
-                // console.log('testing = ' + JSON.stringify(testing));
                 var approveMDGoods = new damagedgoodsModel(dmgrecord);
                 var result = await approveMDGoods.recordApproval();
                 var msg = 'Damaged Goods successfully rejected';
-                console.log(result);
                 if (approved == 'true') {
                     var product = await productModel.findOne({
                         productID: productID
@@ -1815,12 +2419,10 @@ const indexFunctions = {
                         currentStock: newStock
                     });
                     msg = 'Damaged Goods succesfully Approved';
-                    console.log(result);
                 }
 
 
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -1841,7 +2443,7 @@ const indexFunctions = {
             msg: ': You must be an admin or manager to approve'
         });
     },
-    postEditSupplier: async function(req, res) {
+    postEditSupplier: async function (req, res) {
         if (!req.session.logUser)
             res.send({
                 status: 500,
@@ -1854,15 +2456,10 @@ const indexFunctions = {
                     email,
                     phoneNum
                 } = req.body;
-                // console.log(supplierID);
-                // console.log(email);
-                // console.log(phoneNum);
                 var supplier = new Supplier(supplierID, "", "", phoneNum, email);
-                // console.log('testing = ' + JSON.stringify(testing));
                 var editSupplier = new supplierModel(supplier);
                 var result = await editSupplier.recordEditSupplier();
                 var userStatus = getUserType(req.session.type);
-                console.log(result)
                 if (result)
                     res.send({
                         status: userStatus,
@@ -1884,7 +2481,7 @@ const indexFunctions = {
         });
 
     },
-    calculateTotalCost: async function(req, res) {
+    calculateTotalCost: async function (req, res) {
         var deliveryID = req.params.deliveryID;
         var result = await getDeliveryProdDetails(parseInt(deliveryID));
         var totalCost = result.purchasePrice * result.number_Of_Units_Delivered
@@ -1893,7 +2490,7 @@ const indexFunctions = {
             amount: totalCost
         });
     },
-    postNewPurchase: async function(req, res) {
+    postNewPurchase: async function (req, res) {
         /**VERIFY SESSION ID IF MANAGER */
         if (!req.session.logUser) {
             res.send({
@@ -1903,7 +2500,6 @@ const indexFunctions = {
         } else {
             var userID = req.session.logUser.userID;
             var userStatus = getUserType(req.session.type);
-            console.log(userID);
         }
 
         if (req.session.type == 'manager' || req.session.type == 'admin') {
@@ -1920,7 +2516,6 @@ const indexFunctions = {
             var purchase = new Purchase(purchaseID, amountPaid, datePaid, totalCost, userID, deliveryID);
             var newPurchase = new purchaseModel(purchase);
             await newPurchase.recordNewPurchase();
-            console.log('result: ' + newPurchase);
             res.send({
                 status: userStatus,
                 purchase: newPurchase
@@ -1934,7 +2529,7 @@ const indexFunctions = {
     },
 
     //MANAGERS
-    getMproducts: async function(req, res) {
+    getMproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -1960,7 +2555,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -1970,13 +2564,12 @@ const indexFunctions = {
         }
     },
 
-    getMoneEditProduct: async function(req, res) {
+    getMoneEditProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -1999,7 +2592,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewProducts: async function(req, res) {
+    getMnewProducts: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             var ref_category = await ref_categoryModel.find({});
@@ -2010,11 +2603,11 @@ const indexFunctions = {
 
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
-    getMsupplier: async function(req, res) {
+    getMsupplier: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
             res.render('m_suppliers', {
@@ -2026,13 +2619,12 @@ const indexFunctions = {
         }
     },
 
-    getMoneSupplier: async function(req, res) {
+    getMoneSupplier: async function (req, res) {
         try {
             var supplierID = req.params.supplierID;
             var match = await supplierModel.findOne({
                 supplierID: supplierID
             });
-            console.log(match);
             if (match) {
                 res.render('m_editSupplier', {
                     title: match.companyName,
@@ -2043,17 +2635,17 @@ const indexFunctions = {
                 msg: 'Supplier does not exist'
             });
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
     },
 
-    getMnewSupplier: function(req, res) {
+    getMnewSupplier: function (req, res) {
         res.render('m_newSupplier', {
             title: 'Add Supplier'
         });
     },
 
-    getMpurchases: async function(req, res) {
+    getMpurchases: async function (req, res) {
         try {
             var matches = await purchaseModel.aggregate([{
                 '$lookup': {
@@ -2085,7 +2677,6 @@ const indexFunctions = {
             }]).sort({
                 datePurchased: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_purchases', {
                 title: 'View Purchase',
                 purchase: JSON.parse(JSON.stringify(matches))
@@ -2095,10 +2686,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewPurchase: async function(req, res) {
-        // res.render('a_newPurchases', {
-        //     title: 'Add Purchase'
-        // });
+    getMnewPurchase: async function (req, res) {
         try {
             var delivery = await getDeliveries();
             res.render('m_newPurchases', {
@@ -2110,7 +2698,7 @@ const indexFunctions = {
         }
     },
 
-    getMdeliveries: async function(req, res) {
+    getMdeliveries: async function (req, res) {
         try {
             var matches = await deliveryModel.aggregate([{
                 '$lookup': {
@@ -2142,7 +2730,6 @@ const indexFunctions = {
             }]).sort({
                 dateDelivered: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_delivery', {
                 title: 'View Deliveries',
                 delivery: JSON.parse(JSON.stringify(matches))
@@ -2152,10 +2739,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewDelivery: async function(req, res) {
-        // res.render('a_newDelivery', {
-        //     title: 'Add Delivery Details'
-        // });
+    getMnewDelivery: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('m_newDelivery', {
@@ -2167,7 +2751,7 @@ const indexFunctions = {
         }
     },
 
-    getMsales: async function(req, res) {
+    getMsales: async function (req, res) {
         try {
             var matches = await salesModel.aggregate([{
                 '$lookup': {
@@ -2200,7 +2784,6 @@ const indexFunctions = {
             }]).sort({
                 dateSold: -1
             });
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_sales', {
                 title: 'View Sales',
                 sales: JSON.parse(JSON.stringify(matches))
@@ -2210,10 +2793,7 @@ const indexFunctions = {
         }
     },
 
-    getMnewSale: async function(req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
+    getMnewSale: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('m_newSales', {
@@ -2225,7 +2805,7 @@ const indexFunctions = {
         }
     },
 
-    getMMDgoods: async function(req, res) {
+    getMMDgoods: async function (req, res) {
         try {
             var matches = await damagedgoodsModel.aggregate([{
                 '$match': {
@@ -2290,7 +2870,6 @@ const indexFunctions = {
             }]).sort({
                 dateDamaged: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_MDgoods', {
                 title: 'View Missing and Damaged Goods',
                 MDgoods: JSON.parse(JSON.stringify(matches))
@@ -2300,7 +2879,7 @@ const indexFunctions = {
         }
     },
 
-    getMoneMDGoods: async function(req, res) {
+    getMoneMDGoods: async function (req, res) {
         var dmgrecordID = req.params.dmgrecordID;
         try {
             var record = await damagedgoodsModel.aggregate([{
@@ -2361,7 +2940,6 @@ const indexFunctions = {
                 }
             }])
             record = record[0];
-            console.log(record);
             res.render('m_MDgoodsDetails', {
                 title: 'Missing/Damaged details',
                 record: JSON.parse(JSON.stringify(record))
@@ -2371,10 +2949,9 @@ const indexFunctions = {
         }
     },
 
-    getMnewMDgoods: async function(req, res) {
+    getMnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
-            // console.log(products);
             res.render('m_newMDgoods', {
                 title: 'Add Missing/Damaged goods',
                 product: JSON.parse(JSON.stringify(products)),
@@ -2384,7 +2961,7 @@ const indexFunctions = {
         }
     },
 
-    getMdiscrepancy: async function(req, res) {
+    getMdiscrepancy: async function (req, res) {
         try {
             var matches = await discrepanciesModel.aggregate([{
                 '$lookup': {
@@ -2416,7 +2993,6 @@ const indexFunctions = {
             }]).sort({
                 date: -1
             });
-            console.log(JSON.parse(JSON.stringify(matches)));
             res.render('m_discrepancy', {
                 title: 'View Discrepancy',
                 discs: JSON.parse(JSON.stringify(matches))
@@ -2426,8 +3002,94 @@ const indexFunctions = {
         }
     },
 
+    getMSupplierReport: async function (req, res) {
+        try {
+            var suppliers = await supplierModel.find({});
+            res.render('m_supplierReport', {
+                title: 'Supplier Report',
+                supplier: JSON.parse(JSON.stringify(suppliers)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMBreakdown: async function (req, res) {
+        try {
+            var supplierID = req.params.supplierID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var supplierReportData = await getSupplierReportData(supplierID, fromDate, toDate);
+            var supplierReportIDs = [];
+            for (var i = 0; i < supplierReportData.length; i++) {
+                supplierReportIDs.push(supplierReportData[i].products.productID);
+            }
+            var salesBreakdown = await getSalesBreakdown(supplierReportIDs, fromDate, toDate);
+            var purchasesBreakdown = await getPurchasesBreakdown(supplierReportIDs, fromDate, toDate);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('m_viewBreakdown', {
+                    title: 'View Breakdown',
+                    reporttitle: 'View Breakdown - ' + supplierReportData[0].companyName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMPerformanceReport: async function (req, res) {
+        try {
+            var products = await productModel.find({});
+            res.render('m_productPerformanceReport', {
+                title: 'Product Performance Report',
+                product: JSON.parse(JSON.stringify(products)),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
+    getMBreakdownPerformance: async function (req, res) {
+        try {
+            var productID = req.params.productID;
+            var fromDate = req.params.fromDate;
+            var toDate = req.params.toDate;
+            var match = await productModel.findOne({
+                productID: productID
+            });
+            var productIDs = [];
+            productIDs.push(parseInt(productID));
+            var salesBreakdown = await getSalesBreakdown(productIDs, fromDate, toDate);
+            var purchasesBreakdown = await getPurchasesBreakdown(productIDs, fromDate, toDate);
+            var breakdown = mergeBreakdowns(salesBreakdown, purchasesBreakdown);
+            if (breakdown) {
+                res.render('m_viewBreakdownPerformance', {
+                    title: 'View Breakdown Performance',
+                    reporttitle: 'View Breakdown Performance - ' + match.productName,
+                    fromDate: fromDate,
+                    toDate: toDate,
+                    breakdown: JSON.parse(JSON.stringify(breakdown))
+                });
+            } else res.render('error', {
+                title: 'Error',
+                msg: 'something went wrong'
+            });
+
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     //USERS
-    getUproducts: async function(req, res) {
+    getUproducts: async function (req, res) {
         try {
             var matches = await productModel.aggregate([{
                 '$lookup': {
@@ -2453,7 +3115,6 @@ const indexFunctions = {
                     'supplierName': '$supplier.companyName'
                 }
             }]);
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('u_products', {
                 title: 'View Products',
                 products: JSON.parse(JSON.stringify(matches))
@@ -2463,13 +3124,12 @@ const indexFunctions = {
         }
     },
 
-    getUoneViewProduct: async function(req, res) {
+    getUoneViewProduct: async function (req, res) {
         try {
             var productID = req.params.productID;
             var match = await productModel.findOne({
                 productID: productID
             });
-            console.log(match);
             if (match) {
                 var supplier = await supplierModel.findOne({
                     supplierID: match.supplierID
@@ -2492,10 +3152,9 @@ const indexFunctions = {
         }
     },
 
-    getUsuppliers: async function(req, res) {
+    getUsuppliers: async function (req, res) {
         try {
             var matches = await supplierModel.find({});
-            // console.log(JSON.parse(JSON.stringify(matches)));
             res.render('u_suppliers', {
                 title: 'View Suppliers',
                 suppliers: JSON.parse(JSON.stringify(matches))
@@ -2505,10 +3164,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewSale: async function(req, res) {
-        // res.render('a_newSales', {
-        //     title: 'Add Sale'
-        // });
+    getUnewSale: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newSales', {
@@ -2520,7 +3176,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewMDgoods: async function(req, res) {
+    getUnewMDgoods: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newMDgoods', {
@@ -2532,7 +3188,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDiscrepancy: async function(req, res) {
+    getUnewDiscrepancy: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDiscrepancy', {
@@ -2544,7 +3200,7 @@ const indexFunctions = {
         }
     },
 
-    getUnewDelivery: async function(req, res) {
+    getUnewDelivery: async function (req, res) {
         try {
             var products = await productModel.find({});
             res.render('u_newDelivery', {

@@ -578,9 +578,14 @@ $(document).ready(function() {
 
         var valid = true;
 
-        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum) || phoneNum.length != 7) {
+        if (validator.isEmpty(cName) || validator.isEmpty(cAddress) || !validator.isEmail(email) || validator.isEmpty(phoneNum)) {
             valid = false;
             alert('Please Input all fields');
+        }
+
+        if(valid && (phoneNum.length != 7 && phoneNum.length != 11 && phoneNum.length != 8)) {
+            valid = false;
+            alert('Please input a valid contact number');
         }
 
         if (valid) {
@@ -898,21 +903,50 @@ $(document).ready(function() {
         var supplierID = $('#supplierReport_ID').val();
         var fromDate = $('#supplierReport_start').val();
         var toDate = $('#supplierReport_end').val();
-        window.location.href = '';
 
         if (supplierID != '0') {
             console.log(supplierID);
             console.log(fromDate);
             console.log(toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate);
-            // $.post('/supplierReport/' + supplierID + '/' + fromDate + '/' + toDate, function(result) {
-            //     console.log(result.supplierReport);
-            //     window.location.href = '/a/supplierReport1'
-            // });
+
             $.get('/supplierReport', { supplierID: supplierID, fromDate: fromDate, toDate: toDate }, function(res) {
                 $('html').html(res);
             });
         } else
             alert('Select a Supplier ID');
+    });
+
+    $('#performanceReport_Search').click(function() {
+        var productID = $('#productID').val();
+        var fromDate = $('#performanceReport_start').val();
+        var toDate = $('#performanceReport_end').val();
+
+        if (productID != '0') {
+            console.log(productID);
+            console.log(fromDate);
+            console.log(toDate);
+
+            $.get('/performanceReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
+            });
+        } else
+            alert('Select a Product ID');
+    });
+
+    $('#inventoryReport_Search').click(function() {
+        var productID = $('#productID').val();
+        var fromDate = $('#inventoryReport_start').val();
+        var toDate = $('#inventoryReport_end').val();
+
+        if (productID != '0') {
+            console.log(productID);
+            console.log(fromDate);
+            console.log(toDate);
+
+            $.get('/inventoryReport', { productID: productID, fromDate: fromDate, toDate: toDate }, function(res) {
+                $('html').html(res);
+            });
+        } else
+            alert('Select a Product ID');
     });
 });

@@ -12,7 +12,7 @@ const discrepanciesModel = require('../model/discrepanciesdb');
 const damagedgoodsModel = require('../model/damagedgoodsdb');
 
 const indexMiddleware = {
-    validateNewSale: async function (req, res, next) {
+    validateNewSale: async function(req, res, next) {
         // NEW SALE: check productID, quantity, and dateSold
         let {
             productID,
@@ -65,7 +65,7 @@ const indexMiddleware = {
             });
         }
     },
-    validateNewDelivery: async function (req, res, next) {
+    validateNewDelivery: async function(req, res, next) {
         try {
             console.log('i am here');
             var productID = req.body.productID;
@@ -91,7 +91,7 @@ const indexMiddleware = {
         }
     },
 
-    validateNewDiscrepancy: async function (req, res, next) {
+    validateNewDiscrepancy: async function(req, res, next) {
         let {
             productID,
             newCount,
@@ -129,7 +129,7 @@ const indexMiddleware = {
         }
     },
 
-    validateNewMDgoods: async function (req, res, next) {
+    validateNewMDgoods: async function(req, res, next) {
         let {
             productID,
             numDamaged,
@@ -161,7 +161,7 @@ const indexMiddleware = {
         }
     },
 
-    validateNewPurchase: async function (req, res, next) {
+    validateNewPurchase: async function(req, res, next) {
         /**get variables */
         let {
             deliveryID,
@@ -209,20 +209,14 @@ const indexMiddleware = {
 
     },
 
-    validateMDGoods_Approval: async function (req, res, next) {
+    validateMDGoods_Approval: async function(req, res, next) {
         let {
             dmgrecordID,
             approved,
             numDamaged,
             productID
         } = req.body;
-        /**if(approved)
-            {check everything
-                …
-                next()
-            }else
-            next
-        */
+
         if (approved) {
             let product = await productModel.findOne({
                 productID: productID
@@ -248,9 +242,56 @@ const indexMiddleware = {
                     msg: 'Server error. Could not validate.'
                 });
             }
-        }else{
+        } else {
             return next();
         }
+    },
+
+    validateNewProduct: async function (req, res, next) {
+        var productName = req.body.productName;
+        var matches = await productModel.findOne({
+            productName: productName
+        });
+
+        try {
+            if(matches) {
+                res.send({
+                    status: 401,
+                    msg: 'Product already exists in the system'
+                })
+            } else {
+                return next();
+            }
+        } catch (e) {
+            res.send({
+                status: 500,
+                msg: 'Server error. Could not validate.'
+            })
+        }
+    },
+
+    validateNewSupplier: async function (req, res, next) {
+        var companyName = req.body.companyName;
+        var matches = await supplierModel.findOne({
+            companyName: companyName
+        });
+
+        try {
+            if(matches) {
+                res.send({
+                    status: 401,
+                    msg: 'Supplier already exists in the system'
+                })
+            } else {
+                return next();
+            }
+        } catch (e) {
+            res.send({
+                status: 500,
+                msg: 'Server error. Could not validate.'
+            })
+        }
+
     }
 
 };
